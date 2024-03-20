@@ -10,5 +10,8 @@ def main():
     args = argparser.parse_args()
     print(os.path.abspath(Path(__file__, '../..', 'automaton_data', args.lex)))
 
+
 if __name__ == "__main__":
-    main()
+    # main()
+    with open('lexer/test.in', 'r') as file:
+        s = file.read()

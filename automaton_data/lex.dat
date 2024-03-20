@@ -1,0 +1,36 @@
+KEYWORDS
+boolean break continue else for float if int return void while
+
+START_STATE
+0
+
+TERMINAL_STATES
+2 operator <=
+3 operator <>
+5 operator =
+7 operator >=
+
+LOOKAHEAD_TERMINAL_STATES
+4 operator <
+8 operator >
+11 identifier
+19 literal e_notation_float
+24 literal float
+27 literal int
+
+GROUPS
+ws blank tab newline
+letter _ a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+digit 0 1 2 3 4 5 6 7 8 9
+
+TRANSITIONS
+0 (< 1) (= 5) (> 6) (letter 10) (digit 13) (ws 0)
+1 (= 2) (> 3) (other 4)
+6 (= 7) (other 8)
+10 (letter 10) (digit 10) (other 11)
+13 (digit 13) (. 14) (E 16) (other 27)
+14 (digit 15)
+15 (digit 15) (E 16) (other 24)
+16 (+ 17) (- 17) (digit 18)
+17 (digit 18)
+18 (digit 18) (other 19)
