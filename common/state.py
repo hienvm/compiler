@@ -29,12 +29,11 @@ class State:
 class AcceptingState(State):
     def __init__(self, name: str) -> None:
         super().__init__(name, type)
-        self.token_labels = set()       # Danh sách các
+        self.token_labels = set()       # Danh sách các nhãn của token tương ứng
 
 
 class LookaheadAcceptingState(AcceptingState):
-    def __init__(self, name: str) -> None:
-        super().__init__(name, type)
+    pass
 
 
 class NormalState(State):

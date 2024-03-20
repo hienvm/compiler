@@ -1,4 +1,4 @@
-from state import State, BLANK_STATE
+from state import State, BLANK_STATE, DiscardState
 
 
 class DFA:
@@ -9,8 +9,8 @@ class DFA:
         self.start_state = BLANK_STATE      # trạng thái BẮT ĐẦU
         self.current_state = BLANK_STATE    # trạng thái HIỆN TẠI
 
-        # trạng thái dùng để lược bỏ các từ tố không cần thiết
-        self.discard_state = BLANK_STATE
+        # trạng thái dùng để lược bỏ các từ tố không cần thiết và để reset, luôn được khởi tạo hoặc ghi đè
+        self.discard_state = DiscardState("")
 
         self.states: dict[any, 'State']     # ánh xạ từ tên -> trạng thái
 

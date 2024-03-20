@@ -1,6 +1,6 @@
 from enum import Enum
 from common.dfa import DFA
-from common.state import State, AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
+from common.state import AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
 
 
 class ReadMode(Enum):
@@ -17,7 +17,6 @@ class LexerBuilder(DFA):
     def __init__(self, lex_data_url: str) -> None:
         super().__init__()
         self.keywords: set[str] = set()  # các từ khóa
-        self.lexeme: str = ""            # xâu hiện tại
         # mapping từ tên của AC state -> các token label
         self.token_labels_of: dict[str, set[str]] = {}
 

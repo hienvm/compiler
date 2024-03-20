@@ -1,26 +1,30 @@
 from lexer.lexer_builder import LexerBuilder
-from common.state import State, AcceptingState, LookaheadAcceptingState, NormalState
+from common.state import AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
 
 
-class Token:
-    def __init__(self, lexeme: str, labels: set[str]) -> None:
+class LexicalResult:
+    def __init__(self, lexeme: str, token_labels: set[str]) -> None:
         self.lexeme = lexeme
-        self.labels = labels
+        self.token_labels = token_labels
 
 
 class LexicalError:
     def __init__(self, spelling: str) -> None:
         self.spelling = spelling
 
+
+class DefaultLexicalError(LexicalError):
     def __str__(self) -> str:
         return f"Illegal spelling: {self.spelling}"
 
 class Lexer(LexerBuilder):
     def __init__(self, lex_data_url: str) -> None:
         super().__init__(lex_data_url)
+        self.lexeme: str = ""           # xâu hiện tại
+        self.current_input: str         # input hiện tại
 
-    def process(self, input: str, next_input: str):
-        """Xử lý lần lượt từng cặp ký tự đầu vào và ký tự kế tiếp
+    def process(self, next_input: str):
+        """Xử lý trễ 1 ký tự để thực hiện lookahead
 
         Args:
             input (str): ký tự đầu vào
@@ -31,20 +35,32 @@ class Lexer(LexerBuilder):
         """
         res = None
 
-        self.current_state = self.transit(input)
+        if self.current_input is None:
+            return res
 
-        # Nếu transition cuối của một xâu quay về điểm xuất phát thì có nghĩa toàn bộ xâu có thể bị lược bỏ
-        if self.current_state == self.start_state:
-            self.lexeme = ""
-            return None
+        self.lexeme += self.current_input
+        self.current_state = self.transit(self.current_input)
+
+        # xử lý lookahead
+        if next_input is not None and isinstance(self.transit(next_input), LookaheadAcceptingState):
+            self.current_state = self.transit(next_input)
 
         if self.current_state is None:
-            res = LexicalError(self.lexeme)
-        elif self.current_state is AcceptingState or self.transit(next) is LookaheadAcceptingState:
-            pass
+            # trả về thông báo lỗi nếu không match được input
+            res = DefaultLexicalError(self.lexeme)
+            # nhảy đến discard_state để reset
+            self.current_state = DiscardState
+        elif isinstance(self.current_state, AcceptingState):
+            res = LexicalResult(
+                self.lexeme,
+                self.token_labels_of[self.current_state.name]
+            )
 
-        if self.current_state is not NormalState:
+        # reset lại DFA khi tới 1 trạng thái kết thúc (bao gồm cả DiscardState)
+        if isinstance(self.current_state, NormalState):
             self.restart()
             self.lexeme = ""
+
+        self.current_input = next_input
 
         return res
