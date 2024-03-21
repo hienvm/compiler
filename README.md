@@ -1,3 +1,4 @@
+<h1>Nhóm 6</h1>
 # lexical-analyzer
 1. Mở cửa sổ dòng lệnh tại thư mục chính
 2. Ném file code vào folder input để dùng tên file cho bước 3 (nếu không thì dùng đường dẫn absolute).
