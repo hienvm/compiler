@@ -1,5 +1,5 @@
 # Dùng để giảm kích thước dfa và để dễ dàng thêm các từ khóa mới
-# Chỉ hỗ trợ các keyword thỏa mãn pattern của token chứa label <identifier>, nếu không thì phải cho vào dfa
+# Chỉ hỗ trợ các keyword thỏa mãn pattern của một token nào đó (chẳng hạn như identifier đối với ngôn ngữ VC), nếu không thì phải cho vào dfa
 # Ngoài ra vẫn cần cho true và false vào dfa
 KEYWORDS
 boolean break continue else for float if int return void while
@@ -23,9 +23,9 @@ ACCEPTING_STATES
 # Nếu nhìn trước MỘT ký tự mà đi đến những trạng thái này thì accept toàn bộ xâu trước đó
 LOOKAHEAD_ACCEPTING_STATES
 4 operator <
-8 operator >
+8 operator }
 11 identifier
-19 literal e_notation_float
+19 literal float e_notation
 24 literal float
 27 literal int
 
@@ -39,7 +39,7 @@ digit 0 1 2 3 4 5 6 7 8 9
 # Phải định nghĩa hết các state đặc biệt trước khi định nghĩa bảng transitions
 # other là phân nhóm đặc biệt, khớp với mọi input và có mức ưu tiên thấp nhất (input -> group -> other)
 TRANSITIONS
-0 (< 1) (= 5) (> 6) (letter 10) (digit 13) (ws -1)
+0 (< 1) (= 5) (> 6) (letter 10) (digit 13) (. 14) (ws -1)
 1 (= 2) (> 3) (other 4)
 6 (= 7) (other 8)
 10 (letter 10) (digit 10) (other 11)

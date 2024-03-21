@@ -5,13 +5,15 @@ from lexer.lexer import Lexer
 
 
 def main():
-    argparser = ArgumentParser(description="Phân tích từ vựng.")
-    argparser.add_argument("input", help="Tên file đầu vào")
+    argparser = ArgumentParser(description="Bộ phân tích từ vựng.")
+    argparser.add_argument(
+        "input_url", nargs="+",  help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")
     argparser.add_argument('-l', '--lex', default="lex.dat",
                            help="Tên file automaton data cho lexical analyzer (.dat, mặc định lex.dat)")
     args = argparser.parse_args()
 
-    lex_analyze(args.lex, args.input)
+    for item in args.input_url:
+        lex_analyze(args.lex, item)
 
 
 def lex_analyze(lex_name, input_name):

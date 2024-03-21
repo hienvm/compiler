@@ -1,27 +1,8 @@
-from common.util import Position, Location, is_newline
+from lexer.util import Position, Location, Token, is_newline
 from lexer.lexer_builder import LexerBuilder
-from common.state import AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
+from lexer.state import AcceptingState, LookaheadAcceptingState, NormalState
 from typing import Iterable
-
-
-class LexicalResult:
-    def __init__(self, lexeme: str, token_labels: set[str], location: Location) -> None:
-        self.lexeme = lexeme
-        self.token_labels = token_labels
-        self.location = location
-
-    def __str__(self) -> str:
-        return f"{self.location}: Token = {self.token_labels}; Lexeme = {self.lexeme}"
-
-
-class LexicalError:
-    def __init__(self, spelling: str, location: Location) -> None:
-        self.spelling = spelling
-        self.location = location
-
-    def __str__(self) -> str:
-        '''Thông báo lỗi mặc định'''
-        return f"{self.location}: Unrecognized spelling = {self.spelling}"
+from lexer.util import LexicalError, LexicalResult
 
 
 class Lexer(LexerBuilder):
@@ -33,7 +14,15 @@ class Lexer(LexerBuilder):
         self.current_pos = Position(1, 0)   # vị trí hiện tại của lexer
 
     def analyze(self, input_url: str, is_ln_by_ln: bool = True) -> Iterable[LexicalResult | LexicalError]:
-        '''Sử dụng generator để tiết kiệm bộ nhớ và hỗ trợ xử lý gối đầu nhau cho các phần sau nếu có (không phải chờ tính hết kết quả rồi trả về mảng)'''
+        """Sử dụng generator để tiết kiệm bộ nhớ và hỗ trợ xử lý gối đầu nhau cho các phần sau nếu có (không phải chờ tính hết kết quả rồi trả về mảng)
+
+        Args:
+            input_url (str): Url file code cần phân tích
+            is_ln_by_ln (bool, optional): Đọc theo từng dòng hay toàn bộ. Defaults to True.
+
+        Yields:
+            Iterable[LexicalResult | LexicalError]: Iterator cho output stream, có nội dung là kết quả hoặc lỗi
+        """
         with open(input_url, "r") as input_file:
             if is_ln_by_ln:
                 # Đọc từng dòng một để tiết kiệm bộ nhớ đối với file có kích thước lớn
@@ -45,6 +34,7 @@ class Lexer(LexerBuilder):
                         if res is not None:
                             yield res
             else:
+                # Đọc hết một lúc để tăng tốc độ I/O cho các file nhỏ
                 text = input_file.read()
                 for symbol in text:
                     res = self.process(symbol)
@@ -56,15 +46,16 @@ class Lexer(LexerBuilder):
             if res is not None:
                 yield res
 
-    def process(self, next_input: str):
+    def process(self, next_input: str) -> LexicalResult | LexicalError | None:
         """Xử lý trễ 1 ký tự để thực hiện lookahead
 
         Args:
-            input (str): ký tự đầu vào
             next_input (str): nhìn trước 1 ký tự
 
         Returns:
-            _type_: _description_
+            LexicalResult: Kết quả được chấp nhận
+            LexicalErrot: Lỗi từ vựng
+            None: Chưa terminate
         """
         res = None
 
@@ -96,12 +87,19 @@ class Lexer(LexerBuilder):
                     Location(self.start_pos, self.current_pos)
                 )
             elif isinstance(self.current_state, AcceptingState):
-                # trả về kết quả nếu accept
-                res = LexicalResult(
-                    self.lexeme,
-                    self.token_labels_of[self.current_state.name],
-                    Location(self.start_pos, self.current_pos)
-                )
+                if self.lexeme in self.keywords:
+                    # Xử lý keyword
+                    res = LexicalResult(
+                        self.lexeme,
+                        Token(("keyword",)),
+                        Location(self.start_pos, self.current_pos)
+                    )
+                else:
+                    res = LexicalResult(
+                        self.lexeme,
+                        Token(self.token_labels_of[self.current_state.name]),
+                        Location(self.start_pos, self.current_pos)
+                    )
 
             # reset lại DFA khi tới 1 trạng thái kết thúc (bao gồm cả DiscardState và trạng thái lỗi)
             if not isinstance(self.current_state, NormalState):

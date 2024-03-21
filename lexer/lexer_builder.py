@@ -1,6 +1,7 @@
 from enum import Enum
-from common.dfa import DFA
-from common.state import AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
+from lexer.dfa import DFA
+from lexer.state import AcceptingState, LookaheadAcceptingState, NormalState, DiscardState
+from lexer.util import preproccess
 
 
 class ReadMode(Enum):
@@ -61,18 +62,6 @@ class LexerBuilder(DFA):
                                 readln_transitions(self, args)
 
 
-def preproccess(arg: str):
-    match arg:
-        case "blank":
-            return ' '
-        case 'tab':
-            return '\t'
-        case 'newline':
-            return '\n'
-        case _:
-            return arg
-
-
 def readln_keywords(lexer: LexerBuilder, args: list[str]):
     lexer.keywords = set(args)
 
@@ -80,7 +69,6 @@ def readln_keywords(lexer: LexerBuilder, args: list[str]):
 def readln_start_state(lexer: LexerBuilder, args: list[str]):
     lexer.states[args[0]] = lexer.current_state = lexer.start_state = NormalState(
         args[0])
-    print(f'Start state: {args[0]}')
 
 
 def readln_accepting_states(lexer: LexerBuilder, args: list[str]):

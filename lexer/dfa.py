@@ -1,4 +1,4 @@
-from common.state import State, BLANK_STATE, DiscardState
+from lexer.state import State, BLANK_STATE, DiscardState
 
 
 class DFA:
