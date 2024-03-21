@@ -4,6 +4,7 @@ from common.state import AcceptingState, LookaheadAcceptingState, NormalState, D
 
 
 class ReadMode(Enum):
+    SKIP = -1
     KEYWORDS = 0
     START_STATE = 1
     TERMINAL_STATES = 2
@@ -20,25 +21,23 @@ class LexerBuilder(DFA):
         # mapping từ tên của AC state -> các token label
         self.token_labels_of: dict[str, set[str]] = {}
 
-        read_mode: ReadMode
+        read_mode: ReadMode = ReadMode.SKIP
 
-        with open(lex_data_url, "r") as file:
-            lines = file.readlines()
-            for ln in lines:
-                if ln[0] == "#":
+        with open(lex_data_url, "r", encoding="utf8") as file:
+            for ln in file:
+                args = ln.split()
+                if ln[0] == "#" or len(args) == 0:
                     continue
-                match ln:
-                    case "":
-                        continue
+                match args[0]:
                     case "KEYWORDS":
                         read_mode = ReadMode.KEYWORDS
                     case "START_STATE":
                         read_mode = ReadMode.START_STATE
                     case "DISCARD_STATE":
                         read_mode = ReadMode.DISCARD_STATE
-                    case "TERMINAL_STATES":
+                    case "ACCEPTING_STATES":
                         read_mode = ReadMode.TERMINAL_STATES
-                    case "LOOKAHEAD_TERMINAL_STATES":
+                    case "LOOKAHEAD_ACCEPTING_STATES":
                         read_mode = ReadMode.LOOKAHEAD_TERMINAL_STATES
                     case "GROUPS":
                         read_mode = ReadMode.GROUPS
@@ -47,19 +46,19 @@ class LexerBuilder(DFA):
                     case _:
                         match read_mode:
                             case ReadMode.KEYWORDS:
-                                readln_keywords(self, ln)
+                                readln_keywords(self, args)
                             case ReadMode.START_STATE:
-                                readln_start_state(self, ln)
+                                readln_start_state(self, args)
                             case ReadMode.DISCARD_STATE:
-                                readln_discard_state(self, ln)
+                                readln_discard_state(self, args)
                             case ReadMode.TERMINAL_STATES:
-                                readln_accepting_states(self, ln)
+                                readln_accepting_states(self, args)
                             case ReadMode.LOOKAHEAD_TERMINAL_STATES:
-                                readln_lookahead_accepting_states(self, ln)
+                                readln_lookahead_accepting_states(self, args)
                             case ReadMode.GROUPS:
-                                readln_groups(self, ln)
+                                readln_groups(self, args)
                             case ReadMode.TRANSITIONS:
-                                readln_transitions(self, ln)
+                                readln_transitions(self, args)
 
 
 def preproccess(arg: str):
@@ -74,38 +73,40 @@ def preproccess(arg: str):
             return arg
 
 
-def readln_keywords(lexer: LexerBuilder, ln: str):
-    lexer.keywords = set(ln.split())
+def readln_keywords(lexer: LexerBuilder, args: list[str]):
+    lexer.keywords = set(args)
 
 
-def readln_start_state(lexer: LexerBuilder, ln: str):
-    lexer.states[ln] = lexer.current_state = lexer.start_state = NormalState(
-        ln)
+def readln_start_state(lexer: LexerBuilder, args: list[str]):
+    lexer.states[args[0]] = lexer.current_state = lexer.start_state = NormalState(
+        args[0])
+    print(f'Start state: {args[0]}')
 
 
-def readln_accepting_states(lexer: LexerBuilder, ln: str):
-    args = ln.split()
-    lexer.states[args[0]] = AcceptingState(next(args))
+def readln_accepting_states(lexer: LexerBuilder, args: list[str]):
+    lexer.states[args[0]] = AcceptingState(next(iter(args)))
+    # cho phép khai báo nhiều dòng
+    lexer.token_labels_of.setdefault(args[0], set())
     for label in args:
         lexer.token_labels_of[args[0]].add(label)
 
 
-def readln_lookahead_accepting_states(lexer: LexerBuilder, ln: str):
-    args = ln.split()
-    lexer.states[args[0]] = LookaheadAcceptingState(next(args))
+def readln_lookahead_accepting_states(lexer: LexerBuilder, args: list[str]):
+    lexer.states[args[0]] = LookaheadAcceptingState(next(iter(args)))
+    # cho phép khai báo nhiều dòng
+    lexer.token_labels_of.setdefault(args[0], set())
     for label in args:
         lexer.token_labels_of[args[0]].add(label)
 
 
-def readln_groups(lexer: LexerBuilder, ln: str):
-    args = ln.split()
+def readln_groups(lexer: LexerBuilder, args: list[str]):
     for i in range(1, len(args)):
         args[i] = preproccess(args[i])
         lexer.input_to_group[args[i]] = args[0]
 
 
-def readln_transitions(lexer: LexerBuilder, ln: str):
-    args = ln.split()
+def readln_transitions(lexer: LexerBuilder, args: list[str]):
+    # cho phép khai báo nhiều dòng
     state = lexer.states.setdefault(
         args[0],
         NormalState(args[0])
@@ -122,5 +123,5 @@ def readln_transitions(lexer: LexerBuilder, ln: str):
         )
 
 
-def readln_discard_state(lexer: LexerBuilder, ln: str):
-    lexer.discard_state = lexer.states[ln] = DiscardState(ln)
+def readln_discard_state(lexer: LexerBuilder, args: list[str]):
+    lexer.discard_state = lexer.states[args[0]] = DiscardState(args[0])
