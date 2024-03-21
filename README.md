@@ -9,3 +9,4 @@
 5. Xem kết quả tại folder output (đuôi .vctok)
    > VD: `python -m lexer sample.vc example_fib.vc example_gcd.vc`<br><br>
    > Để xem trợ giúp và các option khác: `python -m lexer -h`
+
