@@ -84,18 +84,18 @@ def readln_start_state(lexer: LexerBuilder, args: list[str]):
 
 
 def readln_accepting_states(lexer: LexerBuilder, args: list[str]):
-    lexer.states[args[0]] = AcceptingState(next(iter(args)))
+    lexer.states[args[0]] = AcceptingState(args[0])
     # cho phép khai báo nhiều dòng
     lexer.token_labels_of.setdefault(args[0], set())
-    for label in args:
+    for label in args[1:]:
         lexer.token_labels_of[args[0]].add(label)
 
 
 def readln_lookahead_accepting_states(lexer: LexerBuilder, args: list[str]):
-    lexer.states[args[0]] = LookaheadAcceptingState(next(iter(args)))
+    lexer.states[args[0]] = LookaheadAcceptingState(args[0])
     # cho phép khai báo nhiều dòng
     lexer.token_labels_of.setdefault(args[0], set())
-    for label in args:
+    for label in args[1:]:
         lexer.token_labels_of[args[0]].add(label)
 
 

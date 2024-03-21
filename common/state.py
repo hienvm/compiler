@@ -33,6 +33,7 @@ class AcceptingState(State):
 
 
 class LookaheadAcceptingState(AcceptingState):
+    '''Nếu việc nhìn trước 1 input(ký tự) đưa 1 state tới state này thì accept toàn bộ lexeme hiện tại'''
     pass
 
 
@@ -42,6 +43,7 @@ class NormalState(State):
 
 
 class DiscardState(State):
+    '''Dùng để lược bỏ các token không quan trọng'''
     pass
 
 

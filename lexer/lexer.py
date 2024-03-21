@@ -44,10 +44,6 @@ class Lexer(LexerBuilder):
                         # Trả về kết quả mỗi khi terminate
                         if res is not None:
                             yield res
-                    # quét cuối dòng
-                    # res = self.process('\n')
-                    # if res is not None:
-                    #     yield res
             else:
                 text = input_file.read()
                 for symbol in text:
@@ -55,10 +51,10 @@ class Lexer(LexerBuilder):
                     # Trả về kết quả mỗi khi terminate
                     if res is not None:
                         yield res
-                # quét cuối file
-                res = self.process('\n')
-                if res is not None:
-                    yield res
+            # quét cuối file để dọn dẹp các lexeme chưa terminate
+            res = self.process(None)
+            if res is not None:
+                yield res
 
     def process(self, next_input: str):
         """Xử lý trễ 1 ký tự để thực hiện lookahead
