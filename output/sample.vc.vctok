@@ -1,23 +1,34 @@
 (1, 1)..(1, 3): Token = identifier ; Lexeme = asd
-(1, 5)..(1, 5): Token = int literal ; Lexeme = 1
-(1, 6)..(1, 6): Token = identifier ; Lexeme = p
-(1, 7)..(1, 7): Unrecognized spelling: {
-(1, 8)..(1, 9): Token = identifier ; Lexeme = ol
-(1, 11)..(1, 14): Token = identifier ; Lexeme = bool
-(1, 16)..(1, 22): Token = keyword ; Lexeme = boolean
-(1, 24)..(1, 29): Token = identifier ; Lexeme = whi2le
-(1, 31)..(1, 35): Token = identifier ; Lexeme = for_n
-(2, 2)..(2, 5): Token = keyword ; Lexeme = void
-(2, 7)..(2, 10): Token = identifier ; Lexeme = main
-(2, 12)..(2, 13): Token = identifier ; Lexeme = in
-(2, 15)..(2, 21): Token = e_notation float literal ; Lexeme = 12.3E+7
-(2, 22)..(2, 22): Unrecognized spelling: ;
-(3, 2)..(3, 2): Token = int literal ; Lexeme = 2
-(3, 3)..(3, 3): Token = operator } ; Lexeme = >
-(3, 4)..(3, 5): Token = identifier ; Lexeme = _3
-(3, 7)..(3, 8): Token = identifier ; Lexeme = is
-(3, 10)..(3, 12): Token = identifier ; Lexeme = _x2
-(3, 13)..(3, 13): Token = operator } ; Lexeme = >
-(3, 14)..(3, 14): Token = int literal ; Lexeme = 7
-(4, 2)..(4, 5): Token = float literal ; Lexeme = .234
-(4, 7)..(4, 10): Token = float literal ; Lexeme = 24.2
+(1, 5)..(1, 5): Token = identifier ; Lexeme = x
+(1, 6)..(1, 6): Unrecognized spelling: +
+(1, 7)..(1, 7): Token = identifier ; Lexeme = y
+(1, 9)..(1, 9): Token = int literal ; Lexeme = 1
+(1, 10)..(1, 10): Token = identifier ; Lexeme = p
+(1, 11)..(1, 11): Unrecognized spelling: {
+(1, 12)..(1, 13): Token = identifier ; Lexeme = ol
+(1, 15)..(1, 18): Token = identifier ; Lexeme = bool
+(1, 20)..(1, 26): Token = keyword ; Lexeme = boolean
+(1, 28)..(1, 33): Token = identifier ; Lexeme = whi2le
+(1, 35)..(1, 39): Token = identifier ; Lexeme = for_n
+(2, 1)..(2, 4): Token = keyword ; Lexeme = void
+(2, 6)..(2, 9): Token = identifier ; Lexeme = main
+(2, 11)..(2, 12): Token = identifier ; Lexeme = in
+(2, 14)..(2, 20): Token = e_notation float literal ; Lexeme = 12.3E+7
+(2, 21)..(2, 21): Unrecognized spelling: ;
+(3, 1)..(3, 1): Token = int literal ; Lexeme = 2
+(3, 2)..(3, 2): Token = operator } ; Lexeme = >
+(3, 3)..(3, 4): Token = identifier ; Lexeme = _3
+(3, 6)..(3, 7): Token = identifier ; Lexeme = is
+(3, 9)..(3, 11): Token = identifier ; Lexeme = _x2
+(3, 12)..(3, 12): Token = operator } ; Lexeme = >
+(3, 13)..(3, 13): Token = int literal ; Lexeme = 7
+(4, 1)..(4, 4): Token = float literal ; Lexeme = .234
+(4, 6)..(4, 9): Token = float literal ; Lexeme = 24.2
+(4, 11)..(4, 11): Token = identifier ; Lexeme = x
+(4, 12)..(4, 12): Unrecognized spelling: &
+(4, 13)..(4, 13): Unrecognized spelling: &
+(4, 15)..(4, 15): Token = identifier ; Lexeme = y
+(6, 1)..(6, 5): Token = identifier ; Lexeme = token
+(6, 7)..(6, 11): Token = keyword ; Lexeme = float
+(7, 1)..(7, 6): Token = identifier ; Lexeme = lexeme
+(7, 8)..(7, 14): Token = e_notation float literal ; Lexeme = 12.3E+7

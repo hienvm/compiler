@@ -1,6 +1,6 @@
 from lexer.util import Position, Location, Token, is_newline
 from lexer.lexer_builder import LexerBuilder
-from lexer.state import AcceptingState, LookaheadAcceptingState, NormalState
+from lexer.state import AcceptingState, LookaheadAcceptingState, TerminalState
 from typing import Iterable
 from lexer.util import LexicalError, LexicalResult
 
@@ -34,7 +34,7 @@ class Lexer(LexerBuilder):
                         if res is not None:
                             yield res
             else:
-                # Đọc hết một lúc để tăng tốc độ I/O cho các file nhỏ
+                # Đọc hết một lúc để tận dụng buffer cho các file nhỏ
                 text = input_file.read()
                 for symbol in text:
                     res = self.process(symbol)
@@ -46,7 +46,7 @@ class Lexer(LexerBuilder):
             if res is not None:
                 yield res
 
-    def process(self, next_input: str) -> LexicalResult | LexicalError | None:
+    def process(self, next_input: str | None) -> LexicalResult | LexicalError | None:
         """Xử lý trễ 1 ký tự để thực hiện lookahead
 
         Args:
@@ -63,7 +63,7 @@ class Lexer(LexerBuilder):
             # cập nhật vị trí
             if is_newline(self.current_input, next_input):
                 self.current_pos.ln += 1
-                self.current_pos.col = 1
+                self.current_pos.col = 0
             else:
                 self.current_pos.col += 1
 
@@ -91,25 +91,25 @@ class Lexer(LexerBuilder):
                     # Xử lý keyword
                     res = LexicalResult(
                         self.lexeme,
-                        Token(("keyword",)),
+                        Token({"keyword"}),
                         Location(self.start_pos, self.current_pos)
                     )
                 else:
                     res = LexicalResult(
                         self.lexeme,
-                        Token(self.token_labels_of[self.current_state.name]),
+                        self.current_state.token,
                         Location(self.start_pos, self.current_pos)
                     )
 
-            # reset lại DFA khi tới 1 trạng thái kết thúc (bao gồm cả DiscardState và trạng thái lỗi)
-            if not isinstance(self.current_state, NormalState):
-                self.restart()
+            # reset lại DFA khi tới terminal state hoặc gặp lỗi
+            if self.current_state is None or isinstance(self.current_state, TerminalState):
+                self.reset()
 
         self.current_input = next_input
 
         return res
 
-    def restart(self):
+    def reset(self):
         # override
-        super().restart()
+        super().reset()
         self.lexeme = ""

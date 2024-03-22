@@ -8,11 +8,15 @@ boolean break continue else for float if int return void while
 START_STATE
 0
 
-# Trạng thái dùng để lược bỏ các từ tố không cần thiết
-# Khi dfa nhảy tới discard_state thì xâu hiện tại sẽ bị lược bỏ và quay về start_state
-DISCARD_STATE
+# Là lớp cha của ACCEPTING_STATES, LAS...
+# Khi DFA nhảy tới các trạng thái này thì DFA sẽ reset lại
+# Có thể dùng để đoán nhận và lược bỏ các từ tố không cần thiết
+# Để tối ưu, chỉ cần dùng 1 terminal_state trong toàn bộ chương trình
+TERMINAL_STATES
 -1
 
+# Dùng để đoán nhận và TRẢ VỀ các từ tố hợp lệ
+# tên_trạng_thái token_label_1 token_label_2 ...
 ACCEPTING_STATES
 2 operator <=
 3 operator <>
@@ -29,15 +33,16 @@ LOOKAHEAD_ACCEPTING_STATES
 24 literal float
 27 literal int
 
-# Macros cho các ký tự đặc biệt: blank tab newline
+# Macros cho các ký tự đặc biệt (khoảng trắng): blank( ) tab(\t) LF(\n) CR(\r) FF(\f)
 # Phân nhóm các ký tự để giảm số lượng cạnh của dfa
+# tên_nhóm ký_tự_1 ký_tự_2 ...
 GROUPS
-ws blank tab newline
+ws blank tab LF CR FF
 letter _ a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 digit 0 1 2 3 4 5 6 7 8 9
 
-# Phải định nghĩa hết các state đặc biệt trước khi định nghĩa bảng transitions
 # other là phân nhóm đặc biệt, khớp với mọi input và có mức ưu tiên thấp nhất (input -> group -> other)
+# trạng_thái_hiện_tại (input trạng_thái_tiếp_theo) ...
 TRANSITIONS
 0 (< 1) (= 5) (> 6) (letter 10) (digit 13) (. 14) (ws -1)
 1 (= 2) (> 3) (other 4)

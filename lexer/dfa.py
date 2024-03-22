@@ -1,21 +1,15 @@
-from lexer.state import State, BLANK_STATE, DiscardState
+from lexer.state import BLANK_STATE
 
 
 class DFA:
     '''DFA'''
 
     def __init__(self) -> None:
-
         self.start_state = BLANK_STATE      # trạng thái BẮT ĐẦU
         self.current_state = BLANK_STATE    # trạng thái HIỆN TẠI
 
-        # trạng thái dùng để lược bỏ các từ tố không cần thiết và để reset, luôn được khởi tạo hoặc ghi đè
-        self.discard_state = DiscardState("")
-
-        self.states: dict[any, 'State'] = {}  # ánh xạ từ tên -> trạng thái
-
         # ánh xạ từ đầu vào -> phân nhóm của nó
-        self.input_to_group: dict[any, any] = {}
+        self.input_to_group: dict[str, str] = {}
 
     def transit(self, input: str):
         return self.current_state.transit(
@@ -23,7 +17,7 @@ class DFA:
             self.input_to_group.get(input, input)
         )
 
-    def restart(self):
+    def reset(self):
         self.current_state = self.start_state
 
     # def save(self):

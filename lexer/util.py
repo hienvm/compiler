@@ -1,19 +1,35 @@
-class Token:
-    def __init__(self, token_labels: set[str]) -> None:
-        self.token_labels = token_labels  # Các nhãn của token
+from typing import Union
 
-    def __eq__(self, __value: object) -> bool:
-        '''so sánh xem một label hoặc một set của nhiều label có khớp một token không'''
-        if isinstance(__value, str):
-            # VD: "float" == Token(("literal", "float")) -> True
-            return __value in self.token_labels
-        elif isinstance(__value, set):
-            # VD: ("e_notation", "float") == Token(("literal", "float", "e_notation")) -> True
-            return self.token_labels.issuperset(__value)
+
+class Token:
+    def __init__(self, labels: set[str] | None = None) -> None:
+        self.labels = labels if labels is not None else set()  # Các nhãn của token
+
+    def isa(self, other: Union[str, set[str], 'Token']) -> bool:
+        """Check xem token này có chứa (hay nói cách khác là thỏa mãn) một Token khác hay không.
+
+        Args:
+            other (str | set[str] | &#39;Token): label, set[labels] hoặc Token khác
+
+        Returns:
+            bool: đúng nếu other là tập con của self, false nếu ngược lại
+        """
+        if isinstance(other, str):
+            # VD: Token({"literal", "float"}).isa("literal") -> True
+            return other in self.labels
+        elif isinstance(other, set):
+            # VD: Token({"literal", "float", "e_notation"}).isa({"e_notation", "float"}) -> True
+            return self.labels.issuperset(other)
+        elif isinstance(other, Token):
+            # VD: Token({"literal", "float", "e_notation"}).isa(Token({"float"})) -> True
+            return self.labels.issuperset(other.labels)
+
+    def add(self, label: str):
+        self.labels.add(label)
 
     def __str__(self) -> str:
         s = ''
-        for label in self.token_labels:
+        for label in self.labels:
             s += label + ' '
         return s
 
@@ -32,7 +48,13 @@ class Position:
 
 class Location:
     def __init__(self, start: Position, end: Position) -> None:
-        '''pointer copy'''
+        """pointer copy\n
+        Địa chỉ của một xâu trong file.
+
+        Args:
+            start (Position): vị trí ký tự bắt đầu
+            end (Position): vị trí ký tự kết thúc
+        """
         self.start = start
         self.end = end
 
@@ -42,6 +64,13 @@ class Location:
 
 class LexicalResult:
     def __init__(self, lexeme: str, token: Token, location: Location) -> None:
+        """Kết quả chấp nhận của Lexer.
+
+        Args:
+            lexeme (str): lexeme
+            token (Token): token (bao gồm một hoặc nhiều nhãn)
+            location (Location): địa chỉ của lexeme trong file input
+        """
         self.lexeme = lexeme
         self.token = token
         self.location = location
@@ -78,7 +107,11 @@ def preproccess(arg: str):
             return ' '
         case 'tab':
             return '\t'
-        case 'newline':
+        case 'LF':
             return '\n'
+        case 'CR':
+            return '\r'
+        case 'FF':
+            return '\f'
         case _:
             return arg

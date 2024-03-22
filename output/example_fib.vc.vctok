@@ -77,8 +77,7 @@
 (7, 36)..(7, 38): Token = identifier ; Lexeme = the
 (7, 40)..(7, 40): Unrecognized spelling: (
 (7, 41)..(7, 41): Token = identifier ; Lexeme = i
-(7, 42)..(7, 42): Unrecognized spelling: +
-(7, 43)..(7, 43): Token = int literal ; Lexeme = 1
+(7, 42)..(7, 43): Unrecognized spelling: +1
 (7, 44)..(7, 44): Unrecognized spelling: )
 (7, 45)..(7, 46): Token = identifier ; Lexeme = th
 (7, 48)..(7, 56): Token = identifier ; Lexeme = fibonacci
@@ -96,8 +95,7 @@
 (8, 36)..(8, 38): Token = identifier ; Lexeme = the
 (8, 40)..(8, 40): Unrecognized spelling: (
 (8, 41)..(8, 41): Token = identifier ; Lexeme = i
-(8, 42)..(8, 42): Unrecognized spelling: +
-(8, 43)..(8, 43): Token = int literal ; Lexeme = 2
+(8, 42)..(8, 43): Unrecognized spelling: +2
 (8, 44)..(8, 44): Unrecognized spelling: )
 (8, 45)..(8, 46): Token = identifier ; Lexeme = th
 (8, 48)..(8, 56): Token = identifier ; Lexeme = fibonacci
@@ -130,7 +128,7 @@
 (12, 9)..(12, 9): Unrecognized spelling: (
 (12, 10)..(12, 10): Token = identifier ; Lexeme = n
 (12, 11)..(12, 12): Token = operator <= ; Lexeme = <=
-(12, 13)..(12, 13): Token = int literal ; Lexeme = 0
+(12, 13)..(12, 13): Token = literal int ; Lexeme = 0
 (12, 14)..(12, 14): Unrecognized spelling: )
 (13, 9)..(13, 17): Token = identifier ; Lexeme = putString
 (13, 18)..(13, 18): Unrecognized spelling: (
@@ -196,13 +194,13 @@
 (16, 13)..(16, 13): Token = operator = ; Lexeme = =
 (16, 15)..(16, 21): Token = identifier ; Lexeme = current
 (16, 23)..(16, 23): Token = operator = ; Lexeme = =
-(16, 25)..(16, 25): Token = int literal ; Lexeme = 1
+(16, 25)..(16, 25): Token = literal int ; Lexeme = 1
 (16, 26)..(16, 26): Unrecognized spelling: ;
 (17, 8)..(17, 10): Token = keyword ; Lexeme = for
 (17, 12)..(17, 12): Unrecognized spelling: (
 (17, 13)..(17, 13): Token = identifier ; Lexeme = i
 (17, 14)..(17, 14): Token = operator = ; Lexeme = =
-(17, 15)..(17, 15): Token = int literal ; Lexeme = 1
+(17, 15)..(17, 15): Token = literal int ; Lexeme = 1
 (17, 16)..(17, 16): Unrecognized spelling: ;
 (17, 18)..(17, 18): Token = identifier ; Lexeme = i
 (17, 19)..(17, 20): Token = operator <= ; Lexeme = <=
@@ -211,8 +209,7 @@
 (17, 24)..(17, 24): Token = identifier ; Lexeme = i
 (17, 25)..(17, 25): Token = operator = ; Lexeme = =
 (17, 26)..(17, 26): Token = identifier ; Lexeme = i
-(17, 27)..(17, 27): Unrecognized spelling: +
-(17, 28)..(17, 28): Token = int literal ; Lexeme = 1
+(17, 27)..(17, 28): Unrecognized spelling: +1
 (17, 29)..(17, 29): Unrecognized spelling: )
 (17, 31)..(17, 31): Unrecognized spelling: {
 (18, 3)..(18, 11): Token = identifier ; Lexeme = putString
@@ -244,8 +241,8 @@
 (22, 3)..(22, 9): Token = identifier ; Lexeme = twoaway
 (22, 11)..(22, 11): Token = operator = ; Lexeme = =
 (22, 13)..(22, 19): Token = identifier ; Lexeme = current
-(22, 20)..(22, 20): Unrecognized spelling: +
-(22, 21)..(22, 24): Token = identifier ; Lexeme = next
+(22, 20)..(22, 21): Unrecognized spelling: +n
+(22, 22)..(22, 24): Token = identifier ; Lexeme = ext
 (22, 25)..(22, 25): Unrecognized spelling: ;
 (23, 3)..(23, 9): Token = identifier ; Lexeme = current
 (23, 11)..(23, 11): Token = operator = ; Lexeme = =
@@ -280,7 +277,7 @@
 (31, 41)..(31, 42): Token = identifier ; Lexeme = to
 (31, 44)..(31, 50): Token = identifier ; Lexeme = compute
 (31, 51)..(31, 51): Unrecognized spelling: ?
-(31, 53)..(31, 53): Token = int literal ; Lexeme = 9
+(31, 53)..(31, 53): Token = literal int ; Lexeme = 9
 (33, 3)..(33, 3): Token = identifier ; Lexeme = I
 (33, 7)..(33, 15): Token = identifier ; Lexeme = Fibonacci
 (33, 16)..(33, 16): Unrecognized spelling: (
@@ -307,23 +304,23 @@
 (34, 21)..(34, 21): Token = operator = ; Lexeme = =
 (34, 22)..(34, 22): Token = operator = ; Lexeme = =
 (34, 23)..(34, 23): Token = operator = ; Lexeme = =
-(35, 3)..(35, 3): Token = int literal ; Lexeme = 1
-(35, 9)..(35, 9): Token = int literal ; Lexeme = 1
-(36, 3)..(36, 3): Token = int literal ; Lexeme = 2
-(36, 9)..(36, 9): Token = int literal ; Lexeme = 1
-(37, 3)..(37, 3): Token = int literal ; Lexeme = 3
-(37, 9)..(37, 9): Token = int literal ; Lexeme = 2
-(38, 3)..(38, 3): Token = int literal ; Lexeme = 4
-(38, 9)..(38, 9): Token = int literal ; Lexeme = 3
-(39, 3)..(39, 3): Token = int literal ; Lexeme = 5
-(39, 9)..(39, 9): Token = int literal ; Lexeme = 5
-(40, 3)..(40, 3): Token = int literal ; Lexeme = 6
-(40, 9)..(40, 9): Token = int literal ; Lexeme = 8
-(41, 3)..(41, 3): Token = int literal ; Lexeme = 7
-(41, 9)..(41, 10): Token = int literal ; Lexeme = 13
-(42, 3)..(42, 3): Token = int literal ; Lexeme = 8
-(42, 9)..(42, 10): Token = int literal ; Lexeme = 21
-(43, 3)..(43, 3): Token = int literal ; Lexeme = 9
-(43, 9)..(43, 10): Token = int literal ; Lexeme = 34
+(35, 3)..(35, 3): Token = literal int ; Lexeme = 1
+(35, 9)..(35, 9): Token = literal int ; Lexeme = 1
+(36, 3)..(36, 3): Token = literal int ; Lexeme = 2
+(36, 9)..(36, 9): Token = literal int ; Lexeme = 1
+(37, 3)..(37, 3): Token = literal int ; Lexeme = 3
+(37, 9)..(37, 9): Token = literal int ; Lexeme = 2
+(38, 3)..(38, 3): Token = literal int ; Lexeme = 4
+(38, 9)..(38, 9): Token = literal int ; Lexeme = 3
+(39, 3)..(39, 3): Token = literal int ; Lexeme = 5
+(39, 9)..(39, 9): Token = literal int ; Lexeme = 5
+(40, 3)..(40, 3): Token = literal int ; Lexeme = 6
+(40, 9)..(40, 9): Token = literal int ; Lexeme = 8
+(41, 3)..(41, 3): Token = literal int ; Lexeme = 7
+(41, 9)..(41, 10): Token = literal int ; Lexeme = 13
+(42, 3)..(42, 3): Token = literal int ; Lexeme = 8
+(42, 9)..(42, 10): Token = literal int ; Lexeme = 21
+(43, 3)..(43, 3): Token = literal int ; Lexeme = 9
+(43, 9)..(43, 10): Token = literal int ; Lexeme = 34
 (45, 2)..(45, 2): Unrecognized spelling: *
 (45, 3)..(45, 3): Unrecognized spelling: /

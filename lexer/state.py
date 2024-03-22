@@ -1,3 +1,6 @@
+from lexer.util import Token
+
+
 class State:
     """DFA state"""
 
@@ -5,7 +8,7 @@ class State:
         self.name = name
 
         # dùng dict(hash map từ input -> trạng thái tiếp theo) để quản lý các bước chuyển trạng thái
-        self.transitions: dict[any, 'State'] = {}
+        self.transitions: dict[str, 'State'] = {}
 
     def add_transition(self, input: str, target: 'State') -> None:
         self.transitions[input] = target
@@ -25,25 +28,34 @@ class State:
 
         return target
 
+    def __hash__(self) -> int:
+        '''2 state == nếu trùng tên'''
+        return self.name.__hash__()
 
-class AcceptingState(State):
+    def __eq__(self, __value: object) -> bool:
+        '''2 state == nếu trùng tên'''
+        if isinstance(__value, State):
+            return self.name == __value.name
+        elif isinstance(__value, str):
+            return self.name == __value
+        else:
+            return False
+
+
+class TerminalState(State):
+    '''Dùng để reset DFA'''
+    pass
+
+
+class AcceptingState(TerminalState):
+    '''Trả về kết quả được chấp nhận'''
     def __init__(self, name: str) -> None:
         super().__init__(name)
-        self.token_labels = set()       # Danh sách các nhãn của token tương ứng
+        self.token = Token()
 
 
 class LookaheadAcceptingState(AcceptingState):
     '''Nếu việc nhìn trước 1 input(ký tự) đưa 1 state tới state này thì accept toàn bộ lexeme hiện tại'''
-    pass
-
-
-class NormalState(State):
-    def __init__(self, name: str) -> None:
-        super().__init__(name)
-
-
-class DiscardState(State):
-    '''Dùng để lược bỏ các token không quan trọng'''
     pass
 
 
