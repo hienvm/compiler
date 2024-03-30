@@ -1,6 +1,7 @@
 from enum import Enum
+from functools import reduce
 from lexer.dfa import DFA
-from lexer.state import AcceptingState, LookaheadAcceptingState, State, TerminalState
+from lexer.state import AcceptingState, Escape, LookaheadAcceptingState, State, TerminalState, ErrorState
 from lexer.util import preproccess
 
 
@@ -13,6 +14,8 @@ class ReadMode(Enum):
     GROUPS = 4
     TRANSITIONS = 5
     TERMINAL_STATES = 6
+    ERROR_STATES = 7
+    ESCAPES = 8
 
 
 class LexerBuilder(DFA):
@@ -27,9 +30,19 @@ class LexerBuilder(DFA):
 
         with open(lex_data_url, "r", encoding="utf8") as file:
             for ln in file:
-                args = ln.split()
-                if ln[0] == "#" or len(args) == 0:
+                # Xử lý comment
+                if ln[0] == "#":
                     continue
+
+                # Tách các tham số theo khoảng trắng
+                args = ln.split()
+                if len(args) == 0:
+                    continue
+
+                # Tiền xử lý cho các macro
+                for i, x in enumerate(args):
+                    args[i] = preproccess(x)
+
                 match args[0]:
                     case "KEYWORDS":
                         read_mode = ReadMode.KEYWORDS
@@ -41,6 +54,10 @@ class LexerBuilder(DFA):
                         read_mode = ReadMode.ACCEPTING_STATES
                     case "LOOKAHEAD_ACCEPTING_STATES":
                         read_mode = ReadMode.LOOKAHEAD_ACCEPTING_STATES
+                    case "ERROR_STATES":
+                        read_mode = ReadMode.ERROR_STATES
+                    case "ESCAPES":
+                        read_mode = ReadMode.ESCAPES
                     case "GROUPS":
                         read_mode = ReadMode.GROUPS
                     case "TRANSITIONS":
@@ -58,6 +75,10 @@ class LexerBuilder(DFA):
                             case ReadMode.LOOKAHEAD_ACCEPTING_STATES:
                                 readln_lookahead_accepting_states(
                                     self, args, states)
+                            case ReadMode.ERROR_STATES:
+                                readln_error_states(self, args, states)
+                            case ReadMode.ESCAPES:
+                                readln_escapes(self, args, states)
                             case ReadMode.GROUPS:
                                 readln_groups(self, args, states)
                             case ReadMode.TRANSITIONS:
@@ -65,7 +86,8 @@ class LexerBuilder(DFA):
 
 
 def readln_keywords(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
-    lexer.keywords = set(args)
+    # cho phép nhiều dòng
+    lexer.keywords.update(args)
 
 
 def readln_start_state(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
@@ -75,19 +97,16 @@ def readln_start_state(lexer: LexerBuilder, args: list[str], states: dict[str, S
 
 def readln_accepting_states(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
     state = states[args[0]] = AcceptingState(args[0])
-    for label in args[1:]:
-        state.token.add(label)
+    state.token.labels.update(args[1:])
 
 
 def readln_lookahead_accepting_states(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
     state = states[args[0]] = LookaheadAcceptingState(args[0])
-    for label in args[1:]:
-        state.token.add(label)
+    state.token.labels.update(args[1:])
 
 
 def readln_groups(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
     for i in range(1, len(args)):
-        args[i] = preproccess(args[i])
         lexer.input_to_group[args[i]] = args[0]
 
 
@@ -111,3 +130,16 @@ def readln_transitions(lexer: LexerBuilder, args: list[str], states: dict[str, S
 
 def readln_terminal_states(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
     states[args[0]] = TerminalState(args[0])
+
+
+def readln_error_states(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
+    msg = reduce(lambda x, y: x + ' ' + y, args[1:])
+    states[args[0]] = ErrorState(args[0], msg)
+
+
+def readln_escapes(lexer: LexerBuilder, args: list[str], states: dict[str, State]):
+    state = states.setdefault(args[0], State(args[0]))
+    state.escape = Escape(
+        args[1],
+        reduce(lambda x, y: x + y, args[2:], '')
+    )

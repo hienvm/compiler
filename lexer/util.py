@@ -2,30 +2,34 @@ from typing import Union
 
 
 class Token:
-    def __init__(self, labels: set[str] | None = None) -> None:
-        self.labels = labels if labels is not None else set()  # Các nhãn của token
-
-    def isa(self, other: Union[str, set[str], 'Token']) -> bool:
-        """Check xem token này có chứa (hay nói cách khác là thỏa mãn) một Token khác hay không.
+    def __init__(self, *labels: str) -> None:
+        """Lexical token.
 
         Args:
-            other (str | set[str] | &#39;Token): label, set[labels] hoặc Token khác
+            labels: Các nhãn của token.
+        """
+        self.labels = set(labels)
+
+    def isa(self, other: Union[str, set[str], 'Token']) -> bool:
+        """Check xem token này có chứa các label của (hay nói cách khác là thỏa mãn) một Token khác hay không.
+
+        Args:
+            other (str | set[str] | Token): label, set[labels] hoặc Token khác
 
         Returns:
             bool: đúng nếu other là tập con của self, false nếu ngược lại
         """
         if isinstance(other, str):
-            # VD: Token({"literal", "float"}).isa("literal") -> True
+            # VD: Token("literal", "float").isa("literal") -> True
             return other in self.labels
         elif isinstance(other, set):
-            # VD: Token({"literal", "float", "e_notation"}).isa({"e_notation", "float"}) -> True
+            # VD: Token("literal", "float", "e_notation").isa({"e_notation", "float"}) -> True
             return self.labels.issuperset(other)
         elif isinstance(other, Token):
-            # VD: Token({"literal", "float", "e_notation"}).isa(Token({"float"})) -> True
+            # VD: Token("literal", "float", "e_notation").isa(Token("float")) -> True
             return self.labels.issuperset(other.labels)
-
-    def add(self, label: str):
-        self.labels.add(label)
+        else:
+            return False
 
     def __str__(self) -> str:
         s = ''
@@ -76,26 +80,27 @@ class LexicalResult:
         self.location = location
 
     def __str__(self) -> str:
-        return f"{self.location}: Token = {self.token}; Lexeme = {self.lexeme}"
+        return f"At {self.location}: Token = {self.token}; Lexeme = {self.lexeme}"
 
 
 class LexicalError:
-    def __init__(self, spelling: str, location: Location) -> None:
+    def __init__(self, spelling: str, location: Location, msg: str = '"Unrecognized spelling"') -> None:
         self.spelling = spelling
         self.location = location
+        self.msg = msg
 
     def __str__(self) -> str:
-        '''Thông báo lỗi mặc định'''
-        return f"{self.location}: Unrecognized spelling: {self.spelling}"
+        '''Thông báo lỗi'''
+        return f'At {self.location}: Error {self.msg}: {self.spelling}'
 
 
-def is_newline(input: str, next: str) -> bool:
+def is_newline(current_input: str, next_input: str) -> bool:
     '''Tận dụng lookahead để xuống dòng cho \\n, \\r, \\r\\n'''
-    match input:
+    match current_input:
         case '\n':
             return True
         case '\r':
-            if next != '\n':
+            if next_input != '\n':
                 return True
     return False
 
@@ -113,5 +118,9 @@ def preproccess(arg: str):
             return '\r'
         case 'FF':
             return '\f'
+        case 'backspace':
+            return '\b'
+        case 'hash':
+            return '#'
         case _:
             return arg

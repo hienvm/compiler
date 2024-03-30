@@ -1,3 +1,6 @@
+# Các macro cho các ký tự đặc biệt: blank( ) tab(\t) LF(\n) CR(\r) FF(\f) BS(\b) hash(#)
+
+
 # Dùng để giảm kích thước dfa và để dễ dàng thêm các từ khóa mới
 # Chỉ hỗ trợ các keyword thỏa mãn pattern của một token nào đó (chẳng hạn như identifier đối với ngôn ngữ VC), nếu không thì phải cho vào dfa
 # Ngoài ra vẫn cần cho true và false vào dfa
@@ -8,7 +11,7 @@ boolean break continue else for float if int return void while
 START_STATE
 0
 
-# Là lớp cha của ACCEPTING_STATES, LAS...
+# Là lớp cha của ACCEPTING_STATES, LAS, Error...
 # Khi DFA nhảy tới các trạng thái này thì DFA sẽ reset lại
 # Có thể dùng để đoán nhận và lược bỏ các từ tố không cần thiết
 # Để tối ưu, chỉ cần dùng 1 terminal_state trong toàn bộ chương trình
@@ -18,22 +21,60 @@ TERMINAL_STATES
 # Dùng để đoán nhận và TRẢ VỀ các từ tố hợp lệ
 # tên_trạng_thái token_label_1 token_label_2 ...
 ACCEPTING_STATES
-2 operator <=
-3 operator <>
-5 operator =
-7 operator >=
+<= operator relational
+>= operator relational
+== operator relational
+!= operator relational
+&& operator logic
+|| operator logic
++ operator arithmetic
+- operator arithmetic
+* operator arithmetic
+"" literal string
+{ seperator
+( seperator
+[ seperator
+} seperator
+) seperator
+] seperator
+; seperator
+, seperator
+. seperator
 
 # Dùng để nhận biết giới hạn của các từ tố vô hạn hoặc các từ tố mở rộng(phân biệt < và <=)...
 # Nếu nhìn trước MỘT ký tự mà đi đến những trạng thái này thì accept toàn bộ xâu trước đó
 LOOKAHEAD_ACCEPTING_STATES
-4 operator <
-8 operator }
-11 identifier
-19 literal float e_notation
-24 literal float
-27 literal int
+<LAS operator relational
+>LAS operator relational
+/LAS operator arithmetic
+=LAS operator assignment
+!LAS operator logic
+idLAS identifier
+float_eLAS literal float e_notation
+floatLAS literal float
+intLAS literal int
 
-# Macros cho các ký tự đặc biệt (khoảng trắng): blank( ) tab(\t) LF(\n) CR(\r) FF(\f)
+# Các trạng thái lỗi
+ERROR_STATES
+err_str "Undetermined string literal"
+
+ESCAPES
+# các chuỗi escape
+# state old new  
+"\b \b backspace
+"\f \f FF
+"\n \n LF
+"\r \r CR
+"\t \t tab
+"\' \' '
+"\" \" "
+"\\ \\ \
+
+# loại bỏ dấu " ở đầu và cuối string literal
+" "
+"" "
+
+
 # Phân nhóm các ký tự để giảm số lượng cạnh của dfa
 # tên_nhóm ký_tự_1 ký_tự_2 ...
 GROUPS
@@ -44,13 +85,47 @@ digit 0 1 2 3 4 5 6 7 8 9
 # other là phân nhóm đặc biệt, khớp với mọi input và có mức ưu tiên thấp nhất (input -> group -> other)
 # trạng_thái_hiện_tại (input trạng_thái_tiếp_theo) ...
 TRANSITIONS
-0 (< 1) (= 5) (> 6) (letter 10) (digit 13) (. 14) (ws -1)
-1 (= 2) (> 3) (other 4)
-6 (= 7) (other 8)
-10 (letter 10) (digit 10) (other 11)
-13 (digit 13) (. 14) (E 16) (other 27)
-14 (digit 15)
-15 (digit 15) (E 16) (other 24)
+# discards (comment, ws,...)
+0 (/ /) (ws -1)
+/ (* /*)
+/* (* /*_*) (other /*)
+/*_* (/ -1) (other /*)
+
+# operators
+0 (< <) (> >) (= =) (! !) (& &)  (| |) (+ +) (- -) (* *)
+< (= <=) (other <LAS)
+> (= >=) (other >LAS)
+= (= ==) (other =LAS)
+! (= !=) (other !LAS)
+& (& &&)
+| (| ||)
+/  (other /LAS)
+
+# seperators
+0 ({ {) (( () ([ [) (} }) () )) (] ]) (; ;) (, ,) (. .)
+
+# id
+0 (letter 10)
+10 (letter 10) (digit 10) (other idLAS)
+
+# number literal
+0 (digit 13) (. .)
+13 (digit 13) (. .) (E 16) (other intLAS)
+. (digit 15)
+15 (digit 15) (E 16) (other floatLAS)
 16 (+ 17) (- 17) (digit 18)
 17 (digit 18)
-18 (digit 18) (other 19)
+18 (digit 18) (other float_eLAS)
+
+# string literal (có escapes)
+0 (" ")
+" (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\ (b "\b) (f "\f) (n "\n) (r "\r) (t "\t) (' "\') (" "\") (\ "\\) (other ")
+"\b (" "") (other ")
+"\f (" "") (other ")
+"\n (" "") (other ")
+"\r (" "") (other ")
+"\t (" "") (other ")
+"\' (" "") (other ")
+"\" (" "") (other ")
+"\\ (" "") (other ")

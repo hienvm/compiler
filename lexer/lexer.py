@@ -1,6 +1,6 @@
 from lexer.util import Position, Location, Token, is_newline
 from lexer.lexer_builder import LexerBuilder
-from lexer.state import AcceptingState, LookaheadAcceptingState, TerminalState
+from lexer.state import AcceptingState, Lookahead, ErrorState, TerminalState
 from typing import Iterable
 from lexer.util import LexicalError, LexicalResult
 
@@ -42,6 +42,7 @@ class Lexer(LexerBuilder):
                     if res is not None:
                         yield res
             # quét cuối file để dọn dẹp các lexeme chưa terminate
+            self.process('\n')
             res = self.process(None)
             if res is not None:
                 yield res
@@ -74,35 +75,53 @@ class Lexer(LexerBuilder):
             self.current_state = self.transit(self.current_input)
             self.lexeme += self.current_input
 
-            # xử lý lookahead
-            if self.current_state is not None and isinstance(
-                self.transit(next_input), LookaheadAcceptingState
-            ):
-                self.current_state = self.transit(next_input)
+            # state tạm thời
+            tmp_state = self.current_state
 
-            if self.current_state is None:
+            if tmp_state is not None:
+                # xử lý escape
+                if tmp_state.escape is not None:
+                    self.lexeme = self.lexeme.removesuffix(
+                        tmp_state.escape.old)
+                    self.lexeme += tmp_state.escape.new
+
+                # xử lý lookahead
+                if isinstance(
+                    self.transit(next_input), Lookahead
+                ):  # tạm thời nhảy đến state tiếp theo
+                    tmp_state = self.transit(next_input)
+            else:
                 # trả về thông báo lỗi mặc định nếu không match được input
                 res = LexicalError(
                     self.lexeme,
                     Location(self.start_pos, self.current_pos)
                 )
-            elif isinstance(self.current_state, AcceptingState):
+
+            if isinstance(tmp_state, AcceptingState):
                 if self.lexeme in self.keywords:
                     # Xử lý keyword
                     res = LexicalResult(
                         self.lexeme,
-                        Token({"keyword"}),
+                        Token("keyword"),
                         Location(self.start_pos, self.current_pos)
                     )
                 else:
+                    # Trả về kết quả chấp nhận (token + lexeme + pos)
                     res = LexicalResult(
                         self.lexeme,
-                        self.current_state.token,
+                        tmp_state.token,
                         Location(self.start_pos, self.current_pos)
                     )
+            elif isinstance(tmp_state, ErrorState):
+                # báo lỗi nếu nhảy đến trạng thái lỗi
+                res = LexicalError(
+                    self.lexeme,
+                    Location(self.start_pos, self.current_pos),
+                    tmp_state.msg
+                )
 
             # reset lại DFA khi tới terminal state hoặc gặp lỗi
-            if self.current_state is None or isinstance(self.current_state, TerminalState):
+            if tmp_state is None or isinstance(tmp_state, TerminalState):
                 self.reset()
 
         self.current_input = next_input
@@ -110,6 +129,6 @@ class Lexer(LexerBuilder):
         return res
 
     def reset(self):
-        # override
+        '''reset lại cả lexeme'''
         super().reset()
         self.lexeme = ""

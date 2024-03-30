@@ -11,7 +11,7 @@ class DFA:
         # ánh xạ từ đầu vào -> phân nhóm của nó
         self.input_to_group: dict[str, str] = {}
 
-    def transit(self, input: str):
+    def transit(self, input: str | None):
         return self.current_state.transit(
             input,
             self.input_to_group.get(input, input)
