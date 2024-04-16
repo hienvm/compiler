@@ -84,6 +84,7 @@ class LexicalResult:
 
 
 class LexicalError:
+    '''Kết quả lỗi'''
     def __init__(self, spelling: str, location: Location, msg: str = '"Unrecognized spelling"') -> None:
         self.spelling = spelling
         self.location = location

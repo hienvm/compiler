@@ -1,66 +1,73 @@
 # Các macro cho các ký tự đặc biệt: blank( ) tab(\t) LF(\n) CR(\r) FF(\f) BS(\b) hash(#)
 
-
+KEYWORDS
 # Dùng để giảm kích thước dfa và để dễ dàng thêm các từ khóa mới
 # Chỉ hỗ trợ các keyword thỏa mãn pattern của một token nào đó (chẳng hạn như identifier đối với ngôn ngữ VC), nếu không thì phải cho vào dfa
-# Ngoài ra vẫn cần cho true và false vào dfa
-KEYWORDS
+# Ngoài ra, vẫn cần cho true và false vào dfa
 boolean break continue else for float if int return void while
 
-# tên trạng thái có thể đặt bất kỳ, miễn không chứa khoảng trắng
+
 START_STATE
+# tên trạng thái có thể đặt bất kỳ, miễn không chứa khoảng trắng
 0
 
+
+TERMINAL_STATES
 # Là lớp cha của ACCEPTING_STATES, LAS, Error...
 # Khi DFA nhảy tới các trạng thái này thì DFA sẽ reset lại
 # Có thể dùng để đoán nhận và lược bỏ các từ tố không cần thiết
 # Để tối ưu, chỉ cần dùng 1 terminal_state trong toàn bộ chương trình
-TERMINAL_STATES
 -1
 
+
+ACCEPTING_STATES
 # Dùng để đoán nhận và TRẢ VỀ các từ tố hợp lệ
 # tên_trạng_thái token_label_1 token_label_2 ...
-ACCEPTING_STATES
-<= operator relational
->= operator relational
-== operator relational
-!= operator relational
-&& operator logic
-|| operator logic
-+ operator arithmetic
-- operator arithmetic
-* operator arithmetic
+<= operator relational <=
+>= operator relational >=
+== operator relational ==
+!= operator relational !=
+&& operator logic &&
+|| operator logic ||
++ operator arithmetic +
+- operator arithmetic -
+* operator arithmetic *
 "" literal string
-{ seperator
-( seperator
-[ seperator
-} seperator
-) seperator
-] seperator
-; seperator
-, seperator
-. seperator
+{ seperator {
+( seperator (
+[ seperator [
+} seperator }
+) seperator )
+] seperator ]
+; seperator ;
+, seperator ,
+. seperator .
 
+
+LOOKAHEAD_ACCEPTING_STATES
 # Dùng để nhận biết giới hạn của các từ tố vô hạn hoặc các từ tố mở rộng(phân biệt < và <=)...
 # Nếu nhìn trước MỘT ký tự mà đi đến những trạng thái này thì accept toàn bộ xâu trước đó
-LOOKAHEAD_ACCEPTING_STATES
-<LAS operator relational
->LAS operator relational
-/LAS operator arithmetic
-=LAS operator assignment
-!LAS operator logic
+<LAS operator relational <
+>LAS operator relational >
+/LAS operator arithmetic /
+=LAS operator assignment =
+!LAS operator logic !
 idLAS identifier
 float_eLAS literal float e_notation
 floatLAS literal float
 intLAS literal int
+trueLAS literal boolean true
+falseLAS literal boolean false
 
-# Các trạng thái lỗi
+
 ERROR_STATES
+# Các trạng thái lỗi
 err_str "Undetermined string literal"
+
 
 ESCAPES
 # các chuỗi escape
-# state old new  
+# state old_str new_str
 "\b \b backspace
 "\f \f FF
 "\n \n LF
@@ -69,30 +76,32 @@ ESCAPES
 "\' \' '
 "\" \" "
 "\\ \\ \
-
 # loại bỏ dấu " ở đầu và cuối string literal
 " "
 "" "
 
 
+GROUPS
 # Phân nhóm các ký tự để giảm số lượng cạnh của dfa
 # tên_nhóm ký_tự_1 ký_tự_2 ...
-GROUPS
 ws blank tab LF CR FF
 letter _ a b c d e f g h i j k l m n o p q r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 digit 0 1 2 3 4 5 6 7 8 9
 
-# other là phân nhóm đặc biệt, khớp với mọi input và có mức ưu tiên thấp nhất (input -> group -> other)
-# trạng_thái_hiện_tại (input trạng_thái_tiếp_theo) ...
+
 TRANSITIONS
+# other là phân nhóm đặc biệt, khớp với mọi input và có mức ưu tiên thấp nhất (input -> group -> other)
+# trạng_thái_hiện_tại (input/group/other trạng_thái_tiếp_theo) ...
+
 # discards (comment, ws,...)
 0 (/ /) (ws -1)
-/ (* /*)
+/ (/ //) (* /*)
+// (LF -1) (CR -1) (other //)
 /* (* /*_*) (other /*)
 /*_* (/ -1) (other /*)
 
 # operators
-0 (< <) (> >) (= =) (! !) (& &)  (| |) (+ +) (- -) (* *)
+0 (< <) (> >) (= =) (! !) (& &)  (| |) (+ +) (- -) (* *) (/ /)
 < (= <=) (other <LAS)
 > (= >=) (other >LAS)
 = (= ==) (other =LAS)
@@ -105,8 +114,20 @@ TRANSITIONS
 0 ({ {) (( () ([ [) (} }) () )) (] ]) (; ;) (, ,) (. .)
 
 # id
-0 (letter 10)
-10 (letter 10) (digit 10) (other idLAS)
+0 (letter id)
+id (letter id) (digit id) (other idLAS)
+
+# boolean literal
+0 (t t) (f f) (letter id) (digit id) (other idLAS)
+t (r tr) (letter id) (digit id) (other idLAS)
+tr (u tru) (letter id) (digit id) (other idLAS)
+tru (e true) (letter id) (digit id) (other idLAS)
+true (letter id) (digit id) (other trueLAS)
+f (a fa) (letter id) (digit id) (other idLAS)
+fa (l fal) (letter id) (digit id) (other idLAS)
+fal (s fals) (letter id) (digit id) (other idLAS)
+fals (e false) (letter id) (digit id) (other idLAS)
+false (letter id) (digit id) (other falseLAS)
 
 # number literal
 0 (digit 13) (. .)
@@ -117,7 +138,7 @@ TRANSITIONS
 17 (digit 18)
 18 (digit 18) (other float_eLAS)
 
-# string literal (có escapes)
+# string literal (có escape)
 0 (" ")
 " (LF err_str) (CR err_str) (\ "\) (" "") (other ")
 "\ (b "\b) (f "\f) (n "\n) (r "\r) (t "\t) (' "\') (" "\") (\ "\\) (other ")

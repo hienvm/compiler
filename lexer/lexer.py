@@ -1,6 +1,6 @@
 from lexer.util import Position, Location, Token, is_newline
 from lexer.lexer_builder import LexerBuilder
-from lexer.state import AcceptingState, Lookahead, ErrorState, TerminalState
+from lexer.state import AcceptingState, Lookahead, ErrorState, State, TerminalState
 from typing import Iterable
 from lexer.util import LexicalError, LexicalResult
 
@@ -14,7 +14,7 @@ class Lexer(LexerBuilder):
         self.current_pos = Position(1, 0)   # vị trí hiện tại của lexer
 
     def analyze(self, input_url: str, is_ln_by_ln: bool = True) -> Iterable[LexicalResult | LexicalError]:
-        """Sử dụng generator để tiết kiệm bộ nhớ và hỗ trợ xử lý gối đầu nhau cho các phần sau nếu có (không phải chờ tính hết kết quả rồi trả về mảng)
+        """Sử dụng generator để tiết kiệm bộ nhớ
 
         Args:
             input_url (str): Url file code cần phân tích
@@ -79,12 +79,11 @@ class Lexer(LexerBuilder):
             tmp_state = self.current_state
 
             if tmp_state is not None:
-                # xử lý escape
+                # xử lý escape: thay chuỗi hậu tố cũ bằng chuỗi mới
                 if tmp_state.escape is not None:
                     self.lexeme = self.lexeme.removesuffix(
                         tmp_state.escape.old)
                     self.lexeme += tmp_state.escape.new
-
                 # xử lý lookahead
                 if isinstance(
                     self.transit(next_input), Lookahead
@@ -128,7 +127,17 @@ class Lexer(LexerBuilder):
 
         return res
 
+    def transit(self, input: str | None):
+        '''Trả về trạng thái tiếp theo khi đọc input'''
+        if isinstance(self.current_state, State):
+            return self.current_state.transit(
+                input,
+                self.input_to_group.get(input, input)
+            )
+        else:
+            return None
+
     def reset(self):
-        '''reset lại cả lexeme'''
-        super().reset()
+        '''reset lại dfa'''
+        self.current_state = self.start_state
         self.lexeme = ""

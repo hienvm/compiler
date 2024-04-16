@@ -1,7 +1,6 @@
 from enum import Enum
 from functools import reduce
-from lexer.dfa import DFA
-from lexer.state import AcceptingState, Escape, LookaheadAcceptingState, State, TerminalState, ErrorState
+from lexer.state import BLANK_STATE, AcceptingState, Escape, LookaheadAcceptingState, State, TerminalState, ErrorState
 from lexer.util import preproccess
 
 
@@ -18,10 +17,15 @@ class ReadMode(Enum):
     ESCAPES = 8
 
 
-class LexerBuilder(DFA):
+class LexerBuilder:
     def __init__(self, lex_data_url: str) -> None:
-        super().__init__()
+        '''Xây dựng lexer dfa từ file .dat'''
+        self.start_state: State = BLANK_STATE      # trạng thái BẮT ĐẦU
+        self.current_state: State | None = BLANK_STATE    # trạng thái HIỆN TẠI
+
         self.keywords: set[str] = set()  # các từ khóa
+        # ánh xạ từ đầu vào -> phân nhóm của nó
+        self.input_to_group: dict[str, str] = {}
 
         # mapping từ tên -> trạng thái, chỉ dùng trong giai đoạn build lexer
         states: dict[str, 'State'] = {}
@@ -29,6 +33,7 @@ class LexerBuilder(DFA):
         read_mode: ReadMode = ReadMode.SKIP
 
         with open(lex_data_url, "r", encoding="utf8") as file:
+            # Đọc từng dòng
             for ln in file:
                 # Xử lý comment
                 if ln[0] == "#":

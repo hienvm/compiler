@@ -7,13 +7,13 @@ from lexer.lexer import Lexer
 def main():
     argparser = ArgumentParser(description="Bộ phân tích từ vựng.")
     argparser.add_argument(
-        "input_url", nargs="+",  help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")
+        "input_urls", nargs="+",  help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")
     argparser.add_argument('-l', '--lex', default="lex.dat",
                            help="Tên file automaton data cho lexical analyzer (.dat, mặc định lex.dat)")
     args = argparser.parse_args()
 
-    for item in args.input_url:
-        lex_analyze(args.lex, item)
+    for url in args.input_urls:
+        lex_analyze(args.lex, url)
 
 
 def lex_analyze(lex_name, input_name):
@@ -26,12 +26,15 @@ def lex_analyze(lex_name, input_name):
         input_url = os.path.abspath(
             Path(__file__, '../..', 'input', input_name)
         )
+    # mở file output
     with open(
         os.path.abspath(
             Path(__file__, '../..', 'output', input_name + ".vctok")
         ), "w"
     ) as out_file:
+        # khởi tạo lexer từ file .dat
         lexer = Lexer(lex_url)
+        # phân tích từ vựng file input, xuất ra từng kết quả
         for output in lexer.analyze(input_url):
             out_file.write(str(output) + '\n')
 
