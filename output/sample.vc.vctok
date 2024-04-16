@@ -1,21 +1,21 @@
 At (1, 1)..(1, 1): Token = identifier ; Lexeme = x
-At (1, 2)..(1, 2): Token = operator = assignment ; Lexeme = =
+At (1, 2)..(1, 2): Token = = assignment operator ; Lexeme = =
 At (1, 3)..(1, 3): Token = int literal ; Lexeme = 1
 At (1, 4)..(1, 4): Token = arithmetic / operator ; Lexeme = /
 At (1, 5)..(1, 5): Token = int literal ; Lexeme = 2
 At (1, 6)..(1, 7): Token = identifier ; Lexeme = as
-At (1, 8)..(1, 8): Token = arithmetic + operator ; Lexeme = +
+At (1, 8)..(1, 8): Token = + arithmetic operator ; Lexeme = +
 At (1, 9)..(1, 12): Token = true boolean literal ; Lexeme = true
-At (1, 13)..(1, 14): Token = logic operator && ; Lexeme = &&
-At (1, 15)..(1, 15): Token = ( seperator ; Lexeme = (
+At (1, 13)..(1, 14): Token = && logic operator ; Lexeme = &&
+At (1, 15)..(1, 15): Token = seperator ( ; Lexeme = (
 At (1, 16)..(1, 16): Token = identifier ; Lexeme = x
-At (1, 17)..(1, 17): Token = arithmetic + operator ; Lexeme = +
+At (1, 17)..(1, 17): Token = + arithmetic operator ; Lexeme = +
 At (1, 18)..(1, 18): Token = int literal ; Lexeme = 3
 At (1, 19)..(1, 19): Token = seperator ) ; Lexeme = )
-At (1, 20)..(1, 20): Token = ; seperator ; Lexeme = ;
+At (1, 20)..(1, 20): Token = seperator ; ; Lexeme = ;
 At (1, 22)..(1, 26): Token = identifier ; Lexeme = true4
-At (1, 28)..(1, 32): Token = boolean literal false ; Lexeme = false
-At (1, 35)..(1, 54): Token = literal string ; Lexeme = adasd 12 32"x+7asd
+At (1, 28)..(1, 32): Token = false boolean literal ; Lexeme = false
+At (1, 35)..(1, 54): Token = string literal ; Lexeme = adasd 12 32"x+7asd
 At (1, 55)..(1, 55): Token = int literal ; Lexeme = 2
 At (2, 1)..(2, 1): Token = identifier ; Lexeme = a
 At (2, 24)..(3, 0): Error "Undetermined string literal": adsdaos[]]q[wd  asds]

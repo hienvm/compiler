@@ -16,16 +16,19 @@ def main():
 
     args = argparser.parse_args()
 
+    # khởi tạo lexer từ file .dat
+    if not os.path.isabs(args.lex):
+        args.lex = os.path.abspath(Path(__file__, '..', args.lex))
+    lexer = Lexer(args.lex)
+
     for url in args.input_urls:
-        lex_analyze(args.lex, url, args.whole)
+        lex_analyze(lexer, url, args.whole)
 
 
-def lex_analyze(lex_name, input_name, whole):
-    lex_url = lex_name
+def lex_analyze(lexer: Lexer, input_name: str, whole: bool):
     input_url = input_name
     # xử lý đường dẫn
-    if not os.path.isabs(lex_url):
-        lex_url = os.path.abspath(Path(__file__, '..', lex_name))
+
     if not os.path.isabs(input_url):
         input_url = os.path.abspath(
             Path(__file__, '../..', 'input', input_name)
@@ -36,8 +39,6 @@ def lex_analyze(lex_name, input_name, whole):
             Path(__file__, '../..', 'output', input_name + ".vctok")
         ), "w"
     ) as out_file:
-        # khởi tạo lexer từ file .dat
-        lexer = Lexer(lex_url)
         # phân tích từ vựng file input, xuất ra từng kết quả
         for output in lexer.analyze(input_url, not whole):
             out_file.write(str(output) + '\n')
