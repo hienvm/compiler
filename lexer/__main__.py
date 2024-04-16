@@ -1,22 +1,26 @@
 from pathlib import Path
 import os
-from argparse import ArgumentParser, FileType
+from argparse import ArgumentParser
 from lexer.lexer import Lexer
 
 
 def main():
     argparser = ArgumentParser(description="Bộ phân tích từ vựng.")
-    argparser.add_argument(
-        "input_urls", nargs="+",  help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")
+
+    argparser.add_argument("input_urls", nargs="+",
+                           help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")
     argparser.add_argument('-l', '--lex', default="lex.dat",
                            help="Tên file automaton data cho lexical analyzer (.dat, mặc định lex.dat)")
+    argparser.add_argument('-w', '--whole', action="store_true",
+                           help="Đọc toàn bộ file input thay vì từng dòng (đối với file nhỏ)")
+
     args = argparser.parse_args()
 
     for url in args.input_urls:
-        lex_analyze(args.lex, url)
+        lex_analyze(args.lex, url, args.whole)
 
 
-def lex_analyze(lex_name, input_name):
+def lex_analyze(lex_name, input_name, whole):
     lex_url = lex_name
     input_url = input_name
     # xử lý đường dẫn
@@ -35,7 +39,7 @@ def lex_analyze(lex_name, input_name):
         # khởi tạo lexer từ file .dat
         lexer = Lexer(lex_url)
         # phân tích từ vựng file input, xuất ra từng kết quả
-        for output in lexer.analyze(input_url):
+        for output in lexer.analyze(input_url, not whole):
             out_file.write(str(output) + '\n')
 
 if __name__ == "__main__":

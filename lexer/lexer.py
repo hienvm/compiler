@@ -11,7 +11,7 @@ class Lexer(LexerBuilder):
         self.lexeme: str = ""               # xâu hiện tại
         self.current_input: str = ""        # input hiện tại
         self.start_pos = Position(1, 0)     # vị trí bắt đầu lexeme
-        self.current_pos = Position(1, 0)   # vị trí hiện tại của lexer
+        self.current_pos = Position(1, 0)   # vị trí hiện tại
 
     def analyze(self, input_url: str, is_ln_by_ln: bool = True) -> Iterable[LexicalResult | LexicalError]:
         """Sử dụng generator để tiết kiệm bộ nhớ
