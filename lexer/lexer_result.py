@@ -85,6 +85,7 @@ class LexicalResult:
 
 class LexicalError:
     '''Kết quả lỗi'''
+
     def __init__(self, spelling: str, location: Location, msg: str = '"Unrecognized spelling"') -> None:
         self.spelling = spelling
         self.location = location
@@ -93,35 +94,3 @@ class LexicalError:
     def __str__(self) -> str:
         '''Thông báo lỗi'''
         return f'At {self.location}: Error {self.msg}: {self.spelling}'
-
-
-def is_newline(current_input: str, next_input: str) -> bool:
-    '''Tận dụng lookahead để xuống dòng cho \\n, \\r, \\r\\n'''
-    match current_input:
-        case '\n':
-            return True
-        case '\r':
-            if next_input != '\n':
-                return True
-    return False
-
-
-def preproccess(arg: str):
-    '''Xử lý các macro cho file .dat'''
-    match arg:
-        case "blank":
-            return ' '
-        case 'tab':
-            return '\t'
-        case 'LF':
-            return '\n'
-        case 'CR':
-            return '\r'
-        case 'FF':
-            return '\f'
-        case 'backspace':
-            return '\b'
-        case 'hash':
-            return '#'
-        case _:
-            return arg

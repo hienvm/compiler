@@ -1,8 +1,8 @@
-from lexer.util import Position, Location, Token, is_newline
+from lexer.lexer_result import Position, Location, Token
 from lexer.lexer_builder import LexerBuilder
 from lexer.state import AcceptingState, Lookahead, ErrorState, State, TerminalState
 from typing import Iterable
-from lexer.util import LexicalError, LexicalResult
+from lexer.lexer_result import LexicalError, LexicalResult
 
 
 class Lexer(LexerBuilder):
@@ -141,3 +141,14 @@ class Lexer(LexerBuilder):
         '''reset lại dfa'''
         self.current_state = self.start_state
         self.lexeme = ""
+
+
+def is_newline(current_input: str, next_input: str) -> bool:
+    '''Tận dụng lookahead để xuống dòng cho \\n, \\r, \\r\\n (khi gặp \\r\\n thì chỉ coi \\n là kí tự xuống dòng)'''
+    match current_input:
+        case '\n':
+            return True
+        case '\r':
+            if next_input != '\n':
+                return True
+    return False

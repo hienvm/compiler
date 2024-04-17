@@ -1,7 +1,6 @@
 from enum import Enum
 from functools import reduce
 from lexer.state import BLANK_STATE, AcceptingState, Escape, LookaheadAcceptingState, State, TerminalState, ErrorState
-from lexer.util import preproccess
 
 
 class ReadMode(Enum):
@@ -88,6 +87,27 @@ class LexerBuilder:
                                 readln_groups(self, args, states)
                             case ReadMode.TRANSITIONS:
                                 readln_transitions(self, args, states)
+
+
+def preproccess(arg: str):
+    '''Xử lý các macro cho file .dat'''
+    match arg:
+        case "blank":
+            return ' '
+        case 'tab':
+            return '\t'
+        case 'LF':
+            return '\n'
+        case 'CR':
+            return '\r'
+        case 'FF':
+            return '\f'
+        case 'backspace':
+            return '\b'
+        case 'hash':
+            return '#'
+        case _:
+            return arg
 
 
 def readln_keywords(lexer: LexerBuilder, args: list[str], states: dict[str, State]):

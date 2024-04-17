@@ -1,80 +1,71 @@
-(1, 1)..(1, 3): Token = keyword ; Lexeme = int
-(1, 5)..(1, 5): Token = identifier ; Lexeme = i
-(1, 6)..(1, 6): Unrecognized spelling: ;
-(2, 2)..(2, 4): Token = keyword ; Lexeme = int
-(2, 6)..(2, 6): Token = identifier ; Lexeme = j
-(2, 7)..(2, 7): Unrecognized spelling: ;
-(3, 2)..(3, 2): Unrecognized spelling: /
-(3, 3)..(3, 3): Unrecognized spelling: /
-(3, 5)..(3, 8): Token = identifier ; Lexeme = find
-(3, 10)..(3, 12): Token = identifier ; Lexeme = the
-(3, 14)..(3, 20): Token = identifier ; Lexeme = maximum
-(3, 22)..(3, 23): Token = identifier ; Lexeme = of
-(3, 25)..(3, 27): Token = identifier ; Lexeme = two
-(3, 29)..(3, 36): Token = identifier ; Lexeme = integers
-(4, 2)..(4, 4): Token = keyword ; Lexeme = int
-(4, 6)..(4, 8): Token = identifier ; Lexeme = gcd
-(4, 9)..(4, 9): Unrecognized spelling: (
-(4, 10)..(4, 12): Token = keyword ; Lexeme = int
-(4, 14)..(4, 14): Token = identifier ; Lexeme = a
-(4, 15)..(4, 15): Unrecognized spelling: ,
-(4, 17)..(4, 19): Token = keyword ; Lexeme = int
-(4, 21)..(4, 21): Token = identifier ; Lexeme = b
-(4, 22)..(4, 22): Unrecognized spelling: )
-(4, 24)..(4, 24): Unrecognized spelling: {
-(5, 4)..(5, 5): Token = keyword ; Lexeme = if
-(5, 7)..(5, 7): Unrecognized spelling: (
-(5, 8)..(5, 8): Token = identifier ; Lexeme = b
-(5, 10)..(5, 10): Token = operator = ; Lexeme = =
-(5, 11)..(5, 11): Token = operator = ; Lexeme = =
-(5, 13)..(5, 13): Token = int literal ; Lexeme = 0
-(5, 14)..(5, 14): Unrecognized spelling: )
-(6, 6)..(6, 11): Token = keyword ; Lexeme = return
-(6, 13)..(6, 13): Token = identifier ; Lexeme = a
-(6, 14)..(6, 14): Unrecognized spelling: ;
-(7, 4)..(7, 7): Token = keyword ; Lexeme = else
-(8, 4)..(8, 9): Token = keyword ; Lexeme = return
-(8, 11)..(8, 13): Token = identifier ; Lexeme = gcd
-(8, 14)..(8, 14): Unrecognized spelling: (
-(8, 15)..(8, 15): Token = identifier ; Lexeme = b
-(8, 16)..(8, 16): Unrecognized spelling: ,
-(8, 18)..(8, 18): Token = identifier ; Lexeme = a
-(8, 20)..(8, 20): Unrecognized spelling: -
-(8, 22)..(8, 22): Unrecognized spelling: (
-(8, 23)..(8, 23): Token = identifier ; Lexeme = a
-(8, 24)..(8, 24): Unrecognized spelling: /
-(8, 25)..(8, 25): Token = identifier ; Lexeme = b
-(8, 26)..(8, 26): Unrecognized spelling: )
-(8, 28)..(8, 28): Unrecognized spelling: *
-(8, 29)..(8, 29): Token = identifier ; Lexeme = b
-(8, 30)..(8, 30): Unrecognized spelling: )
-(8, 31)..(8, 31): Unrecognized spelling: ;
-(9, 2)..(9, 2): Unrecognized spelling: }
-(10, 2)..(10, 5): Token = keyword ; Lexeme = void
-(10, 7)..(10, 10): Token = identifier ; Lexeme = main
-(10, 11)..(10, 11): Unrecognized spelling: (
-(10, 12)..(10, 12): Unrecognized spelling: )
-(10, 14)..(10, 14): Unrecognized spelling: {
-(11, 4)..(11, 4): Token = identifier ; Lexeme = i
-(11, 6)..(11, 6): Token = operator = ; Lexeme = =
-(11, 8)..(11, 13): Token = identifier ; Lexeme = getInt
-(11, 14)..(11, 14): Unrecognized spelling: (
-(11, 15)..(11, 15): Unrecognized spelling: )
-(11, 16)..(11, 16): Unrecognized spelling: ;
-(12, 4)..(12, 4): Token = identifier ; Lexeme = j
-(12, 6)..(12, 6): Token = operator = ; Lexeme = =
-(12, 8)..(12, 13): Token = identifier ; Lexeme = getInt
-(12, 14)..(12, 14): Unrecognized spelling: (
-(12, 15)..(12, 15): Unrecognized spelling: )
-(12, 16)..(12, 16): Unrecognized spelling: ;
-(13, 4)..(13, 11): Token = identifier ; Lexeme = putIntLn
-(13, 12)..(13, 12): Unrecognized spelling: (
-(13, 13)..(13, 15): Token = identifier ; Lexeme = gcd
-(13, 16)..(13, 16): Unrecognized spelling: (
-(13, 17)..(13, 17): Token = identifier ; Lexeme = i
-(13, 18)..(13, 18): Unrecognized spelling: ,
-(13, 20)..(13, 20): Token = identifier ; Lexeme = j
-(13, 21)..(13, 21): Unrecognized spelling: )
-(13, 22)..(13, 22): Unrecognized spelling: )
-(13, 23)..(13, 23): Unrecognized spelling: ;
-(14, 2)..(14, 2): Unrecognized spelling: }
+At (1, 1)..(1, 3): Token = keyword ; Lexeme = int
+At (1, 5)..(1, 5): Token = identifier ; Lexeme = i
+At (1, 6)..(1, 6): Token = seperator ; ; Lexeme = ;
+At (2, 1)..(2, 3): Token = keyword ; Lexeme = int
+At (2, 5)..(2, 5): Token = identifier ; Lexeme = j
+At (2, 6)..(2, 6): Token = seperator ; ; Lexeme = ;
+At (4, 1)..(4, 3): Token = keyword ; Lexeme = int
+At (4, 5)..(4, 7): Token = identifier ; Lexeme = gcd
+At (4, 8)..(4, 8): Token = seperator ( ; Lexeme = (
+At (4, 9)..(4, 11): Token = keyword ; Lexeme = int
+At (4, 13)..(4, 13): Token = identifier ; Lexeme = a
+At (4, 14)..(4, 14): Token = seperator , ; Lexeme = ,
+At (4, 16)..(4, 18): Token = keyword ; Lexeme = int
+At (4, 20)..(4, 20): Token = identifier ; Lexeme = b
+At (4, 21)..(4, 21): Token = seperator ) ; Lexeme = )
+At (4, 23)..(4, 23): Token = seperator { ; Lexeme = {
+At (5, 3)..(5, 4): Token = keyword ; Lexeme = if
+At (5, 6)..(5, 6): Token = seperator ( ; Lexeme = (
+At (5, 7)..(5, 7): Token = identifier ; Lexeme = b
+At (5, 9)..(5, 10): Token = equality == operator ; Lexeme = ==
+At (5, 12)..(5, 12): Token = int number literal ; Lexeme = 0
+At (5, 13)..(5, 13): Token = seperator ) ; Lexeme = )
+At (6, 5)..(6, 10): Token = keyword ; Lexeme = return
+At (6, 12)..(6, 12): Token = identifier ; Lexeme = a
+At (6, 13)..(6, 13): Token = seperator ; ; Lexeme = ;
+At (7, 3)..(7, 6): Token = keyword ; Lexeme = else
+At (8, 3)..(8, 8): Token = keyword ; Lexeme = return
+At (8, 10)..(8, 12): Token = identifier ; Lexeme = gcd
+At (8, 13)..(8, 13): Token = seperator ( ; Lexeme = (
+At (8, 14)..(8, 14): Token = identifier ; Lexeme = b
+At (8, 15)..(8, 15): Token = seperator , ; Lexeme = ,
+At (8, 17)..(8, 17): Token = identifier ; Lexeme = a
+At (8, 19)..(8, 19): Token = arithmetic - operator ; Lexeme = -
+At (8, 21)..(8, 21): Token = seperator ( ; Lexeme = (
+At (8, 22)..(8, 22): Token = identifier ; Lexeme = a
+At (8, 23)..(8, 23): Token = arithmetic / operator ; Lexeme = /
+At (8, 24)..(8, 24): Token = identifier ; Lexeme = b
+At (8, 25)..(8, 25): Token = seperator ) ; Lexeme = )
+At (8, 27)..(8, 27): Token = arithmetic * operator ; Lexeme = *
+At (8, 28)..(8, 28): Token = identifier ; Lexeme = b
+At (8, 29)..(8, 29): Token = seperator ) ; Lexeme = )
+At (8, 30)..(8, 30): Token = seperator ; ; Lexeme = ;
+At (9, 1)..(9, 1): Token = seperator } ; Lexeme = }
+At (10, 1)..(10, 4): Token = keyword ; Lexeme = void
+At (10, 6)..(10, 9): Token = identifier ; Lexeme = main
+At (10, 10)..(10, 10): Token = seperator ( ; Lexeme = (
+At (10, 11)..(10, 11): Token = seperator ) ; Lexeme = )
+At (10, 13)..(10, 13): Token = seperator { ; Lexeme = {
+At (11, 3)..(11, 3): Token = identifier ; Lexeme = i
+At (11, 5)..(11, 5): Token = assignment = operator ; Lexeme = =
+At (11, 7)..(11, 12): Token = identifier ; Lexeme = getInt
+At (11, 13)..(11, 13): Token = seperator ( ; Lexeme = (
+At (11, 14)..(11, 14): Token = seperator ) ; Lexeme = )
+At (11, 15)..(11, 15): Token = seperator ; ; Lexeme = ;
+At (12, 3)..(12, 3): Token = identifier ; Lexeme = j
+At (12, 5)..(12, 5): Token = assignment = operator ; Lexeme = =
+At (12, 7)..(12, 12): Token = identifier ; Lexeme = getInt
+At (12, 13)..(12, 13): Token = seperator ( ; Lexeme = (
+At (12, 14)..(12, 14): Token = seperator ) ; Lexeme = )
+At (12, 15)..(12, 15): Token = seperator ; ; Lexeme = ;
+At (13, 3)..(13, 10): Token = identifier ; Lexeme = putIntLn
+At (13, 11)..(13, 11): Token = seperator ( ; Lexeme = (
+At (13, 12)..(13, 14): Token = identifier ; Lexeme = gcd
+At (13, 15)..(13, 15): Token = seperator ( ; Lexeme = (
+At (13, 16)..(13, 16): Token = identifier ; Lexeme = i
+At (13, 17)..(13, 17): Token = seperator , ; Lexeme = ,
+At (13, 19)..(13, 19): Token = identifier ; Lexeme = j
+At (13, 20)..(13, 20): Token = seperator ) ; Lexeme = )
+At (13, 21)..(13, 21): Token = seperator ) ; Lexeme = )
+At (13, 22)..(13, 22): Token = seperator ; ; Lexeme = ;
+At (14, 1)..(14, 1): Token = seperator } ; Lexeme = }

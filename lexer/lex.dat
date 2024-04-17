@@ -25,10 +25,10 @@ ACCEPTING_STATES
 # tên_trạng_thái token_label_1 token_label_2 ...
 <= operator relational <=
 >= operator relational >=
-== operator relational ==
-!= operator relational !=
-&& operator logic &&
-|| operator logic ||
+== operator equality ==
+!= operator equality !=
+&& operator logical &&
+|| operator logical ||
 + operator arithmetic +
 - operator arithmetic -
 * operator arithmetic *
@@ -41,7 +41,6 @@ ACCEPTING_STATES
 ] seperator ]
 ; seperator ;
 , seperator ,
-. seperator .
 
 
 LOOKAHEAD_ACCEPTING_STATES
@@ -51,11 +50,11 @@ LOOKAHEAD_ACCEPTING_STATES
 >LAS operator relational >
 /LAS operator arithmetic /
 =LAS operator assignment =
-!LAS operator logic !
+!LAS operator logical !
 idLAS identifier
-float_eLAS literal float e_notation
-floatLAS literal float
-intLAS literal int
+float_eLAS literal number float e_notation
+floatLAS literal number float
+intLAS literal number int
 trueLAS literal boolean true
 falseLAS literal boolean false
 
@@ -97,8 +96,8 @@ TRANSITIONS
 0 (/ /) (ws -1)
 / (/ //) (* /*)
 // (LF -1) (CR -1) (other //)
-/* (* /*_*) (other /*)
-/*_* (/ -1) (other /*)
+/* (* /**) (other /*)
+/** (/ -1) (other /*)
 
 # operators
 0 (< <) (> >) (= =) (! !) (& &)  (| |) (+ +) (- -) (* *) (/ /)
@@ -108,10 +107,10 @@ TRANSITIONS
 ! (= !=) (other !LAS)
 & (& &&)
 | (| ||)
-/  (other /LAS)
+/ (other /LAS)
 
 # seperators
-0 ({ {) (( () ([ [) (} }) () )) (] ]) (; ;) (, ,) (. .)
+0 ({ {) (( () ([ [) (} }) () )) (] ]) (; ;) (, ,)
 
 # id
 0 (letter id)
@@ -130,23 +129,23 @@ fals (e false) (letter id) (digit id) (other idLAS)
 false (letter id) (digit id) (other falseLAS)
 
 # number literal
-0 (digit 13) (. .)
-13 (digit 13) (. .) (E 16) (other intLAS)
-. (digit 15)
-15 (digit 15) (E 16) (other floatLAS)
-16 (+ 17) (- 17) (digit 18)
-17 (digit 18)
-18 (digit 18) (other float_eLAS)
+0 (digit int) (. .)
+int (digit int) (. .) (E exp) (e exp) (other intLAS)
+. (digit fraction) (E exp) (e exp) (other floatLAS)
+fraction (digit fraction) (E exp) (e exp) (other floatLAS)
+exp (+ exp_signed) (- exp_signed) (digit exp_val)
+exp_signed (digit exp_val)
+exp_val (digit exp_val) (other float_eLAS)
 
 # string literal (có escape)
 0 (" ")
 " (LF err_str) (CR err_str) (\ "\) (" "") (other ")
 "\ (b "\b) (f "\f) (n "\n) (r "\r) (t "\t) (' "\') (" "\") (\ "\\) (other ")
-"\b (" "") (other ")
-"\f (" "") (other ")
-"\n (" "") (other ")
-"\r (" "") (other ")
-"\t (" "") (other ")
-"\' (" "") (other ")
-"\" (" "") (other ")
-"\\ (" "") (other ")
+"\b (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\f (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\n (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\r (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\t (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\' (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\" (LF err_str) (CR err_str) (\ "\) (" "") (other ")
+"\\ (LF err_str) (CR err_str) (\ "\) (" "") (other ")

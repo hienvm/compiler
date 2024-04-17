@@ -1,4 +1,4 @@
-from lexer.util import Token
+from lexer.lexer_result import Token
 
 
 class Escape:
