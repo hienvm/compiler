@@ -1,16 +1,5 @@
-from lexer.lexer_result import Token
+from lexer.state_attributes import Escape, Token
 
-
-class Escape:
-    def __init__(self, old: int, new: str) -> None:
-        """Chuỗi escape. Khi đến trạng thái được định nghĩa escape thì Lexer sẽ thay len ký tự cuối lexeme bằng xâu new_val.
-
-        Args:
-            old (str): xâu cũ
-            new (str): xâu mới
-        """
-        self.old = old
-        self.new = new
 
 class State:
     """DFA state"""
@@ -31,7 +20,7 @@ class State:
     def add_transition(self, input: str, target: 'State') -> None:
         self.transitions[input] = target
 
-    def transit(self, input: str | None, group: str):
+    def transit(self, input: str | None, group: str | None):
         '''Thực hiện bước chuyển trạng thái\n
         Thứ tự check: input -> group -> "other"'''
         target = self.transitions.get(input, None)
