@@ -27,21 +27,24 @@ def main():
 
 def lex_analyze(lexer: Lexer, input_name: str, whole: bool):
     input_url = input_name
-    # xử lý đường dẫn
 
+    # xử lý đường dẫn
     if not os.path.isabs(input_url):
         input_url = os.path.abspath(
             Path(__file__, '../..', 'input', input_name)
         )
+    output_url = os.path.abspath(
+        Path(__file__, '../..', 'output', input_name + ".vctok"))
+
     # mở file output
     with open(
-        os.path.abspath(
-            Path(__file__, '../..', 'output', input_name + ".vctok")
-        ), "w"
+        output_url, "w"
     ) as out_file:
         # phân tích từ vựng file input, xuất ra từng kết quả
         for output in lexer.analyze(input_url, not whole):
             out_file.write(str(output) + '\n')
+        print(f'Lexical Analysis Done: {output_url}')
+
 
 if __name__ == "__main__":
     main()
