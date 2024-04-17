@@ -12,7 +12,7 @@
    > VD: `python -m lexer sample.vc example_fib.vc example_gcd.vc`<br><br>
    > Để xem trợ giúp và các option khác: `python -m lexer -h`
    > ```console
-   > usage: __main__.py [-h] [-l LEX] [-w] input_urls [input_urls ...]
+   > usage: python -m lexer [-h] [-l LEX] [-w] input_urls [input_urls ...]
    >
    > Bộ phân tích từ vựng.
    >
