@@ -23,20 +23,22 @@
    >-h, --help         show this help message and exit
    >-l LEX, --lex LEX  Tên file automaton data cho lexical analyzer (.dat, mặc định lex.dat)
    >-w, --whole        Đọc toàn bộ file input thay vì từng dòng (đối với file nhỏ)
-   ```
+   >```
 
 <h2>Cấu trúc source code</h2>
 
 <ul>
-<li>input: chứa các file code đầu vào (*.vc)<li>
-<li>output:  chứa các file đầu ra tương ứng (*.vc.tok)<li>
--	lexer: module lexer, bao gồm:
-+	main.py: Chứa hàm main() và lex_analyze() được gọi khi module chạy, cung cấp giao diện CLI.
-+	lexer_builder.py: Chứa LexerBuilder và các hàm dùng để phân tích từng dòng trong file .dat để từ đó xây dựng lexer.
-+	lexer.py: Định nghĩa Lexer, hàm is_newline() hỗ trợ xuống dòng..
-+	state.py: Định nghĩa các lớp trạng thái.
-+	state_attributes.py: Định nghĩa các lớp thuộc tính của state (Escape, Token).
-+	lexer_result.py: Định nghĩa đầu ra của lexer (LexicalResult, LexicalError, Location, Position).
-+	lex.dat: Khai báo thông tin dùng để xây dựng lexer cho ngôn ngữ VC. Format và cách thức sử dụng được comment và mô tả ngay trong file.
--	README.md: Cách chạy code và một số thông tin cơ bản.
+<li>input: chứa các file code đầu vào (*.vc)</li>
+<li>output:  chứa các file đầu ra tương ứng (*.vc.tok)</li>
+<li>lexer: module lexer, bao gồm:</li>
+<ul>
+   <li>main.py: Chứa hàm main() và lex_analyze() được gọi khi module chạy, cung cấp giao diện CLI.</li>
+   <li>lexer_builder.py: Chứa LexerBuilder và các hàm dùng để phân tích từng dòng trong file .dat để từ đó xây dựng lexer.</li>
+   <li>lexer.py: Định nghĩa Lexer, hàm is_newline() hỗ trợ xuống dòng.</li>
+   state.py: Định nghĩa các lớp trạng thái.
+   <li>state_attributes.py: Định nghĩa các lớp thuộc tính của state (Escape, Token).</li>
+   <li>lexer_result.py: Định nghĩa đầu ra của lexer (LexicalResult, LexicalError, Location, Position).</li>
+   <li>lex.dat: Khai báo thông tin dùng để xây dựng lexer cho ngôn ngữ VC. Format và cách thức sử dụng được comment và mô tả ngay trong file.</li>
+</ul>
+<li>README.md: Cách chạy code và một số thông tin cơ bản.</li>
 </ul>
