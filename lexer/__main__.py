@@ -34,11 +34,11 @@ def lex_analyze(lexer: Lexer, input_name: str, whole: bool):
             Path(__file__, '../..', 'input', input_name)
         )
     output_url = os.path.abspath(
-        Path(__file__, '../..', 'output', input_name + ".vctok"))
+        Path(__file__, '../..', 'output', input_name.removesuffix(".vc") + ".vctok"))
 
     # mở file output
     with open(
-        output_url, "w"
+        output_url, "w", encoding="utf8"
     ) as out_file:
         # phân tích từ vựng file input, xuất ra từng kết quả
         for output in lexer.analyze(input_url, not whole):

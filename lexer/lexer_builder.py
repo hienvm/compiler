@@ -24,7 +24,7 @@ class LexerBuilder:
 
         self.keywords: set[str] = set()  # các từ khóa
         # ánh xạ từ đầu vào -> phân nhóm của nó
-        self.input_to_group: dict[str, str] = {}
+        self.input_to_group: dict[str | None, str] = {}
 
         # mapping từ tên -> trạng thái, chỉ dùng trong giai đoạn build lexer
         states: dict[str, 'State'] = {}

@@ -9,7 +9,7 @@ class Lexer(LexerBuilder):
     def __init__(self, lex_data_url: str) -> None:
         super().__init__(lex_data_url)
         self.lexeme: str = ""               # xâu hiện tại
-        self.current_input: str = ""        # input hiện tại
+        self.current_input: str | None = ""        # input hiện tại
         self.start_pos = Position(1, 0)     # vị trí bắt đầu lexeme
         self.current_pos = Position(1, 0)   # vị trí hiện tại
 
@@ -23,7 +23,7 @@ class Lexer(LexerBuilder):
         Yields:
             Iterable[LexicalResult | LexicalError]: Iterator cho output stream, có nội dung là kết quả hoặc lỗi
         """
-        with open(input_url, "r") as input_file:
+        with open(input_url, "r", encoding="utf8") as input_file:
             if is_ln_by_ln:
                 # Đọc từng dòng một để tiết kiệm bộ nhớ đối với file có kích thước lớn
                 for line in input_file:
@@ -42,10 +42,14 @@ class Lexer(LexerBuilder):
                     if res is not None:
                         yield res
             # quét cuối file để dọn dẹp các lexeme chưa terminate
-            self.process('\n')
+            res = self.process('\n')
+            if res is not None:
+                yield res
             res = self.process(None)
             if res is not None:
                 yield res
+            # Thêm token EOF vào cuối file
+            yield LexicalResult("EOF", Token("EOF"), Location(self.current_pos, self.current_pos))
 
     def process(self, next_input: str | None) -> LexicalResult | LexicalError | None:
         """Xử lý trễ 1 ký tự để thực hiện lookahead
@@ -73,7 +77,8 @@ class Lexer(LexerBuilder):
 
             # chuyển trạng thái
             self.current_state = self.transit(self.current_input)
-            self.lexeme += self.current_input
+            if self.current_input is not None:
+                self.lexeme += self.current_input
 
             # state tạm thời
             tmp_state = self.current_state
@@ -101,7 +106,7 @@ class Lexer(LexerBuilder):
                     # Xử lý keyword
                     res = LexicalResult(
                         self.lexeme,
-                        Token("keyword"),
+                        Token("keyword", self.lexeme),
                         Location(self.start_pos, self.current_pos)
                     )
                 else:
@@ -143,7 +148,7 @@ class Lexer(LexerBuilder):
         self.lexeme = ""
 
 
-def is_newline(current_input: str, next_input: str) -> bool:
+def is_newline(current_input: str | None, next_input: str | None) -> bool:
     '''Tận dụng lookahead để xuống dòng cho \\n, \\r, \\r\\n (khi gặp \\r\\n thì chỉ coi \\n là kí tự xuống dòng)'''
     match current_input:
         case '\n':

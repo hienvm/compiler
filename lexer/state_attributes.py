@@ -39,7 +39,7 @@ class Token:
 
 
 class Escape:
-    def __init__(self, old: int, new: str) -> None:
+    def __init__(self, old: str, new: str) -> None:
         """Chuỗi escape. Khi đến trạng thái được định nghĩa escape thì Lexer sẽ thay len ký tự cuối lexeme bằng xâu new_val.
 
         Args:

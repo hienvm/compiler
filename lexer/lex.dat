@@ -32,7 +32,7 @@ ACCEPTING_STATES
 + operator arithmetic +
 - operator arithmetic -
 * operator arithmetic *
-"" literal string
+"" literal_string
 { seperator {
 ( seperator (
 [ seperator [
@@ -52,11 +52,11 @@ LOOKAHEAD_ACCEPTING_STATES
 =LAS operator assignment =
 !LAS operator logical !
 idLAS identifier
-float_eLAS literal number float e_notation
-floatLAS literal number float
-intLAS literal number int
-trueLAS literal boolean true
-falseLAS literal boolean false
+float_eLAS literal_float e_notation
+floatLAS literal_float
+intLAS literal_int
+trueLAS literal_boolean true
+falseLAS literal_boolean false
 
 
 ERROR_STATES
@@ -100,7 +100,7 @@ TRANSITIONS
 /** (/ -1) (other /*)
 
 # operators
-0 (< <) (> >) (= =) (! !) (& &)  (| |) (+ +) (- -) (* *) (/ /)
+0 (< <) (> >) (= =) (! !) (& &) (| |) (+ +) (- -) (* *) (/ /)
 < (= <=) (other <LAS)
 > (= >=) (other >LAS)
 = (= ==) (other =LAS)
@@ -117,7 +117,7 @@ TRANSITIONS
 id (letter id) (digit id) (other idLAS)
 
 # boolean literal
-0 (t t) (f f) (letter id) (digit id) (other idLAS)
+0 (t t) (f f) (letter id) (digit id)
 t (r tr) (letter id) (digit id) (other idLAS)
 tr (u tru) (letter id) (digit id) (other idLAS)
 tru (e true) (letter id) (digit id) (other idLAS)

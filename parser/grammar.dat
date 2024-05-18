@@ -1,0 +1,145 @@
+START
+# ký hiệu bắt đầu
+program
+
+PRODUCTIONS
+# program
+program -> decl program
+program -> epsilon
+
+
+# declarations
+decl -> type identifier decl-after
+decl-after -> func-decl-after
+decl-after -> var-decl-after
+func-decl-after -> para-list compound-stmt
+var-decl-after -> init-declarator-list `;`
+
+init-declarator-list -> init-declarator-after init-declarator-list-after
+init-declarator-list-after -> `,` init-declarator init-declarator-list-after
+init-declarator-list-after -> epsilon
+
+init-declarator -> declarator init-declarator-after
+init-declarator-after -> `=` initializer
+init-declarator-after -> epsilon
+
+declarator -> identifier declarator-after
+declarator-after -> `[` size `]`
+declarator-after -> epsilon
+size -> `literal_int`
+size -> epsilon
+
+initializer -> expr
+initializer -> `{` expr initializer-after `}`
+initializer-after -> `,` expr initializer-after
+initializer-after -> epsilon
+
+
+# primitive types
+type -> `void`
+type -> `boolean`
+type -> `int`
+type -> `float`
+
+
+# identifiers
+identifier -> `identifier`
+
+
+# statements
+compound-stmt -> `{` compound-stmt-inner `}`
+compound-stmt-inner -> var-decl compound-stmt-inner
+compound-stmt-inner -> stmt compound-stmt-inner
+compound-stmt-inner -> epsilon
+
+stmt -> compound-stmt
+stmt -> if-stmt
+stmt -> for-stmt
+stmt -> while-stmt
+stmt -> break-stmt
+stmt -> continue-stmt
+stmt -> return-stmt
+stmt -> expr-stmt
+
+if-stmt -> `if` `(` expr `)` stmt else-clause
+else-clause -> `else` stmt
+else-clause -> epsilon
+
+for-stmt -> `for` `(` for-inner `;` for-inner `;` for-inner `)` stmt
+for-inner -> expr
+for-inner -> epsilon
+
+while-stmt -> `while` `(` expr `)` stmt 
+break-stmt -> `break` `;` 
+continue-stmt -> `continue` `;`
+
+return-stmt -> `return` expr-stmt
+expr-stmt -> expr `;`
+expr-stmt -> `;`
+
+
+# expressions  
+expr -> assignment-expr
+
+assignment-expr -> cond-or-expr assignment-expr-after
+assignment-expr-after -> `=` cond-or-expr assignment-expr-after
+assignment-expr-after -> epsilon
+
+cond-or-expr -> cond-and-expr cond-or-expr-after
+cond-or-expr-after -> `||` cond-and-expr cond-or-expr-after
+cond-or-expr-after -> epsilon
+
+cond-and-expr -> equality-expr cond-and-expr-after
+cond-and-expr-after -> `&&` equality-expr cond-and-expr-after
+cond-and-expr-after -> epsilon
+
+equality-expr -> rel-expr equality-expr-after
+equality-expr-after -> `==` rel-expr equality-expr-after
+equality-expr-after -> `!=` rel-expr equality-expr-after
+equality-expr-after -> epsilon
+
+rel-expr -> additive-expr rel-expr-after
+rel-expr-after -> `<` additive-expr
+rel-expr-after -> `<=` additive-expr
+rel-expr-after -> `>` additive-expr
+rel-expr-after -> `>=` additive-expr
+rel-expr-after -> epsilon
+
+additive-expr -> multiplicative-expr additive-expr-after
+additive-expr-after -> `+` multiplicative-expr additive-expr-after
+additive-expr-after -> `-` multiplicative-expr additive-expr-after
+additive-expr-after -> epsilon
+
+multiplicative-expr -> unary-expr multiplicative-expr-after
+multiplicative-expr-after -> `*` unary-expr multiplicative-expr-after
+multiplicative-expr-after -> `/` unary-expr multiplicative-expr-after
+multiplicative-expr-after -> epsilon
+
+unary-expr -> `+` unary-expr
+unary-expr -> `-` unary-expr
+unary-expr -> `!` unary-expr
+unary-expr -> primary-expr
+
+primary-expr -> identifier primary-expr-after
+primary-expr-after -> arg-list
+primary-expr-after -> `[` expr `]`
+primary-expr-after -> epsilon
+primary-expr -> `(` expr `)`
+primary-expr -> `literal_int`
+primary-expr -> `literal_float`
+primary-expr -> `literal_boolean`
+primary-expr -> `literal_string`
+
+
+# parameters
+para-list -> `(` proper-para-list `)` 
+proper-para-list -> epsilon
+proper-para-list -> para-decl proper-para-list-after
+proper-para-list-after -> `,` para-decl proper-para-list-after
+proper-para-list-after -> epsilon
+para-decl -> type declarator 
+arg-list -> `(` proper-arg-list `)` 
+proper-arg-list -> epsilon
+proper-arg-list -> arg proper-arg-list-after
+proper-arg-list-after -> `,` arg proper-arg-list-after
+arg -> expr

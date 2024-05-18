@@ -1,0 +1,4 @@
+At (1, 1)..(1, 3): Token = keyword int ; Lexeme = int
+At (1, 5)..(1, 5): Token = identifier ; Lexeme = x
+At (1, 6)..(1, 7): Token = operator >= relational ; Lexeme = >=
+At (2, 0)..(2, 0): Token = EOF ; Lexeme = EOF
