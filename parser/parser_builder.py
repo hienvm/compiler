@@ -3,7 +3,7 @@ from pathlib import Path
 import os.path
 import json
 
-from parser.types import EOF, EPSILON, Epsilon, Production, Symbol, NonTerminalSymbol, TerminalSymbol, json_default, str_to_symbol
+from parser.types import EOF, EPSILON, Epsilon, Production, Symbol, NonTerminalSymbol, TerminalSymbol, json_default, raw2production, raw2table
 
 
 class ReadMode(Enum):
@@ -13,23 +13,42 @@ class ReadMode(Enum):
 
 
 GRAMMAR_URL = os.path.abspath(
-    Path(__file__, "..", "grammar.dat")
-)
+    Path(__file__, "..", "grammar.dat"))
 TABLE_URL = os.path.abspath(
     Path(__file__, "..", "table.dat"))
 
 
 class ParserBuilder:
-    def __init__(self, from_grammar: bool = False) -> None:
-        '''Xây dựng lexer dfa từ file .dat'''
-        self.start = ""
+    def __init__(self, from_table: bool = False) -> None:
+        '''
+        Xây dựng lexer dfa từ file .dat.\n
+        Nếu build từ table thì load trực tiếp kết quả từ table.dat.\n
+        Nếu không thì build từ grammar như sau:
+        - Nhận đầu vào là các productions và một số thông tin khác từ grammar.dat
+        - Build first, follow theo https://www.inf.ed.ac.uk/teaching/courses/inf2a/slides2017/inf2a_L12_slides.pdf.
+        - Build LL(1) table từ select.
+        - Cập nhật lại table.dat.\n
+        '''
+        # Ký tự bắt đầu
+        self.start = NonTerminalSymbol("")
+
         # Ánh xạ từ [non_terminal ở trên cùng stack, terminal từ input] -> sản xuất được chọn
         # VD: production = self.table[non_terminal][terminal]
         self.table: dict[
             NonTerminalSymbol, dict[TerminalSymbol, Production]
         ] | dict = {}
 
+        # build trực tiếp từ table.dat
+        if from_table and os.path.isfile(TABLE_URL):
+            with open(TABLE_URL, "r", encoding="utf8") as file:
+                print(f"Builing table from: {TABLE_URL}")
+                raw = json.load(file)
+                self.start = NonTerminalSymbol(raw["start"])
+                self.table = raw2table(raw["table"])
+            return
+            
         with open(GRAMMAR_URL, "r", encoding="utf8") as file:
+            print(f"Builing table from: {GRAMMAR_URL}")
             # ánh xạ từ vế trái (gồm 1 ký tự nonterminal) tới vế phải (dãy các symbol liền nhau) của các sản suất
             productions: list[Production] = []
             # tập các non_terminal
@@ -40,8 +59,14 @@ class ParserBuilder:
             # cache lưu lại kết quả của các lần tính follow
             follow_cache: dict[NonTerminalSymbol,
                                set[TerminalSymbol]] = {}
-            # tập hợp những nonterminal đã tính xong follow
-            follow_done = set()
+            # chứa các nullable non-terminal và epsilon
+            nullables: set[NonTerminalSymbol] = set()
+            # đã tính xong hết first hay chưa
+            first_done = False
+            # đã tính xong hết follow hay chưa
+            follow_done = False
+            # biến bool kiểm tra stabilized cho nullables, first, follow
+            stable = False
             # mode đọc để đổi hàm đọc giữa các section
             read_mode: ReadMode = ReadMode.SKIP
 
@@ -66,20 +91,23 @@ class ParserBuilder:
                         match read_mode:
                             case ReadMode.START:
                                 # Đọc ký tự nonterminal bắt đầu
-                                self.start = args[0]
+                                self.start = NonTerminalSymbol(args[0])
                             case ReadMode.PRODUCTIONS:
                                 # Đọc sản suất
-                                readln_productions(
-                                    args, productions, non_terminals)
+                                p = raw2production(ln)
+                                # mọi non_terminal đều nằm vế trái của 1 production nào đó
+                                non_terminals.add(p.lsym)
+                                # thêm p vào productions
+                                productions.append(p)
 
             # khai báo first, follow, select là inner function để capture các giá trị cần thiết
             def first(syms: tuple[Symbol, ...]) -> set[TerminalSymbol | Epsilon]:
                 '''Trả về tập first của một chuỗi các ký tự'''
                 # lấy ra kết quả từ cache
-                fetch = first_cache.get(syms, None)
+                prev = first_cache.get(syms, None)
                 # sử dụng lại kết quả nếu được
-                if fetch is not None:
-                    return set(fetch)
+                if prev is not None and first_done:
+                    return set(prev)
 
                 # Kết quả trả về
                 res = set()
@@ -113,9 +141,8 @@ class ParserBuilder:
                 return res
 
             def follow(sym: NonTerminalSymbol) -> set[TerminalSymbol]:
-                # print(sym)
                 # nếu tính xong rồi thì dùng kết quả từ cache
-                if sym in follow_done:
+                if follow_done:
                     return set(follow_cache[sym])
 
                 # kết quả
@@ -158,22 +185,77 @@ class ParserBuilder:
                 return res
 
             # thêm EOF vào follow của ký tự bắt đầu
-            follow_cache[NonTerminalSymbol(self.start)] = {EOF}
+            follow_cache[self.start] = {EOF}
 
-            # tính lại follow cho tất cả các terminal cho tới khi không còn thay đổi gì
-            while len(follow_done) < len(non_terminals):
+            # tìm các nullable terminal
+            # https://www.inf.ed.ac.uk/teaching/courses/inf2a/slides2017/inf2a_L12_slides.pdf
+            stable = True
+            for p in productions:
+                if p.empty():
+                    nullables.add(p.lsym)
+                    stable = False
+            while stable is False:
+                stable = True
+                for p in productions:
+                    # check xem có phải tất cả vế phải đều nullable
+                    all_null = True
+                    for rsym in p.rsyms:
+                        if rsym not in nullables:
+                            all_null = False
+                            break
+                    if all_null and p.lsym not in nullables:
+                        # nếu vế phải nullable hết và vế trái chưa được đánh dấu là nullable
+                        nullables.add(p.lsym)
+                        stable = False
+
+            # Tính trước first cho các non-terminal
+            stable = False
+            while not stable:
+                stable = True
+                for p in productions:
+                    # first trước đó
+                    prev = first_cache.get((p.lsym,), None)
+                    # first vế phải
+                    rfirst = set()
+                    for rsym in p.rsyms:
+                        if isinstance(rsym, NonTerminalSymbol):
+                            rfirst.update(first_cache.get((rsym,), set()))
+                            if rsym not in nullables:
+                                rfirst.discard(EPSILON)
+                                break
+                        else:
+                            rfirst.add(rsym)
+                            if isinstance(rsym, TerminalSymbol):
+                                rfirst.discard(EPSILON)
+                                break
+                    # nếu first vế trái chưa được tính
+                    if prev is None:
+                        first_cache[(p.lsym,)] = rfirst
+                        stable = False
+                    # nếu first vế phải chưa nằm trong first vế trái
+                    elif not rfirst.issubset(prev):
+                        # cập nhật và đánh dấu là chưa stable
+                        prev.update(rfirst)
+                        stable = False
+            first_done = True
+
+            # tính follow cho tất cả các terminal cho tới khi không còn thay đổi gì
+            # https://www.inf.ed.ac.uk/teaching/courses/inf2a/slides2017/inf2a_L12_slides.pdf
+            stable = False
+            while not stable:
+                stable = True
                 for sym in non_terminals:
                     # với mỗi nonterminal, tính mới tập follow
                     f = follow(sym)
                     # lấy ra tập follow cũ từ cache
                     prev = follow_cache.get(sym, None)
                     # so sánh 2 tập
+                    # nếu như follow có thay đổi
                     if prev is None or len(prev.symmetric_difference(f)) > 0:
-                        # nếu như follow có thay đổi, cập nhật cache
+                        # cập nhật cache và đánh dấu chưa stable
                         follow_cache[sym] = f
-                    else:
-                        # nếu ko thay đổi thì đánh dấu là xong
-                        follow_done.add(sym)
+                        stable = False
+            follow_done = True
 
             # bắt đầu xây dựng table từ grammar và select
             self.table = {non_t: {} for non_t in non_terminals}
@@ -199,6 +281,7 @@ class ParserBuilder:
                         self.table[p.lsym][sym] = p
             print(f"Total ambiguities resolved: {ambiguities_cnt}")
 
+            # Lưu lại table và các thông tin cơ bản của grammar
             with open(TABLE_URL, "w", encoding="utf8") as table_file:
                 tmp_table = {
                     str(row): {
@@ -209,15 +292,4 @@ class ParserBuilder:
                 json.dump(self, table_file, indent=4,
                           default=json_default)
                 tmp_table, self.table = self.table, tmp_table
-                print("Building table done!")
-
-
-def readln_productions(args: list[str], productions: list[Production], non_terminals: set[NonTerminalSymbol]):
-    # non-terminal vế trái
-    lsym = NonTerminalSymbol(args[0])
-    # mọi non_terminal đều nằm vế trái của 1 production nào đó
-    non_terminals.add(lsym)
-    # thêm từ arg thứ 2 trở đi (sau lsym và "->") vào danh sách vế phải sản suất
-    rsyms = tuple(map(str_to_symbol, args[2:]))
-    # thêm vào danh sách sản xuất
-    productions.append(Production(lsym, rsyms))
+                print(f"Building table done: {TABLE_URL}")

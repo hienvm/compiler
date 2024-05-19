@@ -1,0 +1,1289 @@
+{
+  "symbol": "program",
+  "childs": [
+    {
+      "symbol": "decl",
+      "childs": [
+        {
+          "symbol": "type",
+          "childs": [
+            {
+              "symbol": "`void`",
+              "value": "void"
+            }
+          ]
+        },
+        {
+          "symbol": "identifier",
+          "childs": [
+            {
+              "symbol": "`identifier`",
+              "value": "main"
+            }
+          ]
+        },
+        {
+          "symbol": "decl-after",
+          "childs": [
+            {
+              "symbol": "func-decl-after",
+              "childs": [
+                {
+                  "symbol": "para-list",
+                  "childs": [
+                    {
+                      "symbol": "`(`",
+                      "value": "("
+                    },
+                    {
+                      "symbol": "proper-para-list",
+                      "childs": [
+                        {
+                          "symbol": "epsilon",
+                          "value": ""
+                        }
+                      ]
+                    },
+                    {
+                      "symbol": "`)`",
+                      "value": ")"
+                    }
+                  ]
+                },
+                {
+                  "symbol": "compound-stmt",
+                  "childs": [
+                    {
+                      "symbol": "`{`",
+                      "value": "{"
+                    },
+                    {
+                      "symbol": "compound-stmt-inner",
+                      "childs": [
+                        {
+                          "symbol": "stmt",
+                          "childs": [
+                            {
+                              "symbol": "for-stmt",
+                              "childs": [
+                                {
+                                  "symbol": "`for`",
+                                  "value": "for"
+                                },
+                                {
+                                  "symbol": "`(`",
+                                  "value": "("
+                                },
+                                {
+                                  "symbol": "for-inner",
+                                  "childs": [
+                                    {
+                                      "symbol": "expr",
+                                      "childs": [
+                                        {
+                                          "symbol": "assignment-expr",
+                                          "childs": [
+                                            {
+                                              "symbol": "cond-or-expr",
+                                              "childs": [
+                                                {
+                                                  "symbol": "cond-and-expr",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "equality-expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "rel-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "additive-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "multiplicative-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "unary-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "primary-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "identifier",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "`identifier`",
+                                                                                  "value": "i"
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "primary-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "multiplicative-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "additive-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "rel-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "epsilon",
+                                                                  "value": ""
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "symbol": "equality-expr-after",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "epsilon",
+                                                              "value": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "cond-and-expr-after",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "epsilon",
+                                                          "value": ""
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "symbol": "cond-or-expr-after",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "epsilon",
+                                                      "value": ""
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "symbol": "assignment-expr-after",
+                                              "childs": [
+                                                {
+                                                  "symbol": "`=`",
+                                                  "value": "="
+                                                },
+                                                {
+                                                  "symbol": "assignment-expr",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "cond-or-expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "cond-and-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "equality-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "rel-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "additive-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "multiplicative-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "unary-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "primary-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "`literal_int`",
+                                                                                      "value": "0"
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "multiplicative-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "symbol": "additive-expr-after",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "epsilon",
+                                                                              "value": ""
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "rel-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "equality-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "cond-and-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "epsilon",
+                                                                  "value": ""
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "symbol": "cond-or-expr-after",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "epsilon",
+                                                              "value": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "assignment-expr-after",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "epsilon",
+                                                          "value": ""
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "symbol": "`;`",
+                                  "value": ";"
+                                },
+                                {
+                                  "symbol": "for-inner",
+                                  "childs": [
+                                    {
+                                      "symbol": "expr",
+                                      "childs": [
+                                        {
+                                          "symbol": "assignment-expr",
+                                          "childs": [
+                                            {
+                                              "symbol": "cond-or-expr",
+                                              "childs": [
+                                                {
+                                                  "symbol": "cond-and-expr",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "equality-expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "rel-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "additive-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "multiplicative-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "unary-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "primary-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "identifier",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "`identifier`",
+                                                                                  "value": "i"
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "primary-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "multiplicative-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "additive-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "rel-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "`<`",
+                                                                  "value": "<"
+                                                                },
+                                                                {
+                                                                  "symbol": "additive-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "multiplicative-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "unary-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "primary-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "`literal_int`",
+                                                                                  "value": "10"
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "symbol": "multiplicative-expr-after",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "epsilon",
+                                                                              "value": ""
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "additive-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "symbol": "equality-expr-after",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "epsilon",
+                                                              "value": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "cond-and-expr-after",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "epsilon",
+                                                          "value": ""
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "symbol": "cond-or-expr-after",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "epsilon",
+                                                      "value": ""
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "symbol": "assignment-expr-after",
+                                              "childs": [
+                                                {
+                                                  "symbol": "epsilon",
+                                                  "value": ""
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "symbol": "`;`",
+                                  "value": ";"
+                                },
+                                {
+                                  "symbol": "for-inner",
+                                  "childs": [
+                                    {
+                                      "symbol": "expr",
+                                      "childs": [
+                                        {
+                                          "symbol": "assignment-expr",
+                                          "childs": [
+                                            {
+                                              "symbol": "cond-or-expr",
+                                              "childs": [
+                                                {
+                                                  "symbol": "cond-and-expr",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "equality-expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "rel-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "additive-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "multiplicative-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "unary-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "primary-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "identifier",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "`identifier`",
+                                                                                  "value": "i"
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "primary-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "multiplicative-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "additive-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "rel-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "epsilon",
+                                                                  "value": ""
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "symbol": "equality-expr-after",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "epsilon",
+                                                              "value": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "cond-and-expr-after",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "epsilon",
+                                                          "value": ""
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "symbol": "cond-or-expr-after",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "epsilon",
+                                                      "value": ""
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "symbol": "assignment-expr-after",
+                                              "childs": [
+                                                {
+                                                  "symbol": "`=`",
+                                                  "value": "="
+                                                },
+                                                {
+                                                  "symbol": "assignment-expr",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "cond-or-expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "cond-and-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "equality-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "rel-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "additive-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "multiplicative-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "unary-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "primary-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "identifier",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "`identifier`",
+                                                                                          "value": "i"
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "symbol": "primary-expr-after",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "epsilon",
+                                                                                          "value": ""
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "multiplicative-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "symbol": "additive-expr-after",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "`+`",
+                                                                              "value": "+"
+                                                                            },
+                                                                            {
+                                                                              "symbol": "multiplicative-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "unary-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "primary-expr",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "`literal_int`",
+                                                                                          "value": "1"
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "symbol": "multiplicative-expr-after",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "epsilon",
+                                                                                      "value": ""
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "additive-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "rel-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "equality-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "cond-and-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "epsilon",
+                                                                  "value": ""
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        },
+                                                        {
+                                                          "symbol": "cond-or-expr-after",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "epsilon",
+                                                              "value": ""
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "assignment-expr-after",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "epsilon",
+                                                          "value": ""
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "symbol": "`)`",
+                                  "value": ")"
+                                },
+                                {
+                                  "symbol": "stmt",
+                                  "childs": [
+                                    {
+                                      "symbol": "compound-stmt",
+                                      "childs": [
+                                        {
+                                          "symbol": "`{`",
+                                          "value": "{"
+                                        },
+                                        {
+                                          "symbol": "compound-stmt-inner",
+                                          "childs": [
+                                            {
+                                              "symbol": "stmt",
+                                              "childs": [
+                                                {
+                                                  "symbol": "expr-stmt",
+                                                  "childs": [
+                                                    {
+                                                      "symbol": "expr",
+                                                      "childs": [
+                                                        {
+                                                          "symbol": "assignment-expr",
+                                                          "childs": [
+                                                            {
+                                                              "symbol": "cond-or-expr",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "cond-and-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "equality-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "rel-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "additive-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "multiplicative-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "unary-expr",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "primary-expr",
+                                                                                          "childs": [
+                                                                                            {
+                                                                                              "symbol": "identifier",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "`identifier`",
+                                                                                                  "value": "j"
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            {
+                                                                                              "symbol": "primary-expr-after",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "epsilon",
+                                                                                                  "value": ""
+                                                                                                }
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "symbol": "multiplicative-expr-after",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "epsilon",
+                                                                                          "value": ""
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "symbol": "additive-expr-after",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "epsilon",
+                                                                                      "value": ""
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "rel-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "symbol": "equality-expr-after",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "epsilon",
+                                                                              "value": ""
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "cond-and-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "epsilon",
+                                                                          "value": ""
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "symbol": "cond-or-expr-after",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "epsilon",
+                                                                      "value": ""
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            },
+                                                            {
+                                                              "symbol": "assignment-expr-after",
+                                                              "childs": [
+                                                                {
+                                                                  "symbol": "`=`",
+                                                                  "value": "="
+                                                                },
+                                                                {
+                                                                  "symbol": "assignment-expr",
+                                                                  "childs": [
+                                                                    {
+                                                                      "symbol": "cond-or-expr",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "cond-and-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "equality-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "rel-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "additive-expr",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "multiplicative-expr",
+                                                                                          "childs": [
+                                                                                            {
+                                                                                              "symbol": "unary-expr",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "primary-expr",
+                                                                                                  "childs": [
+                                                                                                    {
+                                                                                                      "symbol": "`literal_int`",
+                                                                                                      "value": "1"
+                                                                                                    }
+                                                                                                  ]
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            {
+                                                                                              "symbol": "multiplicative-expr-after",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "epsilon",
+                                                                                                  "value": ""
+                                                                                                }
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        {
+                                                                                          "symbol": "additive-expr-after",
+                                                                                          "childs": [
+                                                                                            {
+                                                                                              "symbol": "epsilon",
+                                                                                              "value": ""
+                                                                                            }
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "symbol": "rel-expr-after",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "epsilon",
+                                                                                          "value": ""
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "symbol": "equality-expr-after",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "epsilon",
+                                                                                      "value": ""
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "cond-and-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        {
+                                                                          "symbol": "cond-or-expr-after",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "epsilon",
+                                                                              "value": ""
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    {
+                                                                      "symbol": "assignment-expr-after",
+                                                                      "childs": [
+                                                                        {
+                                                                          "symbol": "`=`",
+                                                                          "value": "="
+                                                                        },
+                                                                        {
+                                                                          "symbol": "assignment-expr",
+                                                                          "childs": [
+                                                                            {
+                                                                              "symbol": "cond-or-expr",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "cond-and-expr",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "equality-expr",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "rel-expr",
+                                                                                          "childs": [
+                                                                                            {
+                                                                                              "symbol": "additive-expr",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "multiplicative-expr",
+                                                                                                  "childs": [
+                                                                                                    {
+                                                                                                      "symbol": "unary-expr",
+                                                                                                      "childs": [
+                                                                                                        {
+                                                                                                          "symbol": "primary-expr",
+                                                                                                          "childs": [
+                                                                                                            {
+                                                                                                              "symbol": "`literal_int`",
+                                                                                                              "value": "2"
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    {
+                                                                                                      "symbol": "multiplicative-expr-after",
+                                                                                                      "childs": [
+                                                                                                        {
+                                                                                                          "symbol": "epsilon",
+                                                                                                          "value": ""
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                {
+                                                                                                  "symbol": "additive-expr-after",
+                                                                                                  "childs": [
+                                                                                                    {
+                                                                                                      "symbol": "`+`",
+                                                                                                      "value": "+"
+                                                                                                    },
+                                                                                                    {
+                                                                                                      "symbol": "multiplicative-expr",
+                                                                                                      "childs": [
+                                                                                                        {
+                                                                                                          "symbol": "unary-expr",
+                                                                                                          "childs": [
+                                                                                                            {
+                                                                                                              "symbol": "primary-expr",
+                                                                                                              "childs": [
+                                                                                                                {
+                                                                                                                  "symbol": "`literal_int`",
+                                                                                                                  "value": "3"
+                                                                                                                }
+                                                                                                              ]
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        },
+                                                                                                        {
+                                                                                                          "symbol": "multiplicative-expr-after",
+                                                                                                          "childs": [
+                                                                                                            {
+                                                                                                              "symbol": "epsilon",
+                                                                                                              "value": ""
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    {
+                                                                                                      "symbol": "additive-expr-after",
+                                                                                                      "childs": [
+                                                                                                        {
+                                                                                                          "symbol": "epsilon",
+                                                                                                          "value": ""
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    }
+                                                                                                  ]
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            {
+                                                                                              "symbol": "rel-expr-after",
+                                                                                              "childs": [
+                                                                                                {
+                                                                                                  "symbol": "epsilon",
+                                                                                                  "value": ""
+                                                                                                }
+                                                                                              ]
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        {
+                                                                                          "symbol": "equality-expr-after",
+                                                                                          "childs": [
+                                                                                            {
+                                                                                              "symbol": "epsilon",
+                                                                                              "value": ""
+                                                                                            }
+                                                                                          ]
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    {
+                                                                                      "symbol": "cond-and-expr-after",
+                                                                                      "childs": [
+                                                                                        {
+                                                                                          "symbol": "epsilon",
+                                                                                          "value": ""
+                                                                                        }
+                                                                                      ]
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                {
+                                                                                  "symbol": "cond-or-expr-after",
+                                                                                  "childs": [
+                                                                                    {
+                                                                                      "symbol": "epsilon",
+                                                                                      "value": ""
+                                                                                    }
+                                                                                  ]
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            {
+                                                                              "symbol": "assignment-expr-after",
+                                                                              "childs": [
+                                                                                {
+                                                                                  "symbol": "epsilon",
+                                                                                  "value": ""
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ]
+                                                                        }
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    },
+                                                    {
+                                                      "symbol": "`;`",
+                                                      "value": ";"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "symbol": "compound-stmt-inner",
+                                              "childs": [
+                                                {
+                                                  "symbol": "epsilon",
+                                                  "value": ""
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "symbol": "`}`",
+                                          "value": "}"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "symbol": "compound-stmt-inner",
+                          "childs": [
+                            {
+                              "symbol": "epsilon",
+                              "value": ""
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "symbol": "`}`",
+                      "value": "}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "symbol": "program",
+      "childs": [
+        {
+          "symbol": "epsilon",
+          "value": ""
+        }
+      ]
+    }
+  ]
+}

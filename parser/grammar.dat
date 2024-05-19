@@ -81,8 +81,9 @@ expr-stmt -> `;`
 # expressions  
 expr -> assignment-expr
 
+# right associative
 assignment-expr -> cond-or-expr assignment-expr-after
-assignment-expr-after -> `=` cond-or-expr assignment-expr-after
+assignment-expr-after -> `=` assignment-expr
 assignment-expr-after -> epsilon
 
 cond-or-expr -> cond-and-expr cond-or-expr-after

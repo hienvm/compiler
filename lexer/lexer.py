@@ -23,6 +23,7 @@ class Lexer(LexerBuilder):
         Yields:
             Iterable[LexicalResult | LexicalError]: Iterator cho output stream, có nội dung là kết quả hoặc lỗi
         """
+        print(f"Lexically Analyzing: {input_url}")
         with open(input_url, "r", encoding="utf8") as input_file:
             if is_ln_by_ln:
                 # Đọc từng dòng một để tiết kiệm bộ nhớ đối với file có kích thước lớn

@@ -2,21 +2,27 @@ from lexer.lexer import Lexer
 from lexer.lexer_result import LexicalError, LexicalResult, Location
 from lexer.state_attributes import Token
 from parser.parser_builder import ParserBuilder
-from parser.types import EPSILON, Symbol, NonTerminalSymbol, TerminalSymbol
+from parser.types import EPSILON, Epsilon, Symbol, NonTerminalSymbol, TerminalSymbol
+from parser.ast import AST, Node
 import os.path
 from pathlib import Path
 
 
 class Parser(ParserBuilder):
-    def __init__(self, lexer: Lexer, from_grammar: bool = False, whole: bool = False) -> None:
-        super().__init__(from_grammar)
+    def __init__(self, lexer: Lexer, from_table: bool = False, whole: bool = False) -> None:
+        super().__init__(from_table)
+        # lexer được chuyền vào
         self.lexer = lexer
+        # flag đọc cả file hay từng dòng, chuyền cho lexer
         self.whole = whole
 
-    def parse(self, input_url: str) -> tuple[dict, str]:
-        ast = {}
-        stack: list[Symbol] = [NonTerminalSymbol(self.start)]
+    def parse(self, input_url: str) -> tuple[AST, str]:
+        # cây cú pháp
+        ast = AST(self.start)
+        # thông báo lỗi
         err_log = ""
+        # stack cho pushdown automaton
+        stack: list[Symbol] = [self.start]
 
         # Đọc từng input từ lexer
         for input in self.lexer.analyze(input_url, not self.whole):
@@ -27,7 +33,8 @@ class Parser(ParserBuilder):
                 # khi nào top còn là nonterminal:
                 # tìm production tương ứng -> cập nhật stack bằng production
                 while isinstance(top, NonTerminalSymbol):
-                    # có tìm đc production hay không
+                    # xử lý non-terminal
+                    # flag check có tìm đc production hay không
                     p_found = False
                     # hỗ trợ token với nhiều label (nhãn | loại) khác nhau
                     # miễn là với một top và input, xác định được duy nhất một production
@@ -39,17 +46,33 @@ class Parser(ParserBuilder):
                         if p is None:
                             continue
                         if p_found:
-                            # chỉ một ô table[top][label] được phép khác rỗng
+                            # chỉ một ô table[top][label] được phép khác rỗng với mỗi một tập labels
                             raise Exception(
                                 f"Label duplicate:  \n{p}  \n`{label}`"
                             )
                         p_found = True
                         # thay top của stack bằng vế phải của production được chọn
                         stack.pop()
-                        if not p.empty():
-                            stack.extend(reversed(p.rsyms))
+                        # đảo ngược để đặt symbol bên trái cùng lên top stack
+                        stack.extend(reversed(p.rsyms))
                         # cập nhật lại top
                         top = stack[-1] if len(stack) > 0 else EPSILON
+                        # mở rộng ast
+                        ast.expand_nonterminal(p.rsyms)
+                        # nhảy đến nút tiếp theo (nút con trái cùng)
+                        ast.next()
+                        # xử lý epsilon
+                        while top == EPSILON and len(stack) > 0:
+                            # pop stack
+                            stack.pop()
+                            ast.decorate_leaf("")
+                            if len(stack) > 0:
+                                # cập nhật top
+                                top = stack[-1]
+                                # cập nhật lá
+                                # nhảy đến nút tiếp theo
+                                ast.next()
+                        # nếu top không phải là non-terminal thì dừng
                         if not isinstance(top, NonTerminalSymbol):
                             break
                     if not p_found:
@@ -58,16 +81,25 @@ class Parser(ParserBuilder):
                         err_log += f"  Top: {top}\n"
                         err_log += f"  Input: {input.token}\n"
                         break
+                # xử lý terminal
                 if isinstance(top, TerminalSymbol):
+                    # Nếu token lookahead thỏa mãn token ở top stack
+                    # VD: (literal_boolean, false) isa (literal_boolean) -> True
                     if input.token.isa(Token(top.val)):
-                        # Nếu top stack thỏa mãn token lookahead
+                        # gán giá trị cho nút lá
+                        ast.decorate_leaf(input)
+                        # nhảy đến nút tiếp theo
+                        ast.next()
+                        # pop stack pushdown automaton
                         stack.pop()
-                    else:
-                        # Nếu không thì báo lỗi cú pháp
+                    else:   # Nếu không thì báo lỗi cú pháp
                         err_log += "Unexpected Token!\n"
                         err_log += f"  Expected: {Token(top.val)}\n"
                         err_log += f"  But: {input}\n"
         # Khi đã đọc xong hết input
+        if top != EPSILON:
+            err_log += f"Input not emptied: {top}\n"
         if len(stack) > 0:
+            # Báo lỗi nếu stack không rỗng
             err_log += f"Stack not emptied: {stack}\n"
         return (ast, err_log)
