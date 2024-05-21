@@ -1,27 +1,35 @@
 from lexer.lexer import Lexer
 from lexer.lexer_result import LexicalError, LexicalResult, Location
 from lexer.state_attributes import Token
+from parser.ast.node import Leaf, Node
 from parser.parser_builder import ParserBuilder
-from parser.types import EPSILON, Epsilon, Symbol, NonTerminalSymbol, TerminalSymbol
-from parser.ast import AST, Node
+from parser.types import EOF, EPSILON, Epsilon, Symbol, NonTerminalSymbol, TerminalSymbol
+from parser.ast.ast import AST
 import os.path
 from pathlib import Path
 
 
 class Parser(ParserBuilder):
-    def __init__(self, lexer: Lexer, from_table: bool = False, whole: bool = False) -> None:
+    def __init__(self, lexer: Lexer, from_table: bool = False, eof: bool = False, whole: bool = False) -> None:
         super().__init__(from_table)
         # lexer được chuyền vào
         self.lexer = lexer
+        # Giữ lại EOF hay không
+        self.eof = eof
         # flag đọc cả file hay từng dòng, chuyền cho lexer
         self.whole = whole
 
     def parse(self, input_url: str) -> tuple[AST, str]:
+        '''LL(1) Parse\n
+        Build AST: Stack LL(1) (chứa các Symbol) được đồng bộ với stack dfs (chứa các Node)\n
+        Error Recovery: Khi gặp lỗi, ghi nhận vào log và chuyển đến input tiếp theo\n
+        '''
         # cây cú pháp
         ast = AST(self.start)
         # thông báo lỗi
         err_log = ""
         # stack cho pushdown automaton
+        # Khởi tạo với start
         stack: list[Symbol] = [self.start]
 
         # Đọc từng input từ lexer
@@ -58,7 +66,7 @@ class Parser(ParserBuilder):
                         # cập nhật lại top
                         top = stack[-1] if len(stack) > 0 else EPSILON
                         # mở rộng ast
-                        ast.expand_nonterminal(p.rsyms)
+                        ast.expand_inner(p.rsyms)
                         # nhảy đến nút tiếp theo (nút con trái cùng)
                         ast.next()
                         # xử lý epsilon
@@ -96,10 +104,15 @@ class Parser(ParserBuilder):
                         err_log += "Unexpected Token!\n"
                         err_log += f"  Expected: {Token(top.val)}\n"
                         err_log += f"  But: {input}\n"
-        # Khi đã đọc xong hết input
+        # input cuối cùng là EOF
+        if self.eof:
+            ast.root.childs.append(Leaf(EOF, input))
+
+        # syntax errors
         if top != EPSILON:
-            err_log += f"Input not emptied: {top}\n"
+            err_log += f"Top not set to null: {top}\n"
         if len(stack) > 0:
             # Báo lỗi nếu stack không rỗng
             err_log += f"Stack not emptied: {stack}\n"
+
         return (ast, err_log)
