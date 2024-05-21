@@ -21,6 +21,29 @@ class InnerNode(Node):
         if childs is not None:
             self.childs = childs
 
+    def merge_up(self, child: 'InnerNode') -> 'InnerNode':
+        '''
+        Hợp nhất nút con vào nút cha và trả về nút gốc mới:\n
+        1. Loại nút child ra khỏi danh sách con.\n
+        2. Insert các nút con của child vào đúng vị trí idx của child.\n
+        3. Trả về nút gốc mới (chính mình).
+        '''
+        idx = self.childs.index(child)
+        self.childs.remove(child)
+        self.childs = self.childs[:idx] + child.childs + self.childs[idx:]
+        return self
+
+    def rotate_left(self, child: 'InnerNode') -> 'InnerNode':
+        '''
+        Xoay trái và trả về nút gốc mới:\n
+        1. Loại nút child ra khỏi danh sách con.\n
+        2. Cho self làm con trái của child.\n
+        3. Trả về nút gốc mới (nút con).
+        '''
+        self.childs.remove(child)
+        child.childs.insert(0, self)
+        return child
+
 
 class Leaf(Node):
     '''Lá AST (terminal hoặc epsilon)'''
