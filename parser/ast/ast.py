@@ -1,4 +1,5 @@
 from typing import Literal
+from parser.ast.associativity import enforce_associativity_helper
 from parser.ast.brackets import reduce_brackets, to_str_brackets_dfs
 from parser.ast.node import InnerNode, Leaf, Node, sym2node
 from parser.types import Symbol, NonTerminalSymbol, Epsilon, json_default
@@ -10,6 +11,8 @@ class AST:
     def __init__(self, start: NonTerminalSymbol) -> None:
         # nút gốc
         self.root: InnerNode = InnerNode(start)
+
+        # sau khi build xong thì không còn cần 2 biến này
         # dfs stack, dùng để build ast, cần được đồng bộ với LL(1) stack
         self.dfs: list[Node] = []
         # nút hiện tại, dùng để build ast, cần được đồng bộ với LL(1) stack
@@ -67,6 +70,10 @@ class AST:
         '''Post-parse Processing 1st step: Loại bỏ epsilon và các nhánh chỉ chứa epsilon'''
         # nút gốc không cần xóa
         clear_epsilon_helper(self.root)
+
+    def enforce_associativity(self):
+        '''Post-parse Processing 2nd step: Đảm bảo Left-Right Associativity'''
+        enforce_associativity_helper(self.root)
 
 
 def clear_epsilon_helper(node: Node) -> bool:

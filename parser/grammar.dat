@@ -82,39 +82,39 @@ expr-stmt -> `;`
 expr -> assignment-expr
 
 # right associative
-assignment-expr -> cond-or-expr assignment-expr-after
-assignment-expr-after -> `=` assignment-expr
-assignment-expr-after -> epsilon
+assignment-expr -> cond-or-expr assignment-expr_lassoc
+assignment-expr_lassoc -> `=` assignment-expr
+assignment-expr_lassoc -> epsilon
 
-cond-or-expr -> cond-and-expr cond-or-expr-after
-cond-or-expr-after -> `||` cond-and-expr cond-or-expr-after
-cond-or-expr-after -> epsilon
+cond-or-expr -> cond-and-expr cond-or-expr_lassoc
+cond-or-expr_lassoc -> `||` cond-and-expr cond-or-expr_lassoc
+cond-or-expr_lassoc -> epsilon
 
-cond-and-expr -> equality-expr cond-and-expr-after
-cond-and-expr-after -> `&&` equality-expr cond-and-expr-after
-cond-and-expr-after -> epsilon
+cond-and-expr -> equality-expr cond-and-expr_lassoc
+cond-and-expr_lassoc -> `&&` equality-expr cond-and-expr_lassoc
+cond-and-expr_lassoc -> epsilon
 
-equality-expr -> rel-expr equality-expr-after
-equality-expr-after -> `==` rel-expr equality-expr-after
-equality-expr-after -> `!=` rel-expr equality-expr-after
-equality-expr-after -> epsilon
+equality-expr -> rel-expr equality-expr_lassoc
+equality-expr_lassoc -> `==` rel-expr equality-expr_lassoc
+equality-expr_lassoc -> `!=` rel-expr equality-expr_lassoc
+equality-expr_lassoc -> epsilon
 
-rel-expr -> additive-expr rel-expr-after
-rel-expr-after -> `<` additive-expr
-rel-expr-after -> `<=` additive-expr
-rel-expr-after -> `>` additive-expr
-rel-expr-after -> `>=` additive-expr
-rel-expr-after -> epsilon
+rel-expr -> additive-expr rel-expr_lassoc
+rel-expr_lassoc -> `<` additive-expr
+rel-expr_lassoc -> `<=` additive-expr
+rel-expr_lassoc -> `>` additive-expr
+rel-expr_lassoc -> `>=` additive-expr
+rel-expr_lassoc -> epsilon
 
-additive-expr -> multiplicative-expr additive-expr-after
-additive-expr-after -> `+` multiplicative-expr additive-expr-after
-additive-expr-after -> `-` multiplicative-expr additive-expr-after
-additive-expr-after -> epsilon
+additive-expr -> multiplicative-expr additive-expr_lassoc
+additive-expr_lassoc -> `+` multiplicative-expr additive-expr_lassoc
+additive-expr_lassoc -> `-` multiplicative-expr additive-expr_lassoc
+additive-expr_lassoc -> epsilon
 
-multiplicative-expr -> unary-expr multiplicative-expr-after
-multiplicative-expr-after -> `*` unary-expr multiplicative-expr-after
-multiplicative-expr-after -> `/` unary-expr multiplicative-expr-after
-multiplicative-expr-after -> epsilon
+multiplicative-expr -> unary-expr multiplicative-expr_lassoc
+multiplicative-expr_lassoc -> `*` unary-expr multiplicative-expr_lassoc
+multiplicative-expr_lassoc -> `/` unary-expr multiplicative-expr_lassoc
+multiplicative-expr_lassoc -> epsilon
 
 unary-expr -> `+` unary-expr
 unary-expr -> `-` unary-expr

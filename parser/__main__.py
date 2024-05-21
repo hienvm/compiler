@@ -68,7 +68,11 @@ def main():
             if args.epsilon is False:
                 # xoá epsilon
                 ast.clear_epsilon()
-                print("Cleared Epsilon!")
+                print("Null paths cleared!")
+
+            # Đảm bảo left-right associativity
+            ast.enforce_associativity()
+            print("Associativity enforced!")
 
             # In kết quả
             out_file.write(
