@@ -1,10 +1,23 @@
 # Nhóm 6
 
-<h1>Lexical Analyzer</h1>
+<h1>Syntax Parser</h2>
 
-<h2>Cách chạy module</h2>
+<h2>Cách chạy module Parser</h2>
 
-1. Tải và cài đặt Python bản 3.11 trở lên https://www.python.org/downloads/.
+1. Tải và cài đặt Python bản 3.12 trở lên https://www.python.org/downloads/.
+2. Mở cửa sổ dòng lệnh tại thư mục chính của source code.
+3. Ném file code .vc cần phân tích cú pháp vào folder input để dùng tên file cho bước 4 (nếu không thì dùng đường dẫn absolute).
+4. Chạy module parser: `python -m parser file_url_1 [file_url_2...]`
+5. Thêm các flag thích hợp. Ví dụ để build từ table và in ra dưới dạng verbose (JSON) với indent là 2:
+   > python -m parser -t -v -i=2 sample.vc   
+6. Xem kết quả tại folder output (đuôi .vcps), có thể click vào link url trên command line.
+   > VD: python -m parser sample.vc dangling_else.vc left_assoc.vc right_assoc.vc 
+   > Để xem trợ giúp và các option khác: python -m parser -h
+
+
+<h2>Cách chạy module Lexer</h2>
+
+1. Tải và cài đặt Python bản 3.12 trở lên https://www.python.org/downloads/.
 2. Mở cửa sổ dòng lệnh tại thư mục chính.
 3. Ném file code .vc cần phân tích từ vựng vào folder input để dùng tên file cho bước 4 (nếu không thì dùng đường dẫn absolute).
 4. Chạy module lexer: `python -m lexer file_url_1 [file_url_2...]`
@@ -25,20 +38,24 @@
    >-w, --whole        Đọc toàn bộ file input thay vì từng dòng (đối với file nhỏ)
    >```
 
-<h2>Cấu trúc source code</h2>
+<h2>Cấu trúc project</h2>
 
-<ul>
-<li>input: chứa các file code đầu vào (*.vc)</li>
-<li>output:  chứa các file đầu ra tương ứng (*.vc.tok)</li>
-<li>lexer: module lexer, bao gồm:</li>
-<ul>
-   <li>main.py: Chứa hàm main() và lex_analyze() được gọi khi module chạy, cung cấp giao diện CLI.</li>
-   <li>lexer_builder.py: Chứa LexerBuilder và các hàm dùng để phân tích từng dòng trong file .dat để từ đó xây dựng lexer.</li>
-   <li>lexer.py: Định nghĩa Lexer, hàm is_newline() hỗ trợ xuống dòng.</li>
-   state.py: Định nghĩa các lớp trạng thái.
-   <li>state_attributes.py: Định nghĩa các lớp thuộc tính của state (Escape, Token).</li>
-   <li>lexer_result.py: Định nghĩa đầu ra của lexer (LexicalResult, LexicalError, Location, Position).</li>
-   <li>lex.dat: Khai báo thông tin dùng để xây dựng lexer cho ngôn ngữ VC. Format và cách thức sử dụng được comment và mô tả ngay trong file.</li>
-</ul>
-<li>README.md: Cách chạy code và một số thông tin cơ bản.</li>
-</ul>
+-	input: chứa các file code đầu vào (*.vc)
+-	output:  chứa các file đầu ra tương ứng (*.vcps/vctok)
+-	lexer: module lexer, bao gồm:
+      -	__main__.py: Chứa hàm main() và lex_analyze() được gọi khi module chạy, cung cấp giao diện CLI.
+      +	lexer_builder.py: Chứa LexerBuilder và các hàm dùng để phân tích từng dòng trong file .dat để từ đó xây dựng lexer.
+      +	lexer.py: Định nghĩa Lexer, hàm is_newline() hỗ trợ xuống dòng..
+      +	state.py: Định nghĩa các lớp trạng thái.
+      +	state_attributes.py: Định nghĩa các lớp thuộc tính của state (Escape, Token).
+      +	lexer_result.py: Định nghĩa đầu ra của lexer (LexicalResult, LexicalError, Location, Position).
+      +	lex.dat: Khai báo thông tin dùng để xây dựng lexer cho ngôn ngữ VC. Format và cách thức sử dụng được comment và mô tả ngay trong file.
+-	parser: module parser, bao gồm:
+      +	__main__.py: Chứa hàm main()được gọi khi module chạy, cung cấp giao diện CLI.
+      +	 parser.builder.py: Chứa ParserBuilder là một Parser Generator.
+      +	grammar.dat: Dữ liệu ngữ pháp cho ParserBuilder.
+      +	table.dat: Dữ liệu bảng trạng thái cho ParserBuilder.
+      +	parser.py: Chứa Parser (kế thừa ParserBuilder) và logic của LL(1).
+      +	types: Định nghĩa các loại Symbol và Production, cùng một số hàm tiện ích
+      +	ast: module ast, chứa các file ast.py, node.py, brackets.py, epsilon.py, associativity.py gồm các data types và logic cần thiết để xây dựng, hậu xử lý và format output.
+-	README.md: Cách chạy code và một số thông tin cơ bản.

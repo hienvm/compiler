@@ -9,6 +9,7 @@ program -> epsilon
 
 
 # declarations
+var-decl -> type identifier var-decl-after
 decl -> type identifier decl-after
 decl-after -> func-decl-after
 decl-after -> var-decl-after
@@ -61,8 +62,11 @@ stmt -> continue-stmt
 stmt -> return-stmt
 stmt -> expr-stmt
 
+# Dangling Else: else sẽ nhận if gần nhất
 if-stmt -> `if` `(` expr `)` stmt else-clause
+# luật 16 - ưu tiên cao hơn
 else-clause -> `else` stmt
+# luật 17
 else-clause -> epsilon
 
 for-stmt -> `for` `(` for-inner `;` for-inner `;` for-inner `)` stmt
@@ -82,9 +86,9 @@ expr-stmt -> `;`
 expr -> assignment-expr
 
 # right associative
-assignment-expr -> cond-or-expr assignment-expr_lassoc
-assignment-expr_lassoc -> `=` assignment-expr
-assignment-expr_lassoc -> epsilon
+assignment-expr -> cond-or-expr assignment-expr_rassoc
+assignment-expr_rassoc -> `=` assignment-expr
+assignment-expr_rassoc -> epsilon
 
 cond-or-expr -> cond-and-expr cond-or-expr_lassoc
 cond-or-expr_lassoc -> `||` cond-and-expr cond-or-expr_lassoc
@@ -143,4 +147,5 @@ arg-list -> `(` proper-arg-list `)`
 proper-arg-list -> epsilon
 proper-arg-list -> arg proper-arg-list-after
 proper-arg-list-after -> `,` arg proper-arg-list-after
+proper-arg-list-after -> epsilon
 arg -> expr

@@ -1,8 +1,9 @@
 from typing import Literal
 from parser.ast.associativity import enforce_associativity_helper
 from parser.ast.brackets import reduce_brackets, to_str_brackets_dfs
+from parser.ast.epsilon import clear_epsilon_helper
 from parser.ast.node import InnerNode, Leaf, Node, sym2node
-from parser.types import Symbol, NonTerminalSymbol, Epsilon, json_default
+from parser.types import Symbol, NonTerminalSymbol, json_default
 import json
 from lexer.lexer_result import LexicalResult
 
@@ -48,7 +49,13 @@ class AST:
             print(
                 f"Error: Attempting to decorate non-leaf node {self.cur.symbol} -> {value}")
 
-    def to_str(self, verbose: bool = False, indent: int = 2, reduce_level: Literal[0, 1, 2] = 2) -> str:
+    def to_str(
+        self,
+        verbose: bool = False,
+        indent: int = 2,
+        reduce_level: Literal[0, 1, 2] = 2,
+        multi_ln: bool = False
+    ) -> str:
         if verbose:
             # convert cây sang json
             return json.dumps(self.root, indent=indent, default=json_default)
@@ -63,37 +70,29 @@ class AST:
                 return "()"
             elif ls[0] == "invalid":
                 return "Invalid bracket string."
+
+        # in nhiều dòng
+        if multi_ln:
+            res = ""
+            
+            tab_level = 0
+            for s in ls:
+                if s == ")":
+                    tab_level -= 1
+                res += "\n" + ''.join([' '] * indent * tab_level) + s
+                if s == "(":
+                    tab_level += 1
+                
+            return res
+
         # hợp list lại thành string
         return " ".join(ls)
 
     def clear_epsilon(self):
-        '''Post-parse Processing 1st step: Loại bỏ epsilon và các nhánh chỉ chứa epsilon'''
+        '''Hậu xử lý: Loại bỏ epsilon và các nhánh chỉ chứa epsilon'''
         # nút gốc không cần xóa
         clear_epsilon_helper(self.root)
 
     def enforce_associativity(self):
-        '''Post-parse Processing 2nd step: Đảm bảo Left-Right Associativity'''
+        '''Hậu xử lý: Đảm bảo Left/Right Associativity'''
         enforce_associativity_helper(self.root)
-
-
-def clear_epsilon_helper(node: Node) -> bool:
-    '''Helper function để loại bỏ epsilon và các nhánh chỉ chứa epsilon\n
-    Xử lý IN PLACE. Giá trị trả về dùng nội bộ trong hàm để kiểm tra xem có nên xóa nhánh hay không.'''
-    if isinstance(node, Leaf) and isinstance(node.symbol, Epsilon):
-        return True
-    elif isinstance(node, InnerNode):
-        # Nếu là innernode, check xem cần xóa hay không
-        delete = True
-        # check dfs
-        for child in tuple(node.childs):
-            # Nếu nút con không cần xóa
-            if clear_epsilon_helper(child) is False:
-                # nút cha cũng không cần xóa
-                delete = False
-            # Ngược lại thì xóa nút con
-            else:
-                node.childs.remove(child)
-        return delete
-    else:
-        # Nút terminal thì không cần xóa
-        return False

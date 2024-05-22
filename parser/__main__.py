@@ -19,20 +19,27 @@ def main():
     argparser.add_argument('-t', '--table', action="store_true",
                            help="Build parser trực tiếp từ table.dat.")
 
+    # Format Output
+    argparser.add_argument('-i', '--indent', type=int, default=4,
+                           help="Indent size cho verbose và normal brackets. Mặc định 4.")
+
     # JSON
     argparser.add_argument('-v', '--verbose', action="store_true",
                            help="In ra cây AST theo định dạng JSON.")
-    argparser.add_argument('-i', '--indent', type=int, default=2,
-                           help="JSON indent cho verbose. Mặc định 2.")
 
     # normal brackets
     argparser.add_argument('-r', '--reduce_level', type=int, choices=[0, 1, 2], default=2,
                            help="Cấp độ loại bỏ các cặp dấu ngoặc thừa.\n0 - Không bỏ;\n1 - Giữ lại các cặp chỉ chứa duy nhất leaf_value;\n2 - Loại các cặp chỉ chứa duy nhất leaf_value.\nMặc định 2.")
+    # argparser.add_argument('-d', '--differentiate', action="store_true",
+    #                        help="Phân biệt ngoặc của code và ngoặc được sinh mới bằng cách thêm dấu ``.")
+    argparser.add_argument('-m', '--multi_ln', action="store_true",
+                           help="In ra normal brackets trên nhiều dòng.")
 
     # Post-parse Processing Options
-    # lexer file-reading mode
     argparser.add_argument('-e', '--epsilon', action="store_true",
                            help="Giữ lại epsilon.")
+    argparser.add_argument('-a', '--assoc_disabled', action="store_true",
+                           help="Không enforce left/right associativity.")
 
     # lexer file-reading mode
     argparser.add_argument('-w', '--whole', action="store_true",
@@ -70,9 +77,10 @@ def main():
                 ast.clear_epsilon()
                 print("Null paths cleared!")
 
-            # Đảm bảo left-right associativity
-            ast.enforce_associativity()
-            print("Associativity enforced!")
+            if args.assoc_disabled is False:
+                # Đảm bảo left/right associativity
+                ast.enforce_associativity()
+                print("Associativity enforced!")
 
             # In kết quả
             out_file.write(
@@ -80,6 +88,7 @@ def main():
                     verbose=args.verbose,
                     indent=args.indent,
                     reduce_level=args.reduce_level,
+                    multi_ln=args.multi_ln
                 )
             )
 
@@ -90,7 +99,7 @@ def main():
                 print("Errors occured when parsing!")
                 out_file.write("\n\nErrors:")
                 out_file.write(err_log)
-            print(f"\t-> See results at: {output_url}")
+            print(f"  -> See results at: {output_url}")
 
 
 if __name__ == "__main__":

@@ -9,21 +9,30 @@ from parser.types import EPSILON, Epsilon
 def to_str_brackets_dfs(node: Node) -> list[str]:
     '''hàm helper đệ quy để convert ast sang format mặc định (mở ngoặc đóng ngoặc)'''
     ls = []
-    # Nếu là nút trong (non-terminal)
-    if isinstance(node, InnerNode):
-        # mở ngoặc
-        ls += ['(']
-        for child in node.childs:
-            ls += to_str_brackets_dfs(child)
-        ls += [')']
-    # nếu là nút lá (epslion hoặc terminal)
-    elif isinstance(node, Leaf):
-        if isinstance(node.symbol, Epsilon):
-            # epsilon
-            ls += ['(', EPSILON.val, ')']
-        else:
-            # terminal
-            ls += [node.value.lexeme]
+    try:
+        # Nếu là nút trong (non-terminal)
+        if isinstance(node, InnerNode):
+            # mở ngoặc
+            ls += ['(']
+            for child in node.childs:
+                ls += to_str_brackets_dfs(child)
+            ls += [')']
+        # nếu là nút lá (epslion hoặc terminal)
+        elif isinstance(node, Leaf):
+            if isinstance(node.symbol, Epsilon):
+                # epsilon
+                ls += [EPSILON.val]
+            else:
+                # terminal
+                val = node.value.lexeme
+                # phân biệt gía trị nút lá với dấu ngoặc thường
+                if val == '(':
+                    val = '`(`'
+                elif val == ')':
+                    val = '`)`'
+                ls += [val]
+    except Exception:
+        print("Can't convert to normal brackets")
     return ls
 
 

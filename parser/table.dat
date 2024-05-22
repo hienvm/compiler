@@ -1,108 +1,133 @@
 {
     "start": "program",
     "table": {
-        "init-declarator-list": {
-            "`,`": "init-declarator-list -> init-declarator-after init-declarator-list-after",
-            "`;`": "init-declarator-list -> init-declarator-after init-declarator-list-after",
-            "`=`": "init-declarator-list -> init-declarator-after init-declarator-list-after"
+        "equality-expr_lassoc": {
+            "`==`": "equality-expr_lassoc -> `==` rel-expr equality-expr_lassoc",
+            "`!=`": "equality-expr_lassoc -> `!=` rel-expr equality-expr_lassoc",
+            "`]`": "equality-expr_lassoc -> epsilon",
+            "`&&`": "equality-expr_lassoc -> epsilon",
+            "`,`": "equality-expr_lassoc -> epsilon",
+            "`;`": "equality-expr_lassoc -> epsilon",
+            "`)`": "equality-expr_lassoc -> epsilon",
+            "`||`": "equality-expr_lassoc -> epsilon",
+            "`}`": "equality-expr_lassoc -> epsilon",
+            "`=`": "equality-expr_lassoc -> epsilon"
         },
-        "cond-and-expr_lassoc": {
-            "`&&`": "cond-and-expr_lassoc -> `&&` equality-expr cond-and-expr_lassoc",
-            "`,`": "cond-and-expr_lassoc -> epsilon",
-            "`;`": "cond-and-expr_lassoc -> epsilon",
-            "`=`": "cond-and-expr_lassoc -> epsilon",
-            "`)`": "cond-and-expr_lassoc -> epsilon",
-            "`||`": "cond-and-expr_lassoc -> epsilon",
-            "`}`": "cond-and-expr_lassoc -> epsilon",
-            "`]`": "cond-and-expr_lassoc -> epsilon"
+        "size": {
+            "`literal_int`": "size -> `literal_int`",
+            "`]`": "size -> epsilon"
         },
-        "primary-expr": {
-            "`identifier`": "primary-expr -> identifier primary-expr-after",
-            "`(`": "primary-expr -> `(` expr `)`",
-            "`literal_int`": "primary-expr -> `literal_int`",
-            "`literal_float`": "primary-expr -> `literal_float`",
-            "`literal_boolean`": "primary-expr -> `literal_boolean`",
-            "`literal_string`": "primary-expr -> `literal_string`"
+        "initializer-after": {
+            "`,`": "initializer-after -> `,` expr initializer-after",
+            "`}`": "initializer-after -> epsilon"
         },
-        "arg-list": {
-            "`(`": "arg-list -> `(` proper-arg-list `)`"
+        "arg": {
+            "`literal_boolean`": "arg -> expr",
+            "`literal_float`": "arg -> expr",
+            "`literal_int`": "arg -> expr",
+            "`!`": "arg -> expr",
+            "`(`": "arg -> expr",
+            "`identifier`": "arg -> expr",
+            "`-`": "arg -> expr",
+            "`+`": "arg -> expr",
+            "`literal_string`": "arg -> expr"
         },
-        "equality-expr": {
-            "`-`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`literal_float`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`+`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`literal_boolean`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`literal_int`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`!`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`identifier`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`literal_string`": "equality-expr -> rel-expr equality-expr_lassoc",
-            "`(`": "equality-expr -> rel-expr equality-expr_lassoc"
+        "expr": {
+            "`literal_boolean`": "expr -> assignment-expr",
+            "`literal_float`": "expr -> assignment-expr",
+            "`literal_int`": "expr -> assignment-expr",
+            "`!`": "expr -> assignment-expr",
+            "`(`": "expr -> assignment-expr",
+            "`identifier`": "expr -> assignment-expr",
+            "`-`": "expr -> assignment-expr",
+            "`+`": "expr -> assignment-expr",
+            "`literal_string`": "expr -> assignment-expr"
+        },
+        "multiplicative-expr": {
+            "`literal_boolean`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`literal_float`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`literal_int`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`!`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`(`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`identifier`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`-`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`+`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
+            "`literal_string`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc"
+        },
+        "identifier": {
+            "`identifier`": "identifier -> `identifier`"
         },
         "init-declarator-after": {
             "`=`": "init-declarator-after -> `=` initializer",
             "`,`": "init-declarator-after -> epsilon",
             "`;`": "init-declarator-after -> epsilon"
         },
-        "identifier": {
-            "`identifier`": "identifier -> `identifier`"
+        "assignment-expr": {
+            "`literal_boolean`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`literal_float`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`literal_int`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`!`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`(`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`identifier`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`-`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`+`": "assignment-expr -> cond-or-expr assignment-expr_rassoc",
+            "`literal_string`": "assignment-expr -> cond-or-expr assignment-expr_rassoc"
         },
-        "rel-expr_lassoc": {
-            "`<`": "rel-expr_lassoc -> `<` additive-expr",
-            "`<=`": "rel-expr_lassoc -> `<=` additive-expr",
-            "`>`": "rel-expr_lassoc -> `>` additive-expr",
-            "`>=`": "rel-expr_lassoc -> `>=` additive-expr",
-            "`;`": "rel-expr_lassoc -> epsilon",
-            "`=`": "rel-expr_lassoc -> epsilon",
-            "`)`": "rel-expr_lassoc -> epsilon",
-            "`}`": "rel-expr_lassoc -> epsilon",
-            "`]`": "rel-expr_lassoc -> epsilon",
-            "`,`": "rel-expr_lassoc -> epsilon",
-            "`||`": "rel-expr_lassoc -> epsilon",
-            "`!=`": "rel-expr_lassoc -> epsilon",
-            "`&&`": "rel-expr_lassoc -> epsilon",
-            "`==`": "rel-expr_lassoc -> epsilon"
+        "equality-expr": {
+            "`literal_boolean`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`literal_float`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`literal_int`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`!`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`(`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`identifier`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`-`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`+`": "equality-expr -> rel-expr equality-expr_lassoc",
+            "`literal_string`": "equality-expr -> rel-expr equality-expr_lassoc"
         },
-        "initializer-after": {
-            "`,`": "initializer-after -> `,` expr initializer-after",
-            "`}`": "initializer-after -> epsilon"
+        "arg-list": {
+            "`(`": "arg-list -> `(` proper-arg-list `)`"
         },
-        "decl": {
-            "`void`": "decl -> type identifier decl-after",
-            "`int`": "decl -> type identifier decl-after",
-            "`boolean`": "decl -> type identifier decl-after",
-            "`float`": "decl -> type identifier decl-after"
+        "while-stmt": {
+            "`while`": "while-stmt -> `while` `(` expr `)` stmt"
         },
         "compound-stmt-inner": {
-            "`-`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`;`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`literal_float`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`+`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`literal_boolean`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`!`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`return`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`identifier`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`for`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`literal_string`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`(`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`if`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`literal_int`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`break`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`boolean`": "compound-stmt-inner -> var-decl compound-stmt-inner",
+            "`float`": "compound-stmt-inner -> var-decl compound-stmt-inner",
+            "`int`": "compound-stmt-inner -> var-decl compound-stmt-inner",
+            "`void`": "compound-stmt-inner -> var-decl compound-stmt-inner",
             "`{`": "compound-stmt-inner -> stmt compound-stmt-inner",
-            "`while`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`literal_float`": "compound-stmt-inner -> stmt compound-stmt-inner",
             "`continue`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`identifier`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`if`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`-`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`+`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`for`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`return`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`literal_string`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`literal_boolean`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`while`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`literal_int`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`!`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`;`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`(`": "compound-stmt-inner -> stmt compound-stmt-inner",
+            "`break`": "compound-stmt-inner -> stmt compound-stmt-inner",
             "`}`": "compound-stmt-inner -> epsilon"
         },
-        "equality-expr_lassoc": {
-            "`==`": "equality-expr_lassoc -> `==` rel-expr equality-expr_lassoc",
-            "`!=`": "equality-expr_lassoc -> `!=` rel-expr equality-expr_lassoc",
-            "`;`": "equality-expr_lassoc -> epsilon",
-            "`=`": "equality-expr_lassoc -> epsilon",
-            "`)`": "equality-expr_lassoc -> epsilon",
-            "`}`": "equality-expr_lassoc -> epsilon",
-            "`]`": "equality-expr_lassoc -> epsilon",
-            "`,`": "equality-expr_lassoc -> epsilon",
-            "`||`": "equality-expr_lassoc -> epsilon",
-            "`&&`": "equality-expr_lassoc -> epsilon"
+        "for-stmt": {
+            "`for`": "for-stmt -> `for` `(` for-inner `;` for-inner `;` for-inner `)` stmt"
+        },
+        "for-inner": {
+            "`literal_boolean`": "for-inner -> expr",
+            "`literal_float`": "for-inner -> expr",
+            "`literal_int`": "for-inner -> expr",
+            "`!`": "for-inner -> expr",
+            "`(`": "for-inner -> expr",
+            "`identifier`": "for-inner -> expr",
+            "`-`": "for-inner -> expr",
+            "`+`": "for-inner -> expr",
+            "`literal_string`": "for-inner -> expr",
+            "`;`": "for-inner -> epsilon"
         },
         "stmt": {
             "`{`": "stmt -> compound-stmt",
@@ -112,274 +137,73 @@
             "`break`": "stmt -> break-stmt",
             "`continue`": "stmt -> continue-stmt",
             "`return`": "stmt -> return-stmt",
-            "`-`": "stmt -> expr-stmt",
-            "`;`": "stmt -> expr-stmt",
-            "`literal_float`": "stmt -> expr-stmt",
-            "`+`": "stmt -> expr-stmt",
             "`literal_boolean`": "stmt -> expr-stmt",
+            "`literal_float`": "stmt -> expr-stmt",
             "`literal_int`": "stmt -> expr-stmt",
             "`!`": "stmt -> expr-stmt",
+            "`;`": "stmt -> expr-stmt",
+            "`(`": "stmt -> expr-stmt",
             "`identifier`": "stmt -> expr-stmt",
-            "`literal_string`": "stmt -> expr-stmt",
-            "`(`": "stmt -> expr-stmt"
+            "`-`": "stmt -> expr-stmt",
+            "`+`": "stmt -> expr-stmt",
+            "`literal_string`": "stmt -> expr-stmt"
         },
-        "cond-and-expr": {
-            "`-`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`literal_float`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`+`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`literal_boolean`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`literal_int`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`!`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`(`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`identifier`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
-            "`literal_string`": "cond-and-expr -> equality-expr cond-and-expr_lassoc"
+        "primary-expr": {
+            "`identifier`": "primary-expr -> identifier primary-expr-after",
+            "`(`": "primary-expr -> `(` expr `)`",
+            "`literal_int`": "primary-expr -> `literal_int`",
+            "`literal_float`": "primary-expr -> `literal_float`",
+            "`literal_boolean`": "primary-expr -> `literal_boolean`",
+            "`literal_string`": "primary-expr -> `literal_string`"
         },
-        "size": {
-            "`literal_int`": "size -> `literal_int`",
-            "`]`": "size -> epsilon"
+        "init-declarator-list": {
+            "`,`": "init-declarator-list -> init-declarator-after init-declarator-list-after",
+            "`;`": "init-declarator-list -> init-declarator-after init-declarator-list-after",
+            "`=`": "init-declarator-list -> init-declarator-after init-declarator-list-after"
         },
-        "return-stmt": {
-            "`return`": "return-stmt -> `return` expr-stmt"
+        "continue-stmt": {
+            "`continue`": "continue-stmt -> `continue` `;`"
         },
-        "para-decl": {
-            "`void`": "para-decl -> type declarator",
-            "`int`": "para-decl -> type declarator",
-            "`boolean`": "para-decl -> type declarator",
-            "`float`": "para-decl -> type declarator"
+        "proper-para-list": {
+            "`)`": "proper-para-list -> epsilon",
+            "`boolean`": "proper-para-list -> para-decl proper-para-list-after",
+            "`float`": "proper-para-list -> para-decl proper-para-list-after",
+            "`int`": "proper-para-list -> para-decl proper-para-list-after",
+            "`void`": "proper-para-list -> para-decl proper-para-list-after"
         },
-        "assignment-expr_lassoc": {
-            "`=`": "assignment-expr_lassoc -> `=` assignment-expr",
-            "`,`": "assignment-expr_lassoc -> epsilon",
-            "`;`": "assignment-expr_lassoc -> epsilon",
-            "`)`": "assignment-expr_lassoc -> epsilon",
-            "`}`": "assignment-expr_lassoc -> epsilon",
-            "`]`": "assignment-expr_lassoc -> epsilon"
+        "assignment-expr_rassoc": {
+            "`=`": "assignment-expr_rassoc -> `=` assignment-expr",
+            "`}`": "assignment-expr_rassoc -> epsilon",
+            "`]`": "assignment-expr_rassoc -> epsilon",
+            "`,`": "assignment-expr_rassoc -> epsilon",
+            "`;`": "assignment-expr_rassoc -> epsilon",
+            "`)`": "assignment-expr_rassoc -> epsilon"
         },
-        "declarator": {
-            "`identifier`": "declarator -> identifier declarator-after"
+        "compound-stmt": {
+            "`{`": "compound-stmt -> `{` compound-stmt-inner `}`"
         },
-        "expr-stmt": {
-            "`-`": "expr-stmt -> expr `;`",
-            "`literal_float`": "expr-stmt -> expr `;`",
-            "`+`": "expr-stmt -> expr `;`",
-            "`literal_boolean`": "expr-stmt -> expr `;`",
-            "`literal_int`": "expr-stmt -> expr `;`",
-            "`!`": "expr-stmt -> expr `;`",
-            "`(`": "expr-stmt -> expr `;`",
-            "`identifier`": "expr-stmt -> expr `;`",
-            "`literal_string`": "expr-stmt -> expr `;`",
-            "`;`": "expr-stmt -> `;`"
+        "proper-arg-list": {
+            "`)`": "proper-arg-list -> epsilon",
+            "`literal_boolean`": "proper-arg-list -> arg proper-arg-list-after",
+            "`literal_float`": "proper-arg-list -> arg proper-arg-list-after",
+            "`literal_int`": "proper-arg-list -> arg proper-arg-list-after",
+            "`!`": "proper-arg-list -> arg proper-arg-list-after",
+            "`(`": "proper-arg-list -> arg proper-arg-list-after",
+            "`identifier`": "proper-arg-list -> arg proper-arg-list-after",
+            "`-`": "proper-arg-list -> arg proper-arg-list-after",
+            "`+`": "proper-arg-list -> arg proper-arg-list-after",
+            "`literal_string`": "proper-arg-list -> arg proper-arg-list-after"
         },
         "unary-expr": {
             "`+`": "unary-expr -> `+` unary-expr",
             "`-`": "unary-expr -> `-` unary-expr",
             "`!`": "unary-expr -> `!` unary-expr",
             "`identifier`": "unary-expr -> primary-expr",
-            "`literal_float`": "unary-expr -> primary-expr",
             "`literal_boolean`": "unary-expr -> primary-expr",
+            "`literal_float`": "unary-expr -> primary-expr",
             "`literal_int`": "unary-expr -> primary-expr",
-            "`literal_string`": "unary-expr -> primary-expr",
-            "`(`": "unary-expr -> primary-expr"
-        },
-        "expr": {
-            "`-`": "expr -> assignment-expr",
-            "`literal_float`": "expr -> assignment-expr",
-            "`+`": "expr -> assignment-expr",
-            "`literal_boolean`": "expr -> assignment-expr",
-            "`literal_int`": "expr -> assignment-expr",
-            "`!`": "expr -> assignment-expr",
-            "`identifier`": "expr -> assignment-expr",
-            "`literal_string`": "expr -> assignment-expr",
-            "`(`": "expr -> assignment-expr"
-        },
-        "continue-stmt": {
-            "`continue`": "continue-stmt -> `continue` `;`"
-        },
-        "proper-arg-list-after": {
-            "`,`": "proper-arg-list-after -> `,` arg proper-arg-list-after"
-        },
-        "initializer": {
-            "`-`": "initializer -> expr",
-            "`literal_float`": "initializer -> expr",
-            "`+`": "initializer -> expr",
-            "`literal_boolean`": "initializer -> expr",
-            "`literal_int`": "initializer -> expr",
-            "`!`": "initializer -> expr",
-            "`(`": "initializer -> expr",
-            "`identifier`": "initializer -> expr",
-            "`literal_string`": "initializer -> expr",
-            "`{`": "initializer -> `{` expr initializer-after `}`"
-        },
-        "additive-expr_lassoc": {
-            "`+`": "additive-expr_lassoc -> `+` multiplicative-expr additive-expr_lassoc",
-            "`-`": "additive-expr_lassoc -> `-` multiplicative-expr additive-expr_lassoc",
-            "`;`": "additive-expr_lassoc -> epsilon",
-            "`>=`": "additive-expr_lassoc -> epsilon",
-            "`=`": "additive-expr_lassoc -> epsilon",
-            "`)`": "additive-expr_lassoc -> epsilon",
-            "`}`": "additive-expr_lassoc -> epsilon",
-            "`]`": "additive-expr_lassoc -> epsilon",
-            "`<=`": "additive-expr_lassoc -> epsilon",
-            "`>`": "additive-expr_lassoc -> epsilon",
-            "`,`": "additive-expr_lassoc -> epsilon",
-            "`<`": "additive-expr_lassoc -> epsilon",
-            "`||`": "additive-expr_lassoc -> epsilon",
-            "`!=`": "additive-expr_lassoc -> epsilon",
-            "`&&`": "additive-expr_lassoc -> epsilon",
-            "`==`": "additive-expr_lassoc -> epsilon"
-        },
-        "arg": {
-            "`-`": "arg -> expr",
-            "`literal_float`": "arg -> expr",
-            "`+`": "arg -> expr",
-            "`literal_boolean`": "arg -> expr",
-            "`literal_int`": "arg -> expr",
-            "`!`": "arg -> expr",
-            "`(`": "arg -> expr",
-            "`identifier`": "arg -> expr",
-            "`literal_string`": "arg -> expr"
-        },
-        "else-clause": {
-            "`else`": "else-clause -> `else` stmt",
-            "`-`": "else-clause -> epsilon",
-            "`;`": "else-clause -> epsilon",
-            "`literal_float`": "else-clause -> epsilon",
-            "`+`": "else-clause -> epsilon",
-            "`literal_boolean`": "else-clause -> epsilon",
-            "`}`": "else-clause -> epsilon",
-            "`!`": "else-clause -> epsilon",
-            "`return`": "else-clause -> epsilon",
-            "`identifier`": "else-clause -> epsilon",
-            "`for`": "else-clause -> epsilon",
-            "`literal_string`": "else-clause -> epsilon",
-            "`(`": "else-clause -> epsilon",
-            "`if`": "else-clause -> epsilon",
-            "`literal_int`": "else-clause -> epsilon",
-            "`break`": "else-clause -> epsilon",
-            "`{`": "else-clause -> epsilon",
-            "`while`": "else-clause -> epsilon",
-            "`continue`": "else-clause -> epsilon"
-        },
-        "primary-expr-after": {
-            "`(`": "primary-expr-after -> arg-list",
-            "`[`": "primary-expr-after -> `[` expr `]`",
-            "`-`": "primary-expr-after -> epsilon",
-            "`;`": "primary-expr-after -> epsilon",
-            "`=`": "primary-expr-after -> epsilon",
-            "`)`": "primary-expr-after -> epsilon",
-            "`+`": "primary-expr-after -> epsilon",
-            "`}`": "primary-expr-after -> epsilon",
-            "`]`": "primary-expr-after -> epsilon",
-            "`<=`": "primary-expr-after -> epsilon",
-            "`||`": "primary-expr-after -> epsilon",
-            "`/`": "primary-expr-after -> epsilon",
-            "`*`": "primary-expr-after -> epsilon",
-            "`>=`": "primary-expr-after -> epsilon",
-            "`>`": "primary-expr-after -> epsilon",
-            "`,`": "primary-expr-after -> epsilon",
-            "`<`": "primary-expr-after -> epsilon",
-            "`&&`": "primary-expr-after -> epsilon",
-            "`!=`": "primary-expr-after -> epsilon",
-            "`==`": "primary-expr-after -> epsilon"
-        },
-        "rel-expr": {
-            "`-`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`literal_float`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`+`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`literal_boolean`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`literal_int`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`!`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`(`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`identifier`": "rel-expr -> additive-expr rel-expr_lassoc",
-            "`literal_string`": "rel-expr -> additive-expr rel-expr_lassoc"
-        },
-        "cond-or-expr_lassoc": {
-            "`||`": "cond-or-expr_lassoc -> `||` cond-and-expr cond-or-expr_lassoc",
-            "`,`": "cond-or-expr_lassoc -> epsilon",
-            "`;`": "cond-or-expr_lassoc -> epsilon",
-            "`=`": "cond-or-expr_lassoc -> epsilon",
-            "`)`": "cond-or-expr_lassoc -> epsilon",
-            "`}`": "cond-or-expr_lassoc -> epsilon",
-            "`]`": "cond-or-expr_lassoc -> epsilon"
-        },
-        "multiplicative-expr_lassoc": {
-            "`*`": "multiplicative-expr_lassoc -> `*` unary-expr multiplicative-expr_lassoc",
-            "`/`": "multiplicative-expr_lassoc -> `/` unary-expr multiplicative-expr_lassoc",
-            "`-`": "multiplicative-expr_lassoc -> epsilon",
-            "`;`": "multiplicative-expr_lassoc -> epsilon",
-            "`=`": "multiplicative-expr_lassoc -> epsilon",
-            "`)`": "multiplicative-expr_lassoc -> epsilon",
-            "`+`": "multiplicative-expr_lassoc -> epsilon",
-            "`}`": "multiplicative-expr_lassoc -> epsilon",
-            "`]`": "multiplicative-expr_lassoc -> epsilon",
-            "`<=`": "multiplicative-expr_lassoc -> epsilon",
-            "`||`": "multiplicative-expr_lassoc -> epsilon",
-            "`>=`": "multiplicative-expr_lassoc -> epsilon",
-            "`>`": "multiplicative-expr_lassoc -> epsilon",
-            "`,`": "multiplicative-expr_lassoc -> epsilon",
-            "`<`": "multiplicative-expr_lassoc -> epsilon",
-            "`&&`": "multiplicative-expr_lassoc -> epsilon",
-            "`!=`": "multiplicative-expr_lassoc -> epsilon",
-            "`==`": "multiplicative-expr_lassoc -> epsilon"
-        },
-        "while-stmt": {
-            "`while`": "while-stmt -> `while` `(` expr `)` stmt"
-        },
-        "if-stmt": {
-            "`if`": "if-stmt -> `if` `(` expr `)` stmt else-clause"
-        },
-        "declarator-after": {
-            "`[`": "declarator-after -> `[` size `]`",
-            "`,`": "declarator-after -> epsilon",
-            "`;`": "declarator-after -> epsilon",
-            "`=`": "declarator-after -> epsilon",
-            "`)`": "declarator-after -> epsilon"
-        },
-        "proper-para-list": {
-            "`)`": "proper-para-list -> epsilon",
-            "`void`": "proper-para-list -> para-decl proper-para-list-after",
-            "`int`": "proper-para-list -> para-decl proper-para-list-after",
-            "`boolean`": "proper-para-list -> para-decl proper-para-list-after",
-            "`float`": "proper-para-list -> para-decl proper-para-list-after"
-        },
-        "func-decl-after": {
-            "`(`": "func-decl-after -> para-list compound-stmt"
-        },
-        "para-list": {
-            "`(`": "para-list -> `(` proper-para-list `)`"
-        },
-        "decl-after": {
-            "`(`": "decl-after -> func-decl-after",
-            "`,`": "decl-after -> var-decl-after",
-            "`;`": "decl-after -> var-decl-after",
-            "`=`": "decl-after -> var-decl-after"
-        },
-        "for-inner": {
-            "`-`": "for-inner -> expr",
-            "`literal_float`": "for-inner -> expr",
-            "`+`": "for-inner -> expr",
-            "`literal_boolean`": "for-inner -> expr",
-            "`literal_int`": "for-inner -> expr",
-            "`!`": "for-inner -> expr",
-            "`(`": "for-inner -> expr",
-            "`identifier`": "for-inner -> expr",
-            "`literal_string`": "for-inner -> expr",
-            "`;`": "for-inner -> epsilon"
-        },
-        "cond-or-expr": {
-            "`-`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`literal_float`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`+`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`literal_boolean`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`literal_int`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`!`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`identifier`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`literal_string`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
-            "`(`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc"
-        },
-        "init-declarator-list-after": {
-            "`,`": "init-declarator-list-after -> `,` init-declarator init-declarator-list-after",
-            "`;`": "init-declarator-list-after -> epsilon"
+            "`(`": "unary-expr -> primary-expr",
+            "`literal_string`": "unary-expr -> primary-expr"
         },
         "type": {
             "`void`": "type -> `void`",
@@ -387,83 +211,291 @@
             "`int`": "type -> `int`",
             "`float`": "type -> `float`"
         },
-        "for-stmt": {
-            "`for`": "for-stmt -> `for` `(` for-inner `;` for-inner `;` for-inner `)` stmt"
+        "declarator-after": {
+            "`[`": "declarator-after -> `[` size `]`",
+            "`)`": "declarator-after -> epsilon",
+            "`,`": "declarator-after -> epsilon",
+            "`;`": "declarator-after -> epsilon",
+            "`=`": "declarator-after -> epsilon"
         },
-        "multiplicative-expr": {
-            "`-`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`literal_float`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`+`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`literal_boolean`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`literal_int`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`!`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`(`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`identifier`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc",
-            "`literal_string`": "multiplicative-expr -> unary-expr multiplicative-expr_lassoc"
+        "var-decl-after": {
+            "`EOF`": "var-decl-after -> init-declarator-list `;`",
+            "`void`": "var-decl-after -> init-declarator-list `;`",
+            "`{`": "var-decl-after -> init-declarator-list `;`",
+            "`literal_float`": "var-decl-after -> init-declarator-list `;`",
+            "`break`": "var-decl-after -> init-declarator-list `;`",
+            "`,`": "var-decl-after -> init-declarator-list `;`",
+            "`continue`": "var-decl-after -> init-declarator-list `;`",
+            "`identifier`": "var-decl-after -> init-declarator-list `;`",
+            "`}`": "var-decl-after -> init-declarator-list `;`",
+            "`if`": "var-decl-after -> init-declarator-list `;`",
+            "`-`": "var-decl-after -> init-declarator-list `;`",
+            "`+`": "var-decl-after -> init-declarator-list `;`",
+            "`for`": "var-decl-after -> init-declarator-list `;`",
+            "`return`": "var-decl-after -> init-declarator-list `;`",
+            "`literal_string`": "var-decl-after -> init-declarator-list `;`",
+            "`literal_boolean`": "var-decl-after -> init-declarator-list `;`",
+            "`while`": "var-decl-after -> init-declarator-list `;`",
+            "`boolean`": "var-decl-after -> init-declarator-list `;`",
+            "`literal_int`": "var-decl-after -> init-declarator-list `;`",
+            "`!`": "var-decl-after -> init-declarator-list `;`",
+            "`;`": "var-decl-after -> init-declarator-list `;`",
+            "`int`": "var-decl-after -> init-declarator-list `;`",
+            "`(`": "var-decl-after -> init-declarator-list `;`",
+            "`float`": "var-decl-after -> init-declarator-list `;`",
+            "`=`": "var-decl-after -> init-declarator-list `;`"
+        },
+        "rel-expr": {
+            "`literal_boolean`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`literal_float`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`literal_int`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`!`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`(`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`identifier`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`-`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`+`": "rel-expr -> additive-expr rel-expr_lassoc",
+            "`literal_string`": "rel-expr -> additive-expr rel-expr_lassoc"
+        },
+        "init-declarator": {
+            "`identifier`": "init-declarator -> declarator init-declarator-after"
+        },
+        "decl-after": {
+            "`(`": "decl-after -> func-decl-after",
+            "`,`": "decl-after -> var-decl-after",
+            "`;`": "decl-after -> var-decl-after",
+            "`=`": "decl-after -> var-decl-after"
+        },
+        "program": {
+            "`boolean`": "program -> decl program",
+            "`float`": "program -> decl program",
+            "`int`": "program -> decl program",
+            "`void`": "program -> decl program",
+            "`EOF`": "program -> epsilon"
+        },
+        "cond-and-expr": {
+            "`literal_boolean`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`literal_float`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`literal_int`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`!`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`(`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`identifier`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`-`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`+`": "cond-and-expr -> equality-expr cond-and-expr_lassoc",
+            "`literal_string`": "cond-and-expr -> equality-expr cond-and-expr_lassoc"
+        },
+        "var-decl": {
+            "`boolean`": "var-decl -> type identifier var-decl-after",
+            "`float`": "var-decl -> type identifier var-decl-after",
+            "`int`": "var-decl -> type identifier var-decl-after",
+            "`void`": "var-decl -> type identifier var-decl-after"
+        },
+        "return-stmt": {
+            "`return`": "return-stmt -> `return` expr-stmt"
+        },
+        "expr-stmt": {
+            "`literal_boolean`": "expr-stmt -> expr `;`",
+            "`literal_float`": "expr-stmt -> expr `;`",
+            "`literal_int`": "expr-stmt -> expr `;`",
+            "`!`": "expr-stmt -> expr `;`",
+            "`(`": "expr-stmt -> expr `;`",
+            "`identifier`": "expr-stmt -> expr `;`",
+            "`-`": "expr-stmt -> expr `;`",
+            "`+`": "expr-stmt -> expr `;`",
+            "`literal_string`": "expr-stmt -> expr `;`",
+            "`;`": "expr-stmt -> `;`"
+        },
+        "if-stmt": {
+            "`if`": "if-stmt -> `if` `(` expr `)` stmt else-clause"
+        },
+        "break-stmt": {
+            "`break`": "break-stmt -> `break` `;`"
+        },
+        "func-decl-after": {
+            "`(`": "func-decl-after -> para-list compound-stmt"
+        },
+        "cond-or-expr_lassoc": {
+            "`||`": "cond-or-expr_lassoc -> `||` cond-and-expr cond-or-expr_lassoc",
+            "`=`": "cond-or-expr_lassoc -> epsilon",
+            "`}`": "cond-or-expr_lassoc -> epsilon",
+            "`]`": "cond-or-expr_lassoc -> epsilon",
+            "`,`": "cond-or-expr_lassoc -> epsilon",
+            "`;`": "cond-or-expr_lassoc -> epsilon",
+            "`)`": "cond-or-expr_lassoc -> epsilon"
+        },
+        "rel-expr_lassoc": {
+            "`<`": "rel-expr_lassoc -> `<` additive-expr",
+            "`<=`": "rel-expr_lassoc -> `<=` additive-expr",
+            "`>`": "rel-expr_lassoc -> `>` additive-expr",
+            "`>=`": "rel-expr_lassoc -> `>=` additive-expr",
+            "`!=`": "rel-expr_lassoc -> epsilon",
+            "`]`": "rel-expr_lassoc -> epsilon",
+            "`&&`": "rel-expr_lassoc -> epsilon",
+            "`,`": "rel-expr_lassoc -> epsilon",
+            "`;`": "rel-expr_lassoc -> epsilon",
+            "`)`": "rel-expr_lassoc -> epsilon",
+            "`==`": "rel-expr_lassoc -> epsilon",
+            "`||`": "rel-expr_lassoc -> epsilon",
+            "`}`": "rel-expr_lassoc -> epsilon",
+            "`=`": "rel-expr_lassoc -> epsilon"
+        },
+        "para-decl": {
+            "`boolean`": "para-decl -> type declarator",
+            "`float`": "para-decl -> type declarator",
+            "`int`": "para-decl -> type declarator",
+            "`void`": "para-decl -> type declarator"
+        },
+        "initializer": {
+            "`literal_boolean`": "initializer -> expr",
+            "`literal_float`": "initializer -> expr",
+            "`literal_int`": "initializer -> expr",
+            "`!`": "initializer -> expr",
+            "`(`": "initializer -> expr",
+            "`identifier`": "initializer -> expr",
+            "`-`": "initializer -> expr",
+            "`+`": "initializer -> expr",
+            "`literal_string`": "initializer -> expr",
+            "`{`": "initializer -> `{` expr initializer-after `}`"
+        },
+        "else-clause": {
+            "`else`": "else-clause -> `else` stmt",
+            "`void`": "else-clause -> epsilon",
+            "`{`": "else-clause -> epsilon",
+            "`literal_float`": "else-clause -> epsilon",
+            "`continue`": "else-clause -> epsilon",
+            "`identifier`": "else-clause -> epsilon",
+            "`}`": "else-clause -> epsilon",
+            "`if`": "else-clause -> epsilon",
+            "`-`": "else-clause -> epsilon",
+            "`+`": "else-clause -> epsilon",
+            "`for`": "else-clause -> epsilon",
+            "`return`": "else-clause -> epsilon",
+            "`literal_string`": "else-clause -> epsilon",
+            "`literal_boolean`": "else-clause -> epsilon",
+            "`while`": "else-clause -> epsilon",
+            "`boolean`": "else-clause -> epsilon",
+            "`literal_int`": "else-clause -> epsilon",
+            "`!`": "else-clause -> epsilon",
+            "`int`": "else-clause -> epsilon",
+            "`;`": "else-clause -> epsilon",
+            "`(`": "else-clause -> epsilon",
+            "`float`": "else-clause -> epsilon",
+            "`break`": "else-clause -> epsilon"
+        },
+        "init-declarator-list-after": {
+            "`,`": "init-declarator-list-after -> `,` init-declarator init-declarator-list-after",
+            "`;`": "init-declarator-list-after -> epsilon"
+        },
+        "cond-or-expr": {
+            "`literal_boolean`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`literal_float`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`literal_int`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`!`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`(`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`identifier`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`-`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`+`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc",
+            "`literal_string`": "cond-or-expr -> cond-and-expr cond-or-expr_lassoc"
+        },
+        "additive-expr": {
+            "`literal_boolean`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`literal_float`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`literal_int`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`!`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`(`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`identifier`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`-`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`+`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
+            "`literal_string`": "additive-expr -> multiplicative-expr additive-expr_lassoc"
+        },
+        "para-list": {
+            "`(`": "para-list -> `(` proper-para-list `)`"
+        },
+        "additive-expr_lassoc": {
+            "`+`": "additive-expr_lassoc -> `+` multiplicative-expr additive-expr_lassoc",
+            "`-`": "additive-expr_lassoc -> `-` multiplicative-expr additive-expr_lassoc",
+            "`>`": "additive-expr_lassoc -> epsilon",
+            "`!=`": "additive-expr_lassoc -> epsilon",
+            "`]`": "additive-expr_lassoc -> epsilon",
+            "`<=`": "additive-expr_lassoc -> epsilon",
+            "`,`": "additive-expr_lassoc -> epsilon",
+            "`<`": "additive-expr_lassoc -> epsilon",
+            "`&&`": "additive-expr_lassoc -> epsilon",
+            "`)`": "additive-expr_lassoc -> epsilon",
+            "`==`": "additive-expr_lassoc -> epsilon",
+            "`;`": "additive-expr_lassoc -> epsilon",
+            "`>=`": "additive-expr_lassoc -> epsilon",
+            "`||`": "additive-expr_lassoc -> epsilon",
+            "`}`": "additive-expr_lassoc -> epsilon",
+            "`=`": "additive-expr_lassoc -> epsilon"
+        },
+        "proper-arg-list-after": {
+            "`,`": "proper-arg-list-after -> `,` arg proper-arg-list-after",
+            "`)`": "proper-arg-list-after -> epsilon"
+        },
+        "decl": {
+            "`boolean`": "decl -> type identifier decl-after",
+            "`float`": "decl -> type identifier decl-after",
+            "`int`": "decl -> type identifier decl-after",
+            "`void`": "decl -> type identifier decl-after"
+        },
+        "cond-and-expr_lassoc": {
+            "`&&`": "cond-and-expr_lassoc -> `&&` equality-expr cond-and-expr_lassoc",
+            "`=`": "cond-and-expr_lassoc -> epsilon",
+            "`||`": "cond-and-expr_lassoc -> epsilon",
+            "`}`": "cond-and-expr_lassoc -> epsilon",
+            "`]`": "cond-and-expr_lassoc -> epsilon",
+            "`,`": "cond-and-expr_lassoc -> epsilon",
+            "`;`": "cond-and-expr_lassoc -> epsilon",
+            "`)`": "cond-and-expr_lassoc -> epsilon"
+        },
+        "multiplicative-expr_lassoc": {
+            "`*`": "multiplicative-expr_lassoc -> `*` unary-expr multiplicative-expr_lassoc",
+            "`/`": "multiplicative-expr_lassoc -> `/` unary-expr multiplicative-expr_lassoc",
+            "`<=`": "multiplicative-expr_lassoc -> epsilon",
+            "`,`": "multiplicative-expr_lassoc -> epsilon",
+            "`<`": "multiplicative-expr_lassoc -> epsilon",
+            "`)`": "multiplicative-expr_lassoc -> epsilon",
+            "`==`": "multiplicative-expr_lassoc -> epsilon",
+            "`>=`": "multiplicative-expr_lassoc -> epsilon",
+            "`}`": "multiplicative-expr_lassoc -> epsilon",
+            "`-`": "multiplicative-expr_lassoc -> epsilon",
+            "`+`": "multiplicative-expr_lassoc -> epsilon",
+            "`>`": "multiplicative-expr_lassoc -> epsilon",
+            "`!=`": "multiplicative-expr_lassoc -> epsilon",
+            "`]`": "multiplicative-expr_lassoc -> epsilon",
+            "`&&`": "multiplicative-expr_lassoc -> epsilon",
+            "`;`": "multiplicative-expr_lassoc -> epsilon",
+            "`||`": "multiplicative-expr_lassoc -> epsilon",
+            "`=`": "multiplicative-expr_lassoc -> epsilon"
         },
         "proper-para-list-after": {
             "`,`": "proper-para-list-after -> `,` para-decl proper-para-list-after",
             "`)`": "proper-para-list-after -> epsilon"
         },
-        "additive-expr": {
-            "`-`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`literal_float`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`+`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`literal_boolean`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`literal_int`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`!`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`identifier`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`literal_string`": "additive-expr -> multiplicative-expr additive-expr_lassoc",
-            "`(`": "additive-expr -> multiplicative-expr additive-expr_lassoc"
+        "declarator": {
+            "`identifier`": "declarator -> identifier declarator-after"
         },
-        "init-declarator": {
-            "`identifier`": "init-declarator -> declarator init-declarator-after"
-        },
-        "compound-stmt": {
-            "`{`": "compound-stmt -> `{` compound-stmt-inner `}`"
-        },
-        "var-decl-after": {
-            "`EOF`": "var-decl-after -> init-declarator-list `;`",
-            "`;`": "var-decl-after -> init-declarator-list `;`",
-            "`=`": "var-decl-after -> init-declarator-list `;`",
-            "`void`": "var-decl-after -> init-declarator-list `;`",
-            "`,`": "var-decl-after -> init-declarator-list `;`",
-            "`float`": "var-decl-after -> init-declarator-list `;`",
-            "`int`": "var-decl-after -> init-declarator-list `;`",
-            "`boolean`": "var-decl-after -> init-declarator-list `;`"
-        },
-        "proper-arg-list": {
-            "`)`": "proper-arg-list -> epsilon",
-            "`-`": "proper-arg-list -> arg proper-arg-list-after",
-            "`literal_float`": "proper-arg-list -> arg proper-arg-list-after",
-            "`+`": "proper-arg-list -> arg proper-arg-list-after",
-            "`literal_boolean`": "proper-arg-list -> arg proper-arg-list-after",
-            "`literal_int`": "proper-arg-list -> arg proper-arg-list-after",
-            "`!`": "proper-arg-list -> arg proper-arg-list-after",
-            "`identifier`": "proper-arg-list -> arg proper-arg-list-after",
-            "`literal_string`": "proper-arg-list -> arg proper-arg-list-after",
-            "`(`": "proper-arg-list -> arg proper-arg-list-after"
-        },
-        "program": {
-            "`void`": "program -> decl program",
-            "`int`": "program -> decl program",
-            "`boolean`": "program -> decl program",
-            "`float`": "program -> decl program",
-            "`EOF`": "program -> epsilon"
-        },
-        "break-stmt": {
-            "`break`": "break-stmt -> `break` `;`"
-        },
-        "assignment-expr": {
-            "`-`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`literal_float`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`+`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`literal_boolean`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`literal_int`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`!`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`(`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`identifier`": "assignment-expr -> cond-or-expr assignment-expr_lassoc",
-            "`literal_string`": "assignment-expr -> cond-or-expr assignment-expr_lassoc"
+        "primary-expr-after": {
+            "`(`": "primary-expr-after -> arg-list",
+            "`[`": "primary-expr-after -> `[` expr `]`",
+            "`<=`": "primary-expr-after -> epsilon",
+            "`,`": "primary-expr-after -> epsilon",
+            "`<`": "primary-expr-after -> epsilon",
+            "`)`": "primary-expr-after -> epsilon",
+            "`==`": "primary-expr-after -> epsilon",
+            "`>=`": "primary-expr-after -> epsilon",
+            "`}`": "primary-expr-after -> epsilon",
+            "`-`": "primary-expr-after -> epsilon",
+            "`+`": "primary-expr-after -> epsilon",
+            "`>`": "primary-expr-after -> epsilon",
+            "`!=`": "primary-expr-after -> epsilon",
+            "`]`": "primary-expr-after -> epsilon",
+            "`/`": "primary-expr-after -> epsilon",
+            "`&&`": "primary-expr-after -> epsilon",
+            "`;`": "primary-expr-after -> epsilon",
+            "`||`": "primary-expr-after -> epsilon",
+            "`*`": "primary-expr-after -> epsilon",
+            "`=`": "primary-expr-after -> epsilon"
         }
     }
 }

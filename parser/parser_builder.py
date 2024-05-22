@@ -27,6 +27,7 @@ class ParserBuilder:
         - Nhận đầu vào là các productions và một số thông tin khác từ grammar.dat
         - Build first, follow theo https://www.inf.ed.ac.uk/teaching/courses/inf2a/slides2017/inf2a_L12_slides.pdf.
         - Build LL(1) table từ select.
+        - Chọn luật theo thứ tự ưu tiên để xử lý Dangling Else https://hypertextbookshop.com/transPL/Contents/01_Topics/03_Parsing/05_Section_5/02_page_2_-_LL(1)_Table_Conflicts.html
         - Cập nhật lại table.dat.\n
         '''
         # Ký tự bắt đầu

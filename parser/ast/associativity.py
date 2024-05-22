@@ -28,9 +28,9 @@ Ta đổi thành:\n
 
 def enforce_associativity_helper(node: Node) -> Node:
     '''
-    Đảm bảo associativity (luật kết hợp) thực hiện từ TRÊN XUỐNG:\n
-    + Rotate_left để được Left Associativity\n
-    + Merge_up để được Right Associativity\n
+    Đảm bảo associativity (luật kết hợp), thực hiện từ TRÊN XUỐNG:\n
+    + rotate_left() để được Left Associativity\n
+    + merge_up() để được Right Associativity\n
     Trả về nút gốc mới của subtree hiện tại.\n
     '''
     if not isinstance(node, InnerNode):
@@ -47,8 +47,10 @@ def enforce_associativity_helper(node: Node) -> Node:
                 # Để đảm bảo được Left Associativity thì ta quay trái nút cha <- nút con
                 # Nút con sẽ làm gốc mới của subtree
                 node = node.rotate_left(child)
-                # Sau đó, ta xóa nhãn hậu tố của nút gốc mới (vì nút này đã thỏa mãn left associativity)
+                # Xóa nhãn hậu tố của nút gốc mới (vì nút này đã thỏa mãn left associativity)
                 node.symbol.val.removesuffix(LEFT_ASSOC)
+                # Đặt idx làm 1 (ta duyệt tiếp nút con đầu tiên của child cũ)
+                idx = 1
                 continue
             # Nếu child là nonterminal mới được tạo ra từ left factoring
             elif child.symbol.val.endswith(RIGHT_ASSOC):

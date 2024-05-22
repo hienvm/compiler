@@ -5,7 +5,8 @@ from lexer.lexer import Lexer
 
 
 def main():
-    argparser = ArgumentParser(description="Bộ phân tích từ vựng.")
+    argparser = ArgumentParser(
+        prog="python -m lexer", description="Bộ phân tích từ vựng.")
 
     argparser.add_argument("input_urls", nargs="+",
                            help="Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào")

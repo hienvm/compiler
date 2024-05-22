@@ -1,0 +1,226 @@
+{
+    "symbol": "program",
+    "childs": [
+        {
+            "symbol": "decl",
+            "childs": [
+                {
+                    "symbol": "type",
+                    "childs": [
+                        {
+                            "symbol": "`int`",
+                            "value": "int"
+                        }
+                    ]
+                },
+                {
+                    "symbol": "identifier",
+                    "childs": [
+                        {
+                            "symbol": "`identifier`",
+                            "value": "i"
+                        }
+                    ]
+                },
+                {
+                    "symbol": "decl-after",
+                    "childs": [
+                        {
+                            "symbol": "var-decl-after",
+                            "childs": [
+                                {
+                                    "symbol": "init-declarator-list",
+                                    "childs": [
+                                        {
+                                            "symbol": "init-declarator-after",
+                                            "childs": [
+                                                {
+                                                    "symbol": "`=`",
+                                                    "value": "="
+                                                },
+                                                {
+                                                    "symbol": "initializer",
+                                                    "childs": [
+                                                        {
+                                                            "symbol": "expr",
+                                                            "childs": [
+                                                                {
+                                                                    "symbol": "assignment-expr",
+                                                                    "childs": [
+                                                                        {
+                                                                            "symbol": "cond-or-expr",
+                                                                            "childs": [
+                                                                                {
+                                                                                    "symbol": "cond-and-expr",
+                                                                                    "childs": [
+                                                                                        {
+                                                                                            "symbol": "equality-expr",
+                                                                                            "childs": [
+                                                                                                {
+                                                                                                    "symbol": "rel-expr",
+                                                                                                    "childs": [
+                                                                                                        {
+                                                                                                            "symbol": "additive-expr",
+                                                                                                            "childs": [
+                                                                                                                {
+                                                                                                                    "symbol": "multiplicative-expr",
+                                                                                                                    "childs": [
+                                                                                                                        {
+                                                                                                                            "symbol": "unary-expr",
+                                                                                                                            "childs": [
+                                                                                                                                {
+                                                                                                                                    "symbol": "primary-expr",
+                                                                                                                                    "childs": [
+                                                                                                                                        {
+                                                                                                                                            "symbol": "identifier",
+                                                                                                                                            "childs": [
+                                                                                                                                                {
+                                                                                                                                                    "symbol": "`identifier`",
+                                                                                                                                                    "value": "x"
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "symbol": "`=`",
+                                                                            "value": "="
+                                                                        },
+                                                                        {
+                                                                            "symbol": "assignment-expr",
+                                                                            "childs": [
+                                                                                {
+                                                                                    "symbol": "cond-or-expr",
+                                                                                    "childs": [
+                                                                                        {
+                                                                                            "symbol": "cond-and-expr",
+                                                                                            "childs": [
+                                                                                                {
+                                                                                                    "symbol": "equality-expr",
+                                                                                                    "childs": [
+                                                                                                        {
+                                                                                                            "symbol": "rel-expr",
+                                                                                                            "childs": [
+                                                                                                                {
+                                                                                                                    "symbol": "additive-expr",
+                                                                                                                    "childs": [
+                                                                                                                        {
+                                                                                                                            "symbol": "multiplicative-expr",
+                                                                                                                            "childs": [
+                                                                                                                                {
+                                                                                                                                    "symbol": "unary-expr",
+                                                                                                                                    "childs": [
+                                                                                                                                        {
+                                                                                                                                            "symbol": "primary-expr",
+                                                                                                                                            "childs": [
+                                                                                                                                                {
+                                                                                                                                                    "symbol": "`literal_int`",
+                                                                                                                                                    "value": "2"
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                },
+                                                                                {
+                                                                                    "symbol": "`=`",
+                                                                                    "value": "="
+                                                                                },
+                                                                                {
+                                                                                    "symbol": "assignment-expr",
+                                                                                    "childs": [
+                                                                                        {
+                                                                                            "symbol": "cond-or-expr",
+                                                                                            "childs": [
+                                                                                                {
+                                                                                                    "symbol": "cond-and-expr",
+                                                                                                    "childs": [
+                                                                                                        {
+                                                                                                            "symbol": "equality-expr",
+                                                                                                            "childs": [
+                                                                                                                {
+                                                                                                                    "symbol": "rel-expr",
+                                                                                                                    "childs": [
+                                                                                                                        {
+                                                                                                                            "symbol": "additive-expr",
+                                                                                                                            "childs": [
+                                                                                                                                {
+                                                                                                                                    "symbol": "multiplicative-expr",
+                                                                                                                                    "childs": [
+                                                                                                                                        {
+                                                                                                                                            "symbol": "unary-expr",
+                                                                                                                                            "childs": [
+                                                                                                                                                {
+                                                                                                                                                    "symbol": "primary-expr",
+                                                                                                                                                    "childs": [
+                                                                                                                                                        {
+                                                                                                                                                            "symbol": "`literal_int`",
+                                                                                                                                                            "value": "3"
+                                                                                                                                                        }
+                                                                                                                                                    ]
+                                                                                                                                                }
+                                                                                                                                            ]
+                                                                                                                                        }
+                                                                                                                                    ]
+                                                                                                                                }
+                                                                                                                            ]
+                                                                                                                        }
+                                                                                                                    ]
+                                                                                                                }
+                                                                                                            ]
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            ]
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "symbol": "`;`",
+                                    "value": ";"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
