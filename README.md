@@ -11,9 +11,29 @@
 5. Thêm các flag thích hợp. Ví dụ để build từ table và in ra dưới dạng verbose (JSON) với indent là 2:
    > python -m parser -t -v -i=2 sample.vc   
 6. Xem kết quả tại folder output (đuôi .vcps), có thể click vào link url trên command line.
-   > VD: python -m parser sample.vc dangling_else.vc left_assoc.vc right_assoc.vc 
-   > Để xem trợ giúp và các option khác: python -m parser -h
-
+   > - VD: python -m parser sample.vc dangling_else.vc left_assoc.vc right_assoc.vc 
+   > - Để xem trợ giúp và các option khác: `python -m parser -h`
+   > ```
+   >usage: python -m parser [-h] [-t] [-i INDENT] [-v] [-r {0,1,2}] [-m] [-e] [-a] [-w] input_files [input_files ...]
+   >
+   >Bộ phân tích cú pháp.
+   >
+   >positional arguments:
+   >input_files           Tên (nếu đặt trong folder input) hoặc đường dẫn absolute của file đầu vào
+   >
+   >options:
+   >-h, --help            show this help message and exit
+   >-t, --table           Build parser trực tiếp từ table.dat.
+   >-i INDENT, --indent INDENT
+   >                        Indent size cho verbose và normal brackets. Mặc định 4.
+   >-v, --verbose         In ra cây AST theo định dạng JSON.
+   >-r {0,1,2}, --reduce_level {0,1,2}
+   >                        Cấp độ loại bỏ các cặp dấu ngoặc thừa. 0 - Không bỏ; 1 - Giữ lại các cặp chỉ chứa duy nhất
+   >                        leaf_value; 2 - Loại các cặp chỉ chứa duy nhất leaf_value. Mặc định 2.
+   >-m, --multi_ln        In ra normal brackets trên nhiều dòng.
+   >-e, --epsilon         Giữ lại epsilon.
+   >-a, --assoc_disabled  Không enforce left/right associativity.
+   >-w, --whole           Đọc toàn bộ file input thay vì từng dòng (đối với file nhỏ)```
 
 <h2>Cách chạy module Lexer</h2>
 
